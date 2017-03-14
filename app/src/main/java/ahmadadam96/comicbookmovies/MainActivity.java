@@ -7,7 +7,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 
 import java.util.List;
 
@@ -51,8 +50,6 @@ public class MainActivity extends AppCompatActivity
 
         boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
 
-        int current = movies.size();
-        Log.e(TAG, "" + current);
     }
     @Override
     public void onLoaderReset(Loader<List<Movie>> loader) {

@@ -114,7 +114,7 @@ public final class QueryUtils {
                 Log.e(LOG_TAG, "Error response code: " + urlConnection.getResponseCode());
             }
         } catch (IOException e) {
-            Log.e(LOG_TAG, "Problem retrieving the earthquake JSON results.", e);
+            Log.e(LOG_TAG, "Problem retrieving the movie JSON results.", e);
         } finally {
             if (urlConnection != null) {
                 urlConnection.disconnect();
@@ -188,6 +188,7 @@ public final class QueryUtils {
             // Create a new {@link Earthquake} object with the magnitude, location, time,
             // and url from the JSON response.
             Movie movie = new Movie(date, title, overview, posterURL, url, IMDBId);
+            movies.add(movie);
         } catch (JSONException e) {
             // If an error is thrown when executing any of the above statements in the "try" block,
             // catch the exception here, so the app doesn't crash. Print a log message
