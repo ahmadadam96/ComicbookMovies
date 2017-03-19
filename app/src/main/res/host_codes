@@ -1,8 +1,20 @@
 {
   "Object": [
     {
-      "Code": "299536",
-      "Universe": "Marvel"
+      "Code": "283995",
+      "Universe": "MCU"
+    },
+    {
+      "Code": "297762",
+      "Universe": "DC"
+    },
+    {
+      "Code": "315635",
+      "Universe": "MCU"
+    },
+    {
+      "Code": "284053",
+      "Universe": "MCU"
     },
     {
       "Code": "141052",
