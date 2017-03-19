@@ -13,10 +13,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.view.View.GONE;
 
 public class MainActivity extends AppCompatActivity
         implements LoaderManager.LoaderCallbacks<List<Movie>>{
@@ -98,6 +101,10 @@ public class MainActivity extends AppCompatActivity
     public void onLoadFinished(Loader<List<Movie>> loader, List<Movie> movies) {
         //Clear the adapter of previous movie data
         mAdapter.clear();
+
+        ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBar);
+
+        progressBar.setVisibility(GONE);
 
         ConnectivityManager connMGR = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 
