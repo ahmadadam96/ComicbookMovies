@@ -30,10 +30,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
- * Helper methods related to requesting and receiving earthquake data from USGS.
+ * Helper methods related to requesting and receiving movie data
  */
 public final class QueryUtils {
 
@@ -51,9 +50,9 @@ public final class QueryUtils {
     }
 
     /**
-     * Query the USGS dataset and return a list of {@link Movie} objects.
+     * Query and return a list of {@link Movie} objects.
      */
-    public static List<Movie> fetchMovieData(String requestUrl) {
+    public static Movie fetchMovieData(String requestUrl) {
         // Create URL object
         URL url = createUrl(requestUrl);
 
@@ -65,11 +64,11 @@ public final class QueryUtils {
             Log.e(LOG_TAG, "Problem making the HTTP request.", e);
         }
 
-        // Extract relevant fields from the JSON response and create a list of {@link Earthquake}s
-        List<Movie> movies = extractFeatureFromJson(jsonResponse);
+        // Extract relevant fields from the JSON response and create a list of {@link Movie}s
+        Movie movie = extractFeatureFromJson(jsonResponse);
 
-        // Return the list of {@link Earthquake}s
-        return movies;
+        // Return the list of {@link Movie}s
+        return movie;
     }
 
     /**
@@ -151,15 +150,13 @@ public final class QueryUtils {
      * Return a list of {@link Movie} objects that has been built up from
      * parsing the given JSON response.
      */
-    private static List<Movie> extractFeatureFromJson(String movieJSON) {
+    private static Movie extractFeatureFromJson(String movieJSON) {
         // If the JSON string is empty or null, then return early.
         if (TextUtils.isEmpty(movieJSON)) {
             return null;
         }
-
-        // Create an empty ArrayList that we can start adding earthquakes to
-        List<Movie> movies = new ArrayList<>();
-
+        ArrayList<Movie> movies = new ArrayList<>();
+        Movie movie;
         // Try to parse the JSON response string. If there's a problem with the way the JSON
         // is formatted, a JSONException exception object will be thrown.
         // Catch the exception so the app doesn't crash, and print the error message to the logs.
@@ -185,19 +182,17 @@ public final class QueryUtils {
             // Extract the value for the key called "poster_path"
             String posterURL = baseJsonResponse.getString("poster_path");
 
-            // Create a new {@link Earthquake} object with the magnitude, location, time,
+            // Create a new {@link Movie} object with the magnitude, location, time,
             // and url from the JSON response.
-            Movie movie = new Movie(date, title, overview, posterURL, url, IMDBId);
+            movie = new Movie(date, title, overview, posterURL, url, IMDBId);
             movies.add(movie);
         } catch (JSONException e) {
             // If an error is thrown when executing any of the above statements in the "try" block,
             // catch the exception here, so the app doesn't crash. Print a log message
             // with the message from the exception.
-            Log.e("QueryUtils", "Problem parsing the earthquake JSON results", e);
+            Log.e("QueryUtils", "Problem parsing the movie JSON results", e);
         }
-
-        // Return the list of earthquakes
-        return movies;
+        return movies.get(0);
     }
 
 }

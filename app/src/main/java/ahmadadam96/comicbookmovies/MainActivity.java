@@ -24,18 +24,24 @@ public class MainActivity extends AppCompatActivity
 
     private TextView mEmptyStateTextView;
 
-    private static final String SAMPLE_REQUEST =
-            "https://api.themoviedb.org/3/movie/550?api_key=46ca07ce571803077698160e0a3efde5";
+    private static final String SAMPLE_REQUEST1 =
+            "299536";
+
+    private static final String SAMPLE_REQUEST2 =
+            "299537";
 
     /**
-     * Constant value for the earthquake loader ID. We can choose any integer.
+     * Constant value for the movie loader ID. We can choose any integer.
      * This really only comes into play if you're using multiple loaders.
      */
     private static final int MOVIE_LOADER_ID = 1;
 
-    /** Adapter for the list of movies */
+    /**
+     * Adapter for the list of movies
+     */
     private MovieAdapter mAdapter;
 
+    ArrayList<String> urls = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,16 +62,20 @@ public class MainActivity extends AppCompatActivity
         // so the list can be populated in the user interface
         movieListView.setAdapter(mAdapter);
 
+        urls.add(SAMPLE_REQUEST1);
+
+        urls.add(SAMPLE_REQUEST2);
+
         // Set an item click listener on the ListView, which sends an intent to a web browser
-        // to open a website with more information about the selected earthquake.
+        // to open the IMDB page with more information about the selected movie.
         movieListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                // Find the current earthquake that was clicked on
+                // Find the current movie that was clicked on
                 Movie currentMovie = mAdapter.getItem(position);
 
                 // Convert the String URL into a URI object (to pass into the Intent constructor)
-                Uri movieUri = Uri.parse(currentMovie.getUrl());
+                Uri movieUri = Uri.parse("http://www.imdb.com/title/" + currentMovie.getIMDBId());
 
                 // Create a new intent to view the earthquake URI
                 Intent websiteIntent = new Intent(Intent.ACTION_VIEW, movieUri);
@@ -83,34 +93,36 @@ public class MainActivity extends AppCompatActivity
         // because this activity implements the LoaderCallbacks interface).
         loaderManager.initLoader(MOVIE_LOADER_ID, null, this);
     }
+
     @Override
     public Loader<List<Movie>> onCreateLoader(int i, Bundle bundle) {
         // Create a new loader for the given URL
-        return new MovieLoader(this, SAMPLE_REQUEST);
+        return new MovieLoader(this, urls);
     }
+
     @Override
     public void onLoadFinished(Loader<List<Movie>> loader, List<Movie> movies) {
         //Clear the adapter of previous movie data
         mAdapter.clear();
 
-        ConnectivityManager connMGR =(ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager connMGR = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 
         NetworkInfo activeNetwork = connMGR.getActiveNetworkInfo();
 
         boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
 
-        // If there is a valid list of {@link Earthquake}s, then add them to the adapter's
+        // If there is a valid list of {@link Movie}s, then add them to the adapter's
         // data set. This will trigger the ListView to update.
         if (movies != null && !movies.isEmpty()) {
             mAdapter.addAll(movies);
-        }
-        else{
+        } else {
             mEmptyStateTextView.setText(R.string.no_movies);
         }
-        if(activeNetwork == null){
+        if (activeNetwork == null) {
             mEmptyStateTextView.setText(R.string.no_internet_connection);
         }
     }
+
     @Override
     public void onLoaderReset(Loader<List<Movie>> loader) {
         // Loader reset, so we can clear out our existing data.
