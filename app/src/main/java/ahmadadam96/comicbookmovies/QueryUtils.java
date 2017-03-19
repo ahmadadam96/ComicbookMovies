@@ -18,6 +18,7 @@ package ahmadadam96.comicbookmovies;
 import android.text.TextUtils;
 import android.util.Log;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -61,7 +62,7 @@ public final class QueryUtils {
         try {
             jsonResponse = makeHttpRequest(url);
         } catch (IOException e) {
-            Log.e(LOG_TAG, "Problem making the HTTP request.", e);
+            Log.e(LOG_TAG, "Problem making the HTTP request to get the movie data.", e);
         }
 
         // Extract relevant fields from the JSON response and create a list of {@link Movie}s
@@ -69,6 +70,58 @@ public final class QueryUtils {
 
         // Return the list of {@link Movie}s
         return movie;
+    }
+
+  //Query to fetch the codes for the movies
+    public static ArrayList<MovieCode> fetchCodes(String requestUrl){
+        // Create URL object
+        URL url = createUrl(requestUrl);
+        // Perform HTTP request to the URL and receive a JSON response back
+        String jsonResponse = null;
+        try {
+            jsonResponse = makeHttpRequest(url);
+        } catch (IOException e) {
+            Log.e(LOG_TAG, "Problem making the HTTP request to get the code data.", e);
+        }
+        ArrayList<MovieCode> movieCodes = new ArrayList<>();
+        // Try to parse the JSON response string. If there's a problem with the way the JSON
+        // is formatted, a JSONException exception object will be thrown.
+        // Catch the exception so the app doesn't crash, and print the error message to the logs.
+        try {
+            // Create a JSONObject from the JSON response string
+            JSONObject baseJsonResponse = new JSONObject(jsonResponse);
+
+            // Extract the JSONArray associated with the key called "Object",
+            // which represents a list of features (or earthquakes).
+            JSONArray codesArray = baseJsonResponse.getJSONArray("Object");
+
+            // For each code in the codeArray, create an {@link Code} object
+            for (int i = 0; i < codesArray.length(); i++) {
+
+                // Get a single code at position i within the list of codes
+                JSONObject currentCode = codesArray.getJSONObject(i);
+
+                // Extract the value for the key called "Code"
+                String code = currentCode.getString("Code");
+
+                // Extract the value for the key called "Universe"
+                String universe = currentCode.getString("Universe");
+
+                // Create a new {@link MovieCode} object with the Code and Universe
+                // from the JSON response.
+                MovieCode movieCode = new MovieCode(code, universe);
+                // Add the new {@link Earthquake} to the list of earthquakes.
+                movieCodes.add(movieCode);
+            }
+        } catch (JSONException e) {
+            // If an error is thrown when executing any of the above statements in the "try" block,
+            // catch the exception here, so the app doesn't crash. Print a log message
+            // with the message from the exception.
+            Log.e("QueryUtils", "Problem parsing the earthquake JSON results", e);
+            return null;
+        }
+        //Return the list of movie codes
+        return movieCodes;
     }
 
     /**
@@ -155,7 +208,6 @@ public final class QueryUtils {
         if (TextUtils.isEmpty(movieJSON)) {
             return null;
         }
-        ArrayList<Movie> movies = new ArrayList<>();
         Movie movie;
         // Try to parse the JSON response string. If there's a problem with the way the JSON
         // is formatted, a JSONException exception object will be thrown.
@@ -185,14 +237,14 @@ public final class QueryUtils {
             // Create a new {@link Movie} object with the magnitude, location, time,
             // and url from the JSON response.
             movie = new Movie(date, title, overview, posterURL, url, IMDBId);
-            movies.add(movie);
         } catch (JSONException e) {
             // If an error is thrown when executing any of the above statements in the "try" block,
             // catch the exception here, so the app doesn't crash. Print a log message
             // with the message from the exception.
             Log.e("QueryUtils", "Problem parsing the movie JSON results", e);
+            return null;
         }
-        return movies.get(0);
+        return movie;
     }
 
 }

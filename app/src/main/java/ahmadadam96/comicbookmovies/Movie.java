@@ -28,7 +28,21 @@ public class Movie {
     //The IMDB id to link to the IMDB page
     private String mIMDBId;
 
-    //The constructor for the Movie class
+    //Universe the movie is set in
+    private String mUniverse;
+
+    //The constructor for the Movie class with a universe
+    public Movie(String releaseDate, String title, String overview,
+                 String posterUrl, String url, String IMDBId, String universe){
+        mReleaseDate = convertDate(releaseDate);
+        mTitle = title;
+        mOverview = overview;
+        mPosterUrl = posterUrl;
+        mUrl = url;
+        mIMDBId = IMDBId;
+        mUniverse = universe;
+    }
+    //The constructor for the Movie class without a universe
     public Movie(String releaseDate, String title, String overview,
                  String posterUrl, String url, String IMDBId){
         mReleaseDate = convertDate(releaseDate);
@@ -37,6 +51,7 @@ public class Movie {
         mPosterUrl = posterUrl;
         mUrl = url;
         mIMDBId = IMDBId;
+        mUniverse = null;
     }
     //A function to convert the date from a string to a dateObject
     // with the correct format
@@ -64,4 +79,5 @@ public class Movie {
     public String getIMDBId(){
         return mIMDBId;
     }
+    public String getUniverse() { return mUniverse;}
 }

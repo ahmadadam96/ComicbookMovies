@@ -42,7 +42,7 @@ public class MovieLoader extends AsyncTaskLoader<List<Movie>> {
         if (mUrls == null) {
             return null;
         }
-        // Perform the network request, parse the response, and extract a list of earthquakes.
+        // Perform the network request, parse the response, and extract a list of movies.
         for(int i = 0; i < mUrls.size(); i++){
             movies.add(QueryUtils.fetchMovieData("https://api.themoviedb.org/3/movie/"
                     + mUrls.get(i) + "?api_key=46ca07ce571803077698160e0a3efde5"));
