@@ -25,14 +25,8 @@ public class MainActivity extends AppCompatActivity
 
     private TextView mEmptyStateTextView;
 
-    private static final String SAMPLE_REQUEST1 =
-            "299536";
-
-    private static final String SAMPLE_REQUEST2 =
-            "299537";
-
     private static final String CODE_URL =
-            "https://api.myjson.com/bins/pn6o3";
+            "https://raw.githubusercontent.com/ahmadadam96/ComicbookMovies/master/app/src/main/res/host_codes";
 
     /**
      * Constant value for the movie loader ID. We can choose any integer.
