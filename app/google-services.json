@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "605456743640",
+    "firebase_url": "https://comicbookmovies-36aa2.firebaseio.com",
+    "project_id": "comicbookmovies-36aa2",
+    "storage_bucket": "comicbookmovies-36aa2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:605456743640:android:161ca802a33d0702",
+        "android_client_info": {
+          "package_name": "ahmadadam96.comicbookmovies"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "605456743640-0gupql75ukb8ei0dvnl80e5bvsg06fcl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ahmadadam96.comicbookmovies",
+            "certificate_hash": "cdb57b6e9df1f7a52c28d365bc5ad26ff35226e0"
+          }
+        },
+        {
+          "client_id": "605456743640-niracugp1hjjqtlttojgdc985qgjehjq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCtseSgMP3NNpyND39TM-gzkmHz9DE-ECQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "605456743640-niracugp1hjjqtlttojgdc985qgjehjq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
