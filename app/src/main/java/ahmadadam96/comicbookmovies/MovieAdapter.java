@@ -18,6 +18,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import static ahmadadam96.comicbookmovies.R.id.overview;
 import static java.lang.Math.abs;
 
 /**
@@ -38,21 +39,30 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
         // Check if there is an existing list item view (called convertView) that we can reuse,
         // otherwise, if convertView is null, then inflate a new list item layout.
         View listItemView = convertView;
+        ViewHolderItem viewHolder;
         if (listItemView == null) {
             listItemView = LayoutInflater.from(getContext()).inflate(
                     R.layout.movie_adapter, parent, false);
+            viewHolder = new ViewHolderItem();
+            //Find the TextView with view ID title
+            viewHolder.titleView = (TextView) listItemView.findViewById(R.id.title);
+            //Find the TextView with view ID releaseDate
+            viewHolder.dateView = (TextView) listItemView.findViewById(R.id.releaseDate);
+            //Find the TextView with view ID daysLeft
+            viewHolder.daysView = (TextView) listItemView.findViewById(R.id.daysLeft);
+            //Find the TextView with the view ID overview
+            viewHolder.overview = (TextView) listItemView.findViewById(overview);
+            //Find the ImageView with the view ID poster
+            viewHolder.posterView = (ImageView) listItemView.findViewById(R.id.poster);
+            listItemView.setTag(viewHolder);
+        }else{
+            viewHolder = (ViewHolderItem) convertView.getTag();
         }
         // Find the movie at the given position in the list of movies
         Movie currentMovie = getItem(position);
 
-        //Find the TextView with view ID title
-        TextView titleView = (TextView) listItemView.findViewById(R.id.title);
-
         //Set the text of the TextView to be of the title
-        titleView.setText(currentMovie.getTitle());
-
-        //Find the TextView with view ID releaseDate
-        TextView dateView = (TextView) listItemView.findViewById(R.id.releaseDate);
+        viewHolder.titleView.setText(currentMovie.getTitle());
 
         //Format the date from object type Date to a String
         SimpleDateFormat myformat = new SimpleDateFormat("dd MMMM yyyy");
@@ -60,33 +70,31 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
         String formattedDate = myformat.format(currentMovie.getReleaseDate());
 
         //Set the text of the TextView to be of the date
-        dateView.setText(formattedDate);
+        viewHolder.dateView.setText(formattedDate);
 
         //Calculate the difference between release date and now
         Date currentDate = new Date(System.currentTimeMillis());
         Long duration = currentMovie.getReleaseDate().getTime() - currentDate.getTime();
         Long diffInDays = abs(TimeUnit.MILLISECONDS.toDays(duration));
 
-        //Find the TextView with view ID daysLeft
-        TextView daysView = (TextView) listItemView.findViewById(R.id.daysLeft);
-
         //Set the text of the TextView to be of the daysleft
-        daysView.setText(diffInDays.toString());
+        viewHolder.daysView.setText(diffInDays.toString());
 
-        new DownloadImageTask((ImageView) listItemView.findViewById(R.id.poster))
+        new DownloadImageTask(viewHolder.posterView)
                 .execute("https://image.tmdb.org/t/p/w500/" + currentMovie.getPosterUrl());
 
-        TextView overview = (TextView) listItemView.findViewById(R.id.overview);
-        overview.setText(currentMovie.getOverview());
+        viewHolder.overview.setText(currentMovie.getOverview());
 
         return listItemView;
     }
+
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
         ImageView bmImage;
 
         public DownloadImageTask(ImageView bmImage) {
             this.bmImage = bmImage;
         }
+
         protected Bitmap doInBackground(String... urls) {
             String urldisplay = urls[0];
             Bitmap mIcon11 = null;
@@ -99,8 +107,17 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
             }
             return mIcon11;
         }
+
         protected void onPostExecute(Bitmap result) {
             bmImage.setImageBitmap(result);
         }
+    }
+    // our ViewHolder.
+    static class ViewHolderItem {
+        TextView titleView;
+        TextView dateView;
+        TextView daysView;
+        TextView overview;
+        ImageView posterView;
     }
 }
