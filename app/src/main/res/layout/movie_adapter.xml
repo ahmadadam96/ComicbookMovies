@@ -9,9 +9,7 @@
     <ImageView
         android:id="@+id/poster"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:src="@mipmap/ic_launcher_round"
-        />
+        android:layout_height="wrap_content" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -64,10 +62,10 @@
             android:id="@+id/overview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="14sp"
-            android:textColor="@android:color/black"
             android:padding="8dp"
-            tools:text="This is the overview of the movie"/>
+            android:textColor="@android:color/black"
+            android:textSize="14sp"
+            tools:text="This is the overview of the movie" />
     </LinearLayout>
 
 </LinearLayout>

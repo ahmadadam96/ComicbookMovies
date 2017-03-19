@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,27 +35,25 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
      * Returns a list item view that displays information about the earthquake at the given position
      * in the list of earthquakes.
      */
+    @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        // Check if there is an existing list item view (called convertView) that we can reuse,
-        // otherwise, if convertView is null, then inflate a new list item layout.
-        View listItemView = convertView;
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         ViewHolderItem viewHolder;
-        if (listItemView == null) {
-            listItemView = LayoutInflater.from(getContext()).inflate(
+        if (convertView == null) {
+            convertView = LayoutInflater.from(getContext()).inflate(
                     R.layout.movie_adapter, parent, false);
             viewHolder = new ViewHolderItem();
             //Find the TextView with view ID title
-            viewHolder.titleView = (TextView) listItemView.findViewById(R.id.title);
+            viewHolder.titleView = (TextView) convertView.findViewById(R.id.title);
             //Find the TextView with view ID releaseDate
-            viewHolder.dateView = (TextView) listItemView.findViewById(R.id.releaseDate);
+            viewHolder.dateView = (TextView) convertView.findViewById(R.id.releaseDate);
             //Find the TextView with view ID daysLeft
-            viewHolder.daysView = (TextView) listItemView.findViewById(R.id.daysLeft);
+            viewHolder.daysView = (TextView) convertView.findViewById(R.id.daysLeft);
             //Find the TextView with the view ID overview
-            viewHolder.overview = (TextView) listItemView.findViewById(overview);
+            viewHolder.overview = (TextView) convertView.findViewById(overview);
             //Find the ImageView with the view ID poster
-            viewHolder.posterView = (ImageView) listItemView.findViewById(R.id.poster);
-            listItemView.setTag(viewHolder);
+            viewHolder.posterView = (ImageView) convertView.findViewById(R.id.poster);
+            convertView.setTag(viewHolder);
         }else{
             viewHolder = (ViewHolderItem) convertView.getTag();
         }
@@ -85,7 +84,7 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
 
         viewHolder.overview.setText(currentMovie.getOverview());
 
-        return listItemView;
+        return convertView;
     }
 
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
