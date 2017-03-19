@@ -19,6 +19,22 @@
     {
       "Code": "141052",
       "Universe": "DC"
+    },
+    {
+      "Code": "284054",
+      "Universe": "MCU"
+    },
+    {
+      "Code": "298618",
+      "Universe": "DC"
+    },
+    {
+      "Code": "299536",
+      "Universe": "MCU"
+    },
+    {
+      "Code": "363088",
+      "Universe": "MCU"
     }
   ]
 }
