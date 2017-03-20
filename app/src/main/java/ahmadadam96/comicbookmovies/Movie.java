@@ -33,7 +33,7 @@ public class Movie {
 
     //The constructor for the Movie class with a universe
     public Movie(String releaseDate, String title, String overview,
-                 String posterUrl, String url, String IMDBId, String universe){
+                 String posterUrl, String url, String IMDBId, String universe) {
         mReleaseDate = convertDate(releaseDate);
         mTitle = title;
         mOverview = overview;
@@ -42,9 +42,10 @@ public class Movie {
         mIMDBId = IMDBId;
         mUniverse = universe;
     }
+
     //The constructor for the Movie class without a universe
     public Movie(String releaseDate, String title, String overview,
-                 String posterUrl, String url, String IMDBId){
+                 String posterUrl, String url, String IMDBId) {
         mReleaseDate = convertDate(releaseDate);
         mTitle = title;
         mOverview = overview;
@@ -53,31 +54,53 @@ public class Movie {
         mIMDBId = IMDBId;
         mUniverse = null;
     }
+
     //A function to convert the date from a string to a dateObject
     // with the correct format
-    private Date convertDate(String releaseDate){
+    private Date convertDate(String releaseDate) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date dateObject = dateFormat.parse(releaseDate, new ParsePosition(0));
         return dateObject;
     }
+
     //Member get methods for each object
-    public Date getReleaseDate(){
+    public Date getReleaseDate() {
         return mReleaseDate;
     }
-    public String getTitle(){
-        return mTitle;
+
+    public String getTitle() {
+        if (mTitle != null) {
+            return mTitle;
+        } else return "Title";
     }
-    public String getOverview(){
-        return mOverview;
+
+    public String getOverview() {
+        if (mOverview != null) {
+            return mOverview;
+        } else return "Overview";
     }
-    public String getPosterUrl(){
-        return mPosterUrl;
+
+    public String getPosterUrl() {
+        if (mPosterUrl != null) {
+            return mPosterUrl;
+        } else return "Poster";
     }
-    public String getUrl(){
-        return mUrl;
+
+    public String getUrl() {
+        if (mUrl != null) {
+            return mUrl;
+        } else return "URL";
     }
-    public String getIMDBId(){
-        return mIMDBId;
+
+    public String getIMDBId() {
+        if (mIMDBId != null) {
+            return mIMDBId;
+        } else return "IMDB";
     }
-    public String getUniverse() { return mUniverse;}
+
+    public String getUniverse() {
+        if (mUniverse != null) {
+            return mUniverse;
+        } else return "Universe";
+    }
 }

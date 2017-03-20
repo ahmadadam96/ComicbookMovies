@@ -7,14 +7,17 @@ package ahmadadam96.comicbookmovies;
 public class MovieCode {
     private String mCode;
     private String mUniverse;
-    MovieCode(String code, String universe){
+
+    MovieCode(String code, String universe) {
         mCode = code;
         mUniverse = universe;
     }
-    public String getCode(){
+
+    public String getCode() {
         return mCode;
     }
-    public String getUniverse(){
+
+    public String getUniverse() {
         return mUniverse;
     }
 }

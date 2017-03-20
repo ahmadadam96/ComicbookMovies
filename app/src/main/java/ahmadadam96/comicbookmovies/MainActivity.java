@@ -22,7 +22,7 @@ import java.util.List;
 import static android.view.View.GONE;
 
 public class MainActivity extends AppCompatActivity
-        implements LoaderManager.LoaderCallbacks<List<Movie>>{
+        implements LoaderManager.LoaderCallbacks<List<Movie>> {
 
     private static final String TAG = "MainActivity";
 
@@ -69,8 +69,9 @@ public class MainActivity extends AppCompatActivity
             mEmptyStateTextView.setText(R.string.no_internet_connection);
             ProgressBar progress = (ProgressBar) findViewById(R.id.progressBar);
             progress.setVisibility(GONE);
+        } else {
+            new getCodesTask().execute();
         }
-        else {new getCodesTask().execute();}
 
         // Set an item click listener on the ListView, which sends an intent to a web browser
         // to open the IMDB page with more information about the selected movie.
@@ -97,9 +98,9 @@ public class MainActivity extends AppCompatActivity
     @Override
     public Loader<List<Movie>> onCreateLoader(int i, Bundle bundle) {
         ArrayList<String> urls = new ArrayList<>();
-       for(int index = 0; index < codes.size(); index++){
-           urls.add(codes.get(index).getCode());
-       }
+        for (int index = 0; index < codes.size(); index++) {
+            urls.add(codes.get(index).getCode());
+        }
         // Create a new loader for the given URL
         return new MovieLoader(this, urls);
     }
@@ -136,12 +137,14 @@ public class MainActivity extends AppCompatActivity
         // Loader reset, so we can clear out our existing data.
         mAdapter.clear();
     }
-    private class getCodesTask extends AsyncTask<Void, Void, Void>{
+
+    private class getCodesTask extends AsyncTask<Void, Void, Void> {
         @Override
         protected Void doInBackground(Void... params) {
             codes = QueryUtils.fetchCodes(CODE_URL);
             return null;
         }
+
         @Override
         protected void onPostExecute(Void aVoid) {
             // Get a reference to the LoaderManager, in order to interact with loaders.

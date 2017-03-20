@@ -72,8 +72,8 @@ public final class QueryUtils {
         return movie;
     }
 
-  //Query to fetch the codes for the movies
-    public static ArrayList<MovieCode> fetchCodes(String requestUrl){
+    //Query to fetch the codes for the movies
+    public static ArrayList<MovieCode> fetchCodes(String requestUrl) {
         // Create URL object
         URL url = createUrl(requestUrl);
         // Perform HTTP request to the URL and receive a JSON response back

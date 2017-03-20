@@ -11,17 +11,21 @@ import java.util.List;
  */
 
 public class MovieLoader extends AsyncTaskLoader<List<Movie>> {
-    /** Tag for log messages */
+    /**
+     * Tag for log messages
+     */
     private static final String LOG_TAG = MovieLoader.class.getName();
 
-    /** Query URL */
+    /**
+     * Query URL
+     */
     private ArrayList<String> mUrls;
 
     /**
      * Constructs a new {@link MovieLoader}.
      *
      * @param context of the activity
-     * @param urls to load data from
+     * @param urls    to load data from
      */
     public MovieLoader(Context context, ArrayList<String> urls) {
         super(context);
@@ -43,7 +47,7 @@ public class MovieLoader extends AsyncTaskLoader<List<Movie>> {
             return null;
         }
         // Perform the network request, parse the response, and extract a list of movies.
-        for(int i = 0; i < mUrls.size(); i++){
+        for (int i = 0; i < mUrls.size(); i++) {
             movies.add(QueryUtils.fetchMovieData("https://api.themoviedb.org/3/movie/"
                     + mUrls.get(i) + "?api_key=46ca07ce571803077698160e0a3efde5"));
         }
