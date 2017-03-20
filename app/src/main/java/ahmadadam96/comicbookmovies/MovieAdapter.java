@@ -13,6 +13,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -79,8 +81,15 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
         //Set the text of the TextView to be of the daysleft
         viewHolder.daysView.setText(diffInDays.toString());
 
-        new DownloadImageTask(viewHolder.posterView)
-                .execute("https://image.tmdb.org/t/p/w500/" + currentMovie.getPosterUrl());
+        Glide
+                .with(getContext())
+                .load("https://image.tmdb.org/t/p/w500/" + currentMovie.getPosterUrl())
+                .centerCrop()
+                .crossFade()
+                .into(viewHolder.posterView);
+
+        // new DownloadImageTask(viewHolder.posterView)
+         //       .execute("https://image.tmdb.org/t/p/w500/" + currentMovie.getPosterUrl());
 
         viewHolder.overview.setText(currentMovie.getOverview());
 
