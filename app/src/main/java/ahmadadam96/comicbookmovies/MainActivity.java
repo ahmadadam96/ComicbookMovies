@@ -63,8 +63,14 @@ public class MainActivity extends AppCompatActivity
         // Set the adapter on the {@link ListView}
         // so the list can be populated in the user interface
         movieListView.setAdapter(mAdapter);
-
-        new getCodesTask().execute();
+        ConnectivityManager connMGR = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = connMGR.getActiveNetworkInfo();
+        if (activeNetwork == null) {
+            mEmptyStateTextView.setText(R.string.no_internet_connection);
+            ProgressBar progress = (ProgressBar) findViewById(R.id.progressBar);
+            progress.setVisibility(GONE);
+        }
+        else {new getCodesTask().execute();}
 
         // Set an item click listener on the ListView, which sends an intent to a web browser
         // to open the IMDB page with more information about the selected movie.
@@ -75,6 +81,7 @@ public class MainActivity extends AppCompatActivity
                 Movie currentMovie = mAdapter.getItem(position);
 
                 // Convert the String URL into a URI object (to pass into the Intent constructor)
+                assert currentMovie != null;
                 Uri movieUri = Uri.parse("http://www.imdb.com/title/" + currentMovie.getIMDBId());
 
                 // Create a new intent to view the earthquake URI

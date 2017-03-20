@@ -46,7 +46,7 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
                     R.layout.movie_adapter, parent, false);
             viewHolder = new ViewHolderItem();
             //Find the TextView with view ID title
-            viewHolder.titleView = (TextView) convertView.findViewById(R.id.title);
+            viewHolder.titleView = (TextView) convertView.findViewById(R.id.titleOfMovie);
             //Find the TextView with view ID releaseDate
             viewHolder.dateView = (TextView) convertView.findViewById(R.id.releaseDate);
             //Find the TextView with view ID daysLeft
@@ -63,6 +63,7 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
         Movie currentMovie = getItem(position);
 
         //Set the text of the TextView to be of the title
+        assert currentMovie != null;
         viewHolder.titleView.setText(currentMovie.getTitle());
 
         //Format the date from object type Date to a String
@@ -122,10 +123,10 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
     }
     // our ViewHolder.
     static class ViewHolderItem {
-        TextView titleView;
-        TextView dateView;
-        TextView daysView;
-        TextView overview;
-        ImageView posterView;
+        private TextView titleView;
+        private TextView dateView;
+        private TextView daysView;
+        private TextView overview;
+        private ImageView posterView;
     }
 }
