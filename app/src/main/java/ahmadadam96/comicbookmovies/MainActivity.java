@@ -134,6 +134,8 @@ public class MainActivity extends AppCompatActivity
 
         ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
+        mSwipeRefreshLayout.setRefreshing(false);
+
         progressBar.setVisibility(GONE);
 
         ConnectivityManager connMGR = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -188,8 +190,6 @@ public class MainActivity extends AppCompatActivity
             // the bundle. Pass in this activity for the LoaderCallbacks parameter (which is valid
             // because this activity implements the LoaderCallbacks interface).
             loaderManager.initLoader(MOVIE_LOADER_ID, null, MainActivity.this);
-            loaderManager.initLoader(CODES_LOADER_ID, null, MainActivity.this);
-            mSwipeRefreshLayout.setRefreshing(false);
         }
     }
 }
