@@ -4,12 +4,15 @@ import android.app.LoaderManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
+import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -42,8 +45,17 @@ public class MainActivity extends AppCompatActivity
      * Adapter for the list of movies
      */
     private MovieAdapter mAdapter;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
+
 
     ArrayList<MovieCode> codes = new ArrayList<>();
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        startLoading();
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,15 +75,26 @@ public class MainActivity extends AppCompatActivity
         // Set the adapter on the {@link ListView}
         // so the list can be populated in the user interface
         movieListView.setAdapter(mAdapter);
-        ConnectivityManager connMGR = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetwork = connMGR.getActiveNetworkInfo();
-        if (activeNetwork == null) {
-            mEmptyStateTextView.setText(R.string.no_internet_connection);
-            ProgressBar progress = (ProgressBar) findViewById(R.id.progressBar);
-            progress.setVisibility(GONE);
-        } else {
-            new getCodesTask().execute();
-        }
+
+        startLoading();
+
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.refreshMain);
+
+        /*
+ * Sets up a SwipeRefreshLayout.OnRefreshListener that is invoked when the user
+ * performs a swipe-to-refresh gesture.
+ */
+        mSwipeRefreshLayout.setOnRefreshListener(
+                new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+                        Log.i(TAG, "startLoading called from swipeRefreshLayout");
+                        // This method performs the actual data-refresh operation.
+                        // The method calls setRefreshing(false) when it's finished.
+                        startLoading();
+                    }
+                }
+        );
 
         // Set an item click listener on the ListView, which sends an intent to a web browser
         // to open the IMDB page with more information about the selected movie.
@@ -92,7 +115,6 @@ public class MainActivity extends AppCompatActivity
                 startActivity(websiteIntent);
             }
         });
-
     }
 
     @Override
@@ -132,6 +154,19 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    private void startLoading() {
+        ConnectivityManager connMGR = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = connMGR.getActiveNetworkInfo();
+        if (activeNetwork == null) {
+            mEmptyStateTextView.setText(R.string.no_internet_connection);
+            ProgressBar progress = (ProgressBar) findViewById(R.id.progressBar);
+            progress.setVisibility(GONE);
+        } else {
+            new getCodesTask().execute();
+        }
+    }
+
+
     @Override
     public void onLoaderReset(Loader<List<Movie>> loader) {
         // Loader reset, so we can clear out our existing data.
@@ -154,6 +189,7 @@ public class MainActivity extends AppCompatActivity
             // because this activity implements the LoaderCallbacks interface).
             loaderManager.initLoader(MOVIE_LOADER_ID, null, MainActivity.this);
             loaderManager.initLoader(CODES_LOADER_ID, null, MainActivity.this);
+            mSwipeRefreshLayout.setRefreshing(false);
         }
     }
 }

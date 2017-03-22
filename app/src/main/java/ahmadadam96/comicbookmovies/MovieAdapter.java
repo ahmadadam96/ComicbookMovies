@@ -33,8 +33,8 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
      * in the list of movies.
      */
     @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
-        final ViewHolderItem viewHolder;
+    public View getView(int position, View convertView, ViewGroup parent) {
+        ViewHolderItem viewHolder;
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(
                     R.layout.movie_adapter, parent, false);
@@ -55,7 +55,7 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
             viewHolder = (ViewHolderItem) convertView.getTag();
         }
         // Find the movie at the given position in the list of movies
-        Movie currentMovie = getItem(viewHolder.position);
+        Movie currentMovie = getItem(position);
 
         //Set the text of the TextView to be of the title
         viewHolder.titleView.setText(currentMovie.getTitle());
