@@ -40,6 +40,13 @@
                     tools:text="Spiderman: Homecoming" />
 
                 <TextView
+                    android:id="@+id/universe"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    tools:text="MCU" />
+
+                <TextView
                     android:id="@+id/releaseDate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

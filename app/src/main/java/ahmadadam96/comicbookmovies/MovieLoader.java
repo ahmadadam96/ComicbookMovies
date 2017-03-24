@@ -20,16 +20,21 @@ public class MovieLoader extends AsyncTaskLoader<List<Movie>> {
      * Query URL
      */
     private ArrayList<String> mUrls;
+    private ArrayList<MovieCode> mCodes;
 
     /**
      * Constructs a new {@link MovieLoader}.
      *
      * @param context of the activity
-     * @param urls    to load data from
+     * @param codes   to load data from
      */
-    public MovieLoader(Context context, ArrayList<String> urls) {
+    public MovieLoader(Context context, ArrayList<MovieCode> codes) {
         super(context);
-        mUrls = urls;
+        mUrls = new ArrayList<>();
+        for (int i = 0; i < codes.size(); i++) {
+            mUrls.add(codes.get(i).getCode());
+        }
+        mCodes = codes;
     }
 
     @Override
@@ -49,7 +54,7 @@ public class MovieLoader extends AsyncTaskLoader<List<Movie>> {
         // Perform the network request, parse the response, and extract a list of movies.
         for (int i = 0; i < mUrls.size(); i++) {
             movies.add(QueryUtils.fetchMovieData("https://api.themoviedb.org/3/movie/"
-                    + mUrls.get(i) + "?api_key=46ca07ce571803077698160e0a3efde5"));
+                    + mUrls.get(i) + "?api_key=46ca07ce571803077698160e0a3efde5", mCodes.get(i).getUniverse()));
         }
         return movies;
     }

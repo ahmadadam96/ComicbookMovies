@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
-import static ahmadadam96.comicbookmovies.R.id.overview;
+import static android.view.View.GONE;
 import static java.lang.Math.abs;
 
 /**
@@ -47,7 +47,9 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
             //Find the TextView with view ID daysLeft
             viewHolder.daysView = (TextView) convertView.findViewById(R.id.daysLeft);
             //Find the TextView with the view ID overview
-            viewHolder.overview = (TextView) convertView.findViewById(overview);
+            viewHolder.overview = (TextView) convertView.findViewById(R.id.overview);
+            //Find the TextView with the view ID universe
+            viewHolder.universeView = (TextView) convertView.findViewById(R.id.universe);
             //Find the ImageView with the view ID poster
             viewHolder.posterView = (ImageView) convertView.findViewById(R.id.poster);
             convertView.setTag(viewHolder);
@@ -76,6 +78,13 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
         //Set the text of the TextView to be of the daysleft
         viewHolder.daysView.setText(diffInDays.toString());
 
+        //Check if there is a universe
+        if (currentMovie.getUniverse() != null) {
+            //Set the text of the universe view
+            viewHolder.universeView.setText(currentMovie.getUniverse());
+        }
+        //Make the universe view disappear
+        else viewHolder.universeView.setVisibility(GONE);
         Glide
                 .with(getContext())
                 .load("https://image.tmdb.org/t/p/w500/" + currentMovie.getPosterUrl())
@@ -98,6 +107,7 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
         private TextView dateView;
         private TextView daysView;
         private TextView overview;
+        private TextView universeView;
         private ImageView posterView;
         int position;
     }

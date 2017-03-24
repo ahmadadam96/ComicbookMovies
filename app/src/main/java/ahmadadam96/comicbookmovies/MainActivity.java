@@ -119,12 +119,8 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public Loader<List<Movie>> onCreateLoader(int i, Bundle bundle) {
-        ArrayList<String> urls = new ArrayList<>();
-        for (int index = 0; index < codes.size(); index++) {
-            urls.add(codes.get(index).getCode());
-        }
         // Create a new loader for the given URL
-        return new MovieLoader(this, urls);
+        return new MovieLoader(this, codes);
     }
 
     @Override
