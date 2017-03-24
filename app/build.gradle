@@ -7,7 +7,7 @@ android {
         applicationId "ahmadadam96.comicbookmovies"
         minSdkVersion 16
         targetSdkVersion 25
-        versionCode 5
+        versionCode 6
         versionName "0.11 alpha"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
