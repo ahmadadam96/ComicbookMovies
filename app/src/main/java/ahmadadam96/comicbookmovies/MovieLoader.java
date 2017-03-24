@@ -1,6 +1,5 @@
 package ahmadadam96.comicbookmovies;
 
-import android.content.AsyncTaskLoader;
 import android.content.Context;
 
 import java.util.ArrayList;
@@ -10,7 +9,7 @@ import java.util.List;
  * Created by ahmad on 2017-03-14.
  */
 
-public class MovieLoader extends AsyncTaskLoader<List<Movie>> {
+public class MovieLoader extends android.support.v4.content.AsyncTaskLoader<List<Movie>> {
     /**
      * Tag for log messages
      */

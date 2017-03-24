@@ -2,7 +2,6 @@ package ahmadadam96.comicbookmovies;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.Loader;
 import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -10,6 +9,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,7 +17,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.app.LoaderManager;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -25,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.view.View.GONE;
+
 
 
 /**
@@ -36,7 +36,7 @@ import static android.view.View.GONE;
  * create an instance of this fragment.
  */
 public class MainFragment extends Fragment
-        implements android.app.LoaderManager.LoaderCallbacks<List<Movie>> {
+        implements android.support.v4.app.LoaderManager.LoaderCallbacks<List<Movie>> {
 
     private static final String TAG = "MainFragment";
 
@@ -78,7 +78,7 @@ public class MainFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        v = inflater.inflate(R.layout.activity_main, container, false);
+        v = inflater.inflate(R.layout.first_fragment, container, false);
         // Find a reference to the {@link ListView} in the layout
         ListView movieListView = (ListView) v.findViewById(R.id.list);
 
@@ -136,13 +136,13 @@ public class MainFragment extends Fragment
     }
 
     @Override
-    public Loader<List<Movie>> onCreateLoader(int i, Bundle bundle) {
+    public android.support.v4.content.Loader<List<Movie>> onCreateLoader(int i, Bundle bundle) {
         // Create a new loader for the given URL
         return new MovieLoader(getContext(), codes);
     }
 
     @Override
-    public void onLoadFinished(Loader<List<Movie>> loader, List<Movie> movies) {
+    public void onLoadFinished(android.support.v4.content.Loader<List<Movie>> loader, List<Movie> movies) {
         //Clear the adapter of previous movie data
         mAdapter.clear();
 
@@ -183,7 +183,7 @@ public class MainFragment extends Fragment
     }
 
     @Override
-    public void onLoaderReset(Loader<List<Movie>> loader) {
+    public void onLoaderReset(android.support.v4.content.Loader<List<Movie>> loader) {
         // Loader reset, so we can clear out our existing data.
         mAdapter.clear();
     }
@@ -201,7 +201,7 @@ public class MainFragment extends Fragment
             // Initialize the loader. Pass in the int ID constant defined above and pass in null for
             // the bundle. Pass in this activity for the LoaderCallbacks parameter (which is valid
             // because this activity implements the LoaderCallbacks interface).
-            getLoaderManager().initLoader(MOVIE_LOADER_ID, null, this);
+            loaderManager.initLoader(MOVIE_LOADER_ID, null, MainFragment.this);
         }
     }
     public static MainFragment newInstance(String text){
