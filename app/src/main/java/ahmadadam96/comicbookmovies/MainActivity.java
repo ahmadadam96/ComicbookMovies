@@ -155,7 +155,7 @@ public class MainActivity extends AppCompatActivity
     private void startLoading() {
         ConnectivityManager connMGR = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = connMGR.getActiveNetworkInfo();
-        if (activeNetwork == null) {
+        if (activeNetwork == null || !activeNetwork.isConnectedOrConnecting()) {
             mEmptyStateTextView.setText(R.string.no_internet_connection);
             ProgressBar progress = (ProgressBar) findViewById(R.id.progressBar);
             progress.setVisibility(GONE);
