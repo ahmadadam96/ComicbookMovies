@@ -2,4 +2,5 @@
     <string name="app_name">Comicbook Movies</string>
     <string name="no_movies">No movies found.</string>
     <string name="no_internet_connection">No internet connection.</string>
+
 </resources>

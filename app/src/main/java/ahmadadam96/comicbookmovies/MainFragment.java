@@ -1,19 +1,23 @@
 package ahmadadam96.comicbookmovies;
 
-import android.app.LoaderManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.Loader;
 import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ListView;
+import android.app.LoaderManager;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -22,10 +26,19 @@ import java.util.List;
 
 import static android.view.View.GONE;
 
-public class MainActivity extends AppCompatActivity
-        implements LoaderManager.LoaderCallbacks<List<Movie>> {
 
-    private static final String TAG = "MainActivity";
+/**
+ * A simple {@link Fragment} subclass.
+ * Activities that contain this fragment must implement the
+ * {@link MainFragment.OnFragmentInteractionListener} interface
+ * to handle interaction events.
+ * Use the {@link MainFragment#newInstance} factory method to
+ * create an instance of this fragment.
+ */
+public class MainFragment extends Fragment
+        implements android.app.LoaderManager.LoaderCallbacks<List<Movie>> {
+
+    private static final String TAG = "MainFragment";
 
     private TextView mEmptyStateTextView;
 
@@ -47,30 +60,34 @@ public class MainActivity extends AppCompatActivity
 
     ArrayList<MovieCode> codes = new ArrayList<>();
 
+    private OnFragmentInteractionListener mListener;
+
+    View v;
+
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         startLoading();
     }
 
+    public MainFragment() {
+        // Required empty public constructor
+    }
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
-        viewPager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
-
-        /*
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        v = inflater.inflate(R.layout.activity_main, container, false);
         // Find a reference to the {@link ListView} in the layout
-        ListView movieListView = (ListView) findViewById(R.id.list);
+        ListView movieListView = (ListView) v.findViewById(R.id.list);
 
-        mEmptyStateTextView = (TextView) findViewById(R.id.emptyView);
+        mEmptyStateTextView = (TextView) v.findViewById(R.id.emptyView);
 
         movieListView.setEmptyView(mEmptyStateTextView);
 
         // Create a new adapter that takes an empty list of movies as input
-        mAdapter = new MovieAdapter(this, new ArrayList<Movie>());
+        mAdapter = new MovieAdapter(getContext(), new ArrayList<Movie>());
 
         // Set the adapter on the {@link ListView}
         // so the list can be populated in the user interface
@@ -78,13 +95,13 @@ public class MainActivity extends AppCompatActivity
 
         startLoading();
 
-        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.refreshMain);
+        mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.refreshMain);
 
         /*
  * Sets up a SwipeRefreshLayout.OnRefreshListener that is invoked when the user
  * performs a swipe-to-refresh gesture.
  */
-   /*     mSwipeRefreshLayout.setOnRefreshListener(
+        mSwipeRefreshLayout.setOnRefreshListener(
                 new SwipeRefreshLayout.OnRefreshListener() {
                     @Override
                     public void onRefresh() {
@@ -115,13 +132,13 @@ public class MainActivity extends AppCompatActivity
                 startActivity(websiteIntent);
             }
         });
-        */
+        return v;
     }
 
     @Override
     public Loader<List<Movie>> onCreateLoader(int i, Bundle bundle) {
         // Create a new loader for the given URL
-        return new MovieLoader(this, codes);
+        return new MovieLoader(getContext(), codes);
     }
 
     @Override
@@ -129,13 +146,13 @@ public class MainActivity extends AppCompatActivity
         //Clear the adapter of previous movie data
         mAdapter.clear();
 
-        ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        ProgressBar progressBar = (ProgressBar) v.findViewById(R.id.progressBar);
 
         mSwipeRefreshLayout.setRefreshing(false);
 
         progressBar.setVisibility(GONE);
 
-        ConnectivityManager connMGR = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager connMGR = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
 
         NetworkInfo activeNetwork = connMGR.getActiveNetworkInfo();
 
@@ -154,17 +171,16 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void startLoading() {
-        ConnectivityManager connMGR = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager connMGR = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = connMGR.getActiveNetworkInfo();
         if (activeNetwork == null || !activeNetwork.isConnectedOrConnecting()) {
             mEmptyStateTextView.setText(R.string.no_internet_connection);
-            ProgressBar progress = (ProgressBar) findViewById(R.id.progressBar);
+            ProgressBar progress = (ProgressBar) v.findViewById(R.id.progressBar);
             progress.setVisibility(GONE);
         } else {
             new getCodesTask().execute();
         }
     }
-
 
     @Override
     public void onLoaderReset(Loader<List<Movie>> loader) {
@@ -181,33 +197,32 @@ public class MainActivity extends AppCompatActivity
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            // Get a reference to the LoaderManager, in order to interact with loaders.
             LoaderManager loaderManager = getLoaderManager();
             // Initialize the loader. Pass in the int ID constant defined above and pass in null for
             // the bundle. Pass in this activity for the LoaderCallbacks parameter (which is valid
             // because this activity implements the LoaderCallbacks interface).
-            loaderManager.initLoader(MOVIE_LOADER_ID, null, MainActivity.this);
+            getLoaderManager().initLoader(MOVIE_LOADER_ID, null, this);
         }
     }
-
-    private class MyPagerAdapter extends FragmentPagerAdapter {
-        public MyPagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            switch (position) {
-                case 0:
-                    return MainFragment.newInstance("MainFragment, Instance 1");
-                default:
-                    return MainFragment.newInstance("MainFragment, Instance 2");
-            }
-        }
-
-        @Override
-        public int getCount() {
-            return 1;
-        }
+    public static MainFragment newInstance(String text){
+        MainFragment f = new MainFragment();
+        Bundle b = new Bundle();
+        b.putString("msg", text);
+        f.setArguments(b);
+        return f;
     }
+/**
+ * This interface must be implemented by activities that contain this
+ * fragment to allow an interaction in this fragment to be communicated
+ * to the activity and potentially other fragments contained in that
+ * activity.
+ * <p>
+ * See the Android Training lesson <a href=
+ * "http://developer.android.com/training/basics/fragments/communicating.html"
+ * >Communicating with Other Fragments</a> for more information.
+ */
+public interface OnFragmentInteractionListener {
+    // TODO: Update argument type and name
+    void onFragmentInteraction(Uri uri);
+}
 }
