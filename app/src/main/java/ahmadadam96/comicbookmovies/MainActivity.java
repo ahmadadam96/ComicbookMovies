@@ -17,11 +17,17 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //Got the reference to the view pager
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
+        //Set the adapter for the view pager
         viewPager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
+        //Got the reference for the tabLayout
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabLayout);
+        //Set the tabLayout to belong to the view pager
         tabLayout.setupWithViewPager(viewPager);
     }
+
+    //Adapter for the view pager in use
     private class MyPagerAdapter extends FragmentPagerAdapter {
         public MyPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -29,25 +35,34 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public CharSequence getPageTitle(int position) {
-            if(position == 0){
+            //Setting the ViewPager tab names
+            //For all movies
+            if (position == 0) {
                 return "All";
             }
-            if(position == 1){
+            //For MCU movies
+            if (position == 1) {
                 return "MCU";
             }
-            if(position == 2){
+            //For DC movies
+            if (position == 2) {
                 return "DC";
             }
-            else return "All";
+            //if it is an unknown page (should not happen) then set the title to unknown
+            else return "Unknown";
         }
 
         @Override
         public Fragment getItem(int position) {
+            //Passes the input of each fragment in order to filter the movies
             switch (position) {
+                //All movies
                 case 0:
                     return MainFragment.newInstance("All");
+                //MCU movies
                 case 1:
                     return MainFragment.newInstance("MCU");
+                //DC movies
                 case 2:
                     return MainFragment.newInstance("DC");
                 default:
@@ -56,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
+        //Method to correspond to the number of tabs used
         public int getCount() {
             return 3;
         }

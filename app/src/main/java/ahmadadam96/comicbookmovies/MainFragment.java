@@ -26,7 +26,6 @@ import java.util.List;
 import static android.view.View.GONE;
 
 
-
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
@@ -40,10 +39,13 @@ public class MainFragment extends Fragment
 
     private static final String TAG = "MainFragment";
 
+    //TextView for the empty state
     private TextView mEmptyStateTextView;
 
+    //String to show which universe the movie belongs to which allows for filtering
     private String mUniverse;
 
+    //The URL for the JSON string
     private static final String CODE_URL =
             "https://raw.githubusercontent.com/ahmadadam96/ComicbookMovies/master/app/src/main/res/host_codes";
 
@@ -57,15 +59,18 @@ public class MainFragment extends Fragment
      * Adapter for the list of movies
      */
     private MovieAdapter mAdapter;
+
+    //A swipe to refresh widget
     private SwipeRefreshLayout mSwipeRefreshLayout;
 
-
+    //ArrayList to save all the movie codes
     ArrayList<MovieCode> codes = new ArrayList<>();
 
     private OnFragmentInteractionListener mListener;
 
-    View v;
+    View view;
 
+    //If the configuration is changed then the data must be reloaded
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
@@ -80,15 +85,20 @@ public class MainFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        v = inflater.inflate(R.layout.first_fragment, container, false);
+        view = inflater.inflate(R.layout.first_fragment, container, false);
+
+        //Gets the arguments from the MainActivity
         Bundle args = getArguments();
+        //Sets the universe to the universe defined in the MainActivity to allow filtering
         mUniverse = args.getString("Universe");
 
         // Find a reference to the {@link ListView} in the layout
-        ListView movieListView = (ListView) v.findViewById(R.id.list);
+        ListView movieListView = (ListView) view.findViewById(R.id.list);
 
-        mEmptyStateTextView = (TextView) v.findViewById(R.id.emptyView);
+        //Find the reference to the empty view
+        mEmptyStateTextView = (TextView) view.findViewById(R.id.emptyView);
 
+        //Set the empty view for the list view
         movieListView.setEmptyView(mEmptyStateTextView);
 
         // Create a new adapter that takes an empty list of movies as input
@@ -98,9 +108,11 @@ public class MainFragment extends Fragment
         // so the list can be populated in the user interface
         movieListView.setAdapter(mAdapter);
 
+        //Begin loading the data
         startLoading();
 
-        mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.refreshMain);
+        //Set the reference for the swipe to refresh widget
+        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refreshMain);
 
         /*
  * Sets up a SwipeRefreshLayout.OnRefreshListener that is invoked when the user
@@ -130,14 +142,14 @@ public class MainFragment extends Fragment
                 assert currentMovie != null;
                 Uri movieUri = Uri.parse("http://www.imdb.com/title/" + currentMovie.getIMDBId());
 
-                // Create a new intent to view the earthquake URI
+                // Create a new intent to view the IMDB page for the movie
                 Intent websiteIntent = new Intent(Intent.ACTION_VIEW, movieUri);
 
                 // Send the intent to launch a new activity
                 startActivity(websiteIntent);
             }
         });
-        return v;
+        return view;
     }
 
     @Override
@@ -151,7 +163,7 @@ public class MainFragment extends Fragment
         //Clear the adapter of previous movie data
         mAdapter.clear();
 
-        ProgressBar progressBar = (ProgressBar) v.findViewById(R.id.progressBar);
+        ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
 
         mSwipeRefreshLayout.setRefreshing(false);
 
@@ -161,11 +173,9 @@ public class MainFragment extends Fragment
 
         NetworkInfo activeNetwork = connMGR.getActiveNetworkInfo();
 
-        boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
-
-        for(int i = 0; i < movies.size(); i++){
-            if(!(movies.get(i).getUniverse().equals(mUniverse) ||
-                    mUniverse.equals("All"))){
+        for (int i = 0; i < movies.size(); i++) {
+            if (!(movies.get(i).getUniverse().equals(mUniverse) ||
+                    mUniverse.equals("All"))) {
                 movies.remove(i);
             }
         }
@@ -187,7 +197,7 @@ public class MainFragment extends Fragment
         NetworkInfo activeNetwork = connMGR.getActiveNetworkInfo();
         if (activeNetwork == null || !activeNetwork.isConnectedOrConnecting()) {
             mEmptyStateTextView.setText(R.string.no_internet_connection);
-            ProgressBar progress = (ProgressBar) v.findViewById(R.id.progressBar);
+            ProgressBar progress = (ProgressBar) view.findViewById(R.id.progressBar);
             progress.setVisibility(GONE);
         } else {
             new getCodesTask().execute();
@@ -216,25 +226,27 @@ public class MainFragment extends Fragment
             loaderManager.initLoader(MOVIE_LOADER_ID, null, MainFragment.this);
         }
     }
-    public static MainFragment newInstance(String text){
+
+    public static MainFragment newInstance(String universe) {
         MainFragment f = new MainFragment();
         Bundle b = new Bundle();
-        b.putString("Universe", text);
+        b.putString("Universe", universe);
         f.setArguments(b);
         return f;
     }
-/**
- * This interface must be implemented by activities that contain this
- * fragment to allow an interaction in this fragment to be communicated
- * to the activity and potentially other fragments contained in that
- * activity.
- * <p>
- * See the Android Training lesson <a href=
- * "http://developer.android.com/training/basics/fragments/communicating.html"
- * >Communicating with Other Fragments</a> for more information.
- */
-public interface OnFragmentInteractionListener {
-    // TODO: Update argument type and name
-    void onFragmentInteraction(Uri uri);
-}
+
+    /**
+     * This interface must be implemented by activities that contain this
+     * fragment to allow an interaction in this fragment to be communicated
+     * to the activity and potentially other fragments contained in that
+     * activity.
+     * <p>
+     * See the Android Training lesson <a href=
+     * "http://developer.android.com/training/basics/fragments/communicating.html"
+     * >Communicating with Other Fragments</a> for more information.
+     */
+    public interface OnFragmentInteractionListener {
+        // TODO: Update argument type and name
+        void onFragmentInteraction(Uri uri);
+    }
 }

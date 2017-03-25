@@ -59,8 +59,7 @@ public class Movie {
     // with the correct format
     private Date convertDate(String releaseDate) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Date dateObject = dateFormat.parse(releaseDate, new ParsePosition(0));
-        return dateObject;
+        return dateFormat.parse(releaseDate, new ParsePosition(0));
     }
 
     //Member get methods for each object

@@ -65,11 +65,8 @@ public final class QueryUtils {
             Log.e(LOG_TAG, "Problem making the HTTP request to get the movie data.", e);
         }
 
-        // Extract relevant fields from the JSON response and create a list of {@link Movie}s
-        Movie movie = extractFeatureFromJson(jsonResponse, universe);
-
-        // Return the list of {@link Movie}s
-        return movie;
+        // Extract relevant fields from the JSON response and return a list of {@link Movie}s
+        return extractFeatureFromJson(jsonResponse, universe);
     }
 
     //Query to fetch the codes for the movies

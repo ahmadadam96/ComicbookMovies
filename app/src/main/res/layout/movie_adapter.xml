@@ -11,6 +11,7 @@
         android:layout_width="162sp"
         android:layout_height="240sp"
         android:adjustViewBounds="false"
+        android:contentDescription="@string/poster_description"
         android:scaleType="fitCenter" />
 
     <LinearLayout
