@@ -1,6 +1,7 @@
 package ahmadadam96.comicbookmovies;
 
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -18,6 +19,8 @@ public class MainActivity extends AppCompatActivity {
 
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
         viewPager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabLayout);
+        tabLayout.setupWithViewPager(viewPager);
     }
     private class MyPagerAdapter extends FragmentPagerAdapter {
         public MyPagerAdapter(FragmentManager fm) {
@@ -25,18 +28,36 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
+        public CharSequence getPageTitle(int position) {
+            if(position == 0){
+                return "All";
+            }
+            if(position == 1){
+                return "MCU";
+            }
+            if(position == 2){
+                return "DC";
+            }
+            else return "All";
+        }
+
+        @Override
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    return MainFragment.newInstance("MainFragment, Instance 1");
+                    return MainFragment.newInstance("All");
+                case 1:
+                    return MainFragment.newInstance("MCU");
+                case 2:
+                    return MainFragment.newInstance("DC");
                 default:
-                    return MainFragment.newInstance("MainFragment, Instance 2");
+                    return MainFragment.newInstance("All");
             }
         }
 
         @Override
         public int getCount() {
-            return 1;
+            return 3;
         }
     }
 }

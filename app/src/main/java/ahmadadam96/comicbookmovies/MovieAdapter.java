@@ -23,9 +23,11 @@ import static java.lang.Math.abs;
  * Created by ahmad on 2017-03-14.
  */
 
-public class MovieAdapter extends ArrayAdapter<Movie> {
-    public MovieAdapter(Context context, List<Movie> movies) {
+public class MovieAdapter extends ArrayAdapter<Movie>{
+    private String mUniverse;
+    public MovieAdapter(Context context, List<Movie> movies, String universe) {
         super(context, 0, movies);
+        mUniverse = universe;
     }
 
     /**
@@ -59,44 +61,43 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
         // Find the movie at the given position in the list of movies
         Movie currentMovie = getItem(position);
 
-        //Set the text of the TextView to be of the title
-        viewHolder.titleView.setText(currentMovie.getTitle());
+            //Set the text of the TextView to be of the title
+            viewHolder.titleView.setText(currentMovie.getTitle());
 
-        //Format the date from object type Date to a String
-        SimpleDateFormat myformat = new SimpleDateFormat("dd MMMM yyyy", Locale.getDefault());
+            //Format the date from object type Date to a String
+            SimpleDateFormat myformat = new SimpleDateFormat("dd MMMM yyyy", Locale.getDefault());
 
-        String formattedDate = myformat.format(currentMovie.getReleaseDate());
+            String formattedDate = myformat.format(currentMovie.getReleaseDate());
 
-        //Set the text of the TextView to be of the date
-        viewHolder.dateView.setText(formattedDate);
+            //Set the text of the TextView to be of the date
+            viewHolder.dateView.setText(formattedDate);
 
-        //Calculate the difference between release date and now
-        Date currentDate = new Date(System.currentTimeMillis());
-        Long duration = currentMovie.getReleaseDate().getTime() - currentDate.getTime();
-        Long diffInDays = abs(TimeUnit.MILLISECONDS.toDays(duration));
+            //Calculate the difference between release date and now
+            Date currentDate = new Date(System.currentTimeMillis());
+            Long duration = currentMovie.getReleaseDate().getTime() - currentDate.getTime();
+            Long diffInDays = abs(TimeUnit.MILLISECONDS.toDays(duration));
 
-        //Set the text of the TextView to be of the daysleft
-        viewHolder.daysView.setText(diffInDays.toString());
+            //Set the text of the TextView to be of the daysleft
+            viewHolder.daysView.setText(diffInDays.toString());
 
-        //Check if there is a universe
-        if (currentMovie.getUniverse() != null) {
-            //Set the text of the universe view
-            viewHolder.universeView.setText(currentMovie.getUniverse());
-        }
-        //Make the universe view disappear
-        else viewHolder.universeView.setVisibility(GONE);
-        Glide
-                .with(getContext())
-                .load("https://image.tmdb.org/t/p/w500/" + currentMovie.getPosterUrl())
-                .centerCrop()
-                .crossFade()
-                .into(viewHolder.posterView);
+            //Check if there is a universe
+            if (currentMovie.getUniverse() != null) {
+                //Set the text of the universe view
+                viewHolder.universeView.setText(currentMovie.getUniverse());
+            }
+            //Make the universe view disappear
+            else viewHolder.universeView.setVisibility(GONE);
+            Glide
+                    .with(getContext())
+                    .load("https://image.tmdb.org/t/p/w500/" + currentMovie.getPosterUrl())
+                    .centerCrop()
+                    .crossFade()
+                    .into(viewHolder.posterView);
 
-        // new DownloadImageTask(viewHolder.posterView)
-        //       .execute("https://image.tmdb.org/t/p/w500/" + currentMovie.getPosterUrl());
+            // new DownloadImageTask(viewHolder.posterView)
+            //       .execute("https://image.tmdb.org/t/p/w500/" + currentMovie.getPosterUrl());
 
-        viewHolder.overview.setText(currentMovie.getOverview());
-
+            viewHolder.overview.setText(currentMovie.getOverview());
         return convertView;
     }
 

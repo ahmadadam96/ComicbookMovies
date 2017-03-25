@@ -7,8 +7,8 @@ android {
         applicationId "ahmadadam96.comicbookmovies"
         minSdkVersion 16
         targetSdkVersion 25
-        versionCode 6
-        versionName "0.11 alpha"
+        versionCode 7
+        versionName "0.12 alpha"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -27,6 +27,7 @@ dependencies {
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'com.android.support:support-v4:25.3.0'
     compile 'com.android.support:appcompat-v7:25.3.0'
+    compile 'com.android.support:design:25.3.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'
 }

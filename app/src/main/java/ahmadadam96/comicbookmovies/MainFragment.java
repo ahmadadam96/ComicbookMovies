@@ -42,6 +42,8 @@ public class MainFragment extends Fragment
 
     private TextView mEmptyStateTextView;
 
+    private String mUniverse;
+
     private static final String CODE_URL =
             "https://raw.githubusercontent.com/ahmadadam96/ComicbookMovies/master/app/src/main/res/host_codes";
 
@@ -79,6 +81,9 @@ public class MainFragment extends Fragment
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         v = inflater.inflate(R.layout.first_fragment, container, false);
+        Bundle args = getArguments();
+        mUniverse = args.getString("Universe");
+
         // Find a reference to the {@link ListView} in the layout
         ListView movieListView = (ListView) v.findViewById(R.id.list);
 
@@ -87,7 +92,7 @@ public class MainFragment extends Fragment
         movieListView.setEmptyView(mEmptyStateTextView);
 
         // Create a new adapter that takes an empty list of movies as input
-        mAdapter = new MovieAdapter(getContext(), new ArrayList<Movie>());
+        mAdapter = new MovieAdapter(getContext(), new ArrayList<Movie>(), mUniverse);
 
         // Set the adapter on the {@link ListView}
         // so the list can be populated in the user interface
@@ -158,6 +163,13 @@ public class MainFragment extends Fragment
 
         boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
 
+        for(int i = 0; i < movies.size(); i++){
+            if(!(movies.get(i).getUniverse().equals(mUniverse) ||
+                    mUniverse.equals("All"))){
+                movies.remove(i);
+            }
+        }
+
         // If there is a valid list of {@link Movie}s, then add them to the adapter's
         // data set. This will trigger the ListView to update.
         if (movies != null && !movies.isEmpty()) {
@@ -207,7 +219,7 @@ public class MainFragment extends Fragment
     public static MainFragment newInstance(String text){
         MainFragment f = new MainFragment();
         Bundle b = new Bundle();
-        b.putString("msg", text);
+        b.putString("Universe", text);
         f.setArguments(b);
         return f;
     }
