@@ -24,10 +24,8 @@ import static java.lang.Math.abs;
  */
 
 public class MovieAdapter extends ArrayAdapter<Movie>{
-    private String mUniverse;
-    public MovieAdapter(Context context, List<Movie> movies, String universe) {
+    public MovieAdapter(Context context, List<Movie> movies) {
         super(context, 0, movies);
-        mUniverse = universe;
     }
 
     /**

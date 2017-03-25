@@ -92,7 +92,7 @@ public class MainFragment extends Fragment
         movieListView.setEmptyView(mEmptyStateTextView);
 
         // Create a new adapter that takes an empty list of movies as input
-        mAdapter = new MovieAdapter(getContext(), new ArrayList<Movie>(), mUniverse);
+        mAdapter = new MovieAdapter(getContext(), new ArrayList<Movie>());
 
         // Set the adapter on the {@link ListView}
         // so the list can be populated in the user interface
