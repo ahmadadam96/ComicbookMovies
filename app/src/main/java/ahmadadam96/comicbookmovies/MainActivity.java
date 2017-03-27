@@ -25,6 +25,8 @@ public class MainActivity extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabLayout);
         //Set the tabLayout to belong to the view pager
         tabLayout.setupWithViewPager(viewPager);
+        //Maximise the tabs to fill the tabLayout
+        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
     }
 
     //Adapter for the view pager in use
@@ -66,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
                 case 2:
                     return MainFragment.newInstance("DC");
                 default:
-                    return MainFragment.newInstance("All");
+                    return null;
             }
         }
 

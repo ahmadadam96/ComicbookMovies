@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -100,6 +101,11 @@ public class MainFragment extends Fragment
 
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(movieListView.getContext(),
+                layoutManager.getOrientation());
+
+        movieListView.addItemDecoration(dividerItemDecoration);
+
         movieListView.setLayoutManager(layoutManager);
 
         //Set the reference for the swipe to refresh widget
@@ -163,11 +169,9 @@ public class MainFragment extends Fragment
         NetworkInfo activeNetwork = connMGR.getActiveNetworkInfo();
 
         for (int i = 0; i < movies.size(); i++) {
-            if (movies.get(i).getUniverse() != null) {
                 if (!(movies.get(i).getUniverse().equals(mUniverse) ||
                         mUniverse.equals("All"))) {
                     movies.remove(i);
-                }
             }
         }
 
