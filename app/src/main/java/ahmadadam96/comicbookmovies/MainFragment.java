@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 
 
 /**
@@ -183,11 +184,11 @@ public class MainFragment extends Fragment
         }
         if (movies.isEmpty()) {
             mEmptyStateTextView.setText(R.string.no_movies);
-            mEmptyStateTextView.setVisibility(View.VISIBLE);
+            mEmptyStateTextView.setVisibility(VISIBLE);
         }
         if (activeNetwork == null) {
             mEmptyStateTextView.setText(R.string.no_internet_connection);
-            mEmptyStateTextView.setVisibility(View.VISIBLE);
+            mEmptyStateTextView.setVisibility(VISIBLE);
         }
     }
 
@@ -196,6 +197,7 @@ public class MainFragment extends Fragment
         NetworkInfo activeNetwork = connMGR.getActiveNetworkInfo();
         if (activeNetwork == null || !activeNetwork.isConnectedOrConnecting()) {
             mEmptyStateTextView.setText(R.string.no_internet_connection);
+            mEmptyStateTextView.setVisibility(VISIBLE);
             ProgressBar progress = (ProgressBar) view.findViewById(R.id.progressBar);
             progress.setVisibility(GONE);
         } else {
