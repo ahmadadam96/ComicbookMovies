@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,10 +18,10 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieHolder> {
     private List<Movie> movies;
     private int itemResource;
 
-    public MovieAdapter(Context context, int itemResource, List<Movie> movies) {
+    public MovieAdapter(Context context, int itemResource) {
         this.context = context;
-        this.movies = movies;
         this.itemResource = itemResource;
+        movies = new ArrayList<>();
     }
 
     @Override
@@ -45,6 +46,12 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieHolder> {
     public void clear() {
         if (movies.size() > 0) {
             movies.clear();
+            notifyDataSetChanged();
         }
+    }
+
+    public void update(List<Movie> movieList) {
+        movies = movieList;
+        notifyDataSetChanged();
     }
 }

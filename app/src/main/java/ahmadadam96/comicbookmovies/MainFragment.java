@@ -102,22 +102,22 @@ public class MainFragment extends Fragment
 
         movieListView.setLayoutManager(layoutManager);
 
+        //Set the reference for the swipe to refresh widget
+        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refreshMain);
+
         //Find the reference to the empty view
         mEmptyStateTextView = (TextView) view.findViewById(R.id.emptyView);
 
+        //Set the empty view to GONE
         mEmptyStateTextView.setVisibility(GONE);
 
-        //Set the empty view for the list view
-        //TODO fix the empty view
-        // movieListView.setEmptyView(mEmptyStateTextView);
+        // Create a new adapter that takes a list of movies as input
+        mAdapter = new MovieAdapter(getContext(), R.layout.movie_adapter);
 
         //Begin loading the data
         startLoading();
 
-        //Set the reference for the swipe to refresh widget
-        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refreshMain);
-
-        /*
+         /*
  * Sets up a SwipeRefreshLayout.OnRefreshListener that is invoked when the user
  * performs a swipe-to-refresh gesture.
  */
@@ -132,15 +132,16 @@ public class MainFragment extends Fragment
                     }
                 }
         );
+
         return view;
     }
-    private void setAdapter(List<Movie> movies){
-        // Create a new adapter that takes an empty list of movies as input
-        mAdapter = new MovieAdapter(getContext(),R.layout.movie_adapter, movies);
 
+    private void updateAdapter(List<Movie> movies) {
+        mAdapter.update(movies);
         // Set the adapter on the {@link ListView}
         // so the list can be populated in the user interface
-        movieListView.setAdapter(mAdapter);
+        movieListView.swapAdapter(mAdapter, true);
+        mAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -151,11 +152,6 @@ public class MainFragment extends Fragment
 
     @Override
     public void onLoadFinished(android.support.v4.content.Loader<List<Movie>> loader, List<Movie> movies) {
-        //Clear the adapter of previous movie data
-        if(mAdapter != null){
-            mAdapter.clear();
-        }
-
         ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
 
         mSwipeRefreshLayout.setRefreshing(false);
@@ -167,17 +163,21 @@ public class MainFragment extends Fragment
         NetworkInfo activeNetwork = connMGR.getActiveNetworkInfo();
 
         for (int i = 0; i < movies.size(); i++) {
-            if (!(movies.get(i).getUniverse().equals(mUniverse) ||
-                    mUniverse.equals("All"))) {
-                movies.remove(i);
+            if (movies.get(i).getUniverse() != null) {
+                if (!(movies.get(i).getUniverse().equals(mUniverse) ||
+                        mUniverse.equals("All"))) {
+                    movies.remove(i);
+                }
             }
         }
 
         // If there is a valid list of {@link Movie}s, then add them to the adapter's
         // data set. This will trigger the ListView to update.
-        if (movies != null && !movies.isEmpty()) {
-            setAdapter(movies);
-        } else {
+        if (!movies.isEmpty()) {
+            updateAdapter(movies);
+            mEmptyStateTextView.setVisibility(GONE);
+        }
+        if (movies.isEmpty()) {
             mEmptyStateTextView.setText(R.string.no_movies);
             mEmptyStateTextView.setVisibility(View.VISIBLE);
         }
