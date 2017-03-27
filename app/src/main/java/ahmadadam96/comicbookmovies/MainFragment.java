@@ -1,7 +1,6 @@
 package ahmadadam96.comicbookmovies;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -11,12 +10,12 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -68,6 +67,8 @@ public class MainFragment extends Fragment
 
     private OnFragmentInteractionListener mListener;
 
+    private RecyclerView movieListView;
+
     View view;
 
     //If the configuration is changed then the data must be reloaded
@@ -93,20 +94,22 @@ public class MainFragment extends Fragment
         mUniverse = args.getString("Universe");
 
         // Find a reference to the {@link ListView} in the layout
-        ListView movieListView = (ListView) view.findViewById(R.id.list);
+        movieListView = (RecyclerView) view.findViewById(R.id.list);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+
+        movieListView.setLayoutManager(layoutManager);
 
         //Find the reference to the empty view
         mEmptyStateTextView = (TextView) view.findViewById(R.id.emptyView);
 
+        mEmptyStateTextView.setVisibility(GONE);
+
         //Set the empty view for the list view
-        movieListView.setEmptyView(mEmptyStateTextView);
-
-        // Create a new adapter that takes an empty list of movies as input
-        mAdapter = new MovieAdapter(getContext(), new ArrayList<Movie>());
-
-        // Set the adapter on the {@link ListView}
-        // so the list can be populated in the user interface
-        movieListView.setAdapter(mAdapter);
+        //TODO fix the empty view
+        // movieListView.setEmptyView(mEmptyStateTextView);
 
         //Begin loading the data
         startLoading();
@@ -129,27 +132,15 @@ public class MainFragment extends Fragment
                     }
                 }
         );
-
-        // Set an item click listener on the ListView, which sends an intent to a web browser
-        // to open the IMDB page with more information about the selected movie.
-        movieListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                // Find the current movie that was clicked on
-                Movie currentMovie = mAdapter.getItem(position);
-
-                // Convert the String URL into a URI object (to pass into the Intent constructor)
-                assert currentMovie != null;
-                Uri movieUri = Uri.parse("http://www.imdb.com/title/" + currentMovie.getIMDBId());
-
-                // Create a new intent to view the IMDB page for the movie
-                Intent websiteIntent = new Intent(Intent.ACTION_VIEW, movieUri);
-
-                // Send the intent to launch a new activity
-                startActivity(websiteIntent);
-            }
-        });
         return view;
+    }
+    private void setAdapter(List<Movie> movies){
+        // Create a new adapter that takes an empty list of movies as input
+        mAdapter = new MovieAdapter(getContext(),R.layout.movie_adapter, movies);
+
+        // Set the adapter on the {@link ListView}
+        // so the list can be populated in the user interface
+        movieListView.setAdapter(mAdapter);
     }
 
     @Override
@@ -161,7 +152,9 @@ public class MainFragment extends Fragment
     @Override
     public void onLoadFinished(android.support.v4.content.Loader<List<Movie>> loader, List<Movie> movies) {
         //Clear the adapter of previous movie data
-        mAdapter.clear();
+        if(mAdapter != null){
+            mAdapter.clear();
+        }
 
         ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
 
@@ -183,12 +176,14 @@ public class MainFragment extends Fragment
         // If there is a valid list of {@link Movie}s, then add them to the adapter's
         // data set. This will trigger the ListView to update.
         if (movies != null && !movies.isEmpty()) {
-            mAdapter.addAll(movies);
+            setAdapter(movies);
         } else {
             mEmptyStateTextView.setText(R.string.no_movies);
+            mEmptyStateTextView.setVisibility(View.VISIBLE);
         }
         if (activeNetwork == null) {
             mEmptyStateTextView.setText(R.string.no_internet_connection);
+            mEmptyStateTextView.setVisibility(View.VISIBLE);
         }
     }
 
