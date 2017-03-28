@@ -7,9 +7,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -31,6 +35,7 @@ public class MovieHolder extends RecyclerView.ViewHolder {
     private TextView universeView;
     private ImageView posterView;
     private LinearLayout listItem;
+    private ProgressBar progressBarPoster;
 
     private Context context;
     private Movie movie;
@@ -54,6 +59,8 @@ public class MovieHolder extends RecyclerView.ViewHolder {
         this.posterView = (ImageView) itemView.findViewById(R.id.poster);
         //Find the listItem with the view ID listItem
         this.listItem = (LinearLayout) itemView.findViewById(R.id.list_item);
+        //Find the progressbar with the view ID progressBarPoster
+        this.progressBarPoster = (ProgressBar) itemView.findViewById(R.id.progressBarPoster);
     }
 
     public void bindMovie(final Movie movie) {
@@ -85,11 +92,25 @@ public class MovieHolder extends RecyclerView.ViewHolder {
             }
             //Make the universe view disappear
             else this.universeView.setVisibility(GONE);
+
             Glide
                     .with(context)
                     .load("https://image.tmdb.org/t/p/w500/" + this.movie.getPosterUrl())
                     .centerCrop()
                     .crossFade()
+                    .listener(new RequestListener<String, GlideDrawable>() {
+                        @Override
+                        public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                            progressBarPoster.setVisibility(View.GONE);
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                            progressBarPoster.setVisibility(View.GONE);
+                            return false;
+                        }
+                    })
                     .into(this.posterView);
 
             // new DownloadImageTask(viewHolder.posterView)
@@ -109,7 +130,7 @@ public class MovieHolder extends RecyclerView.ViewHolder {
                     // Send the intent to launch a new activity
                     context.startActivity(websiteIntent);
                 }
-            }  );
+            });
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
