@@ -1,6 +1,7 @@
 package ahmadadam96.comicbookmovies;
 
 import android.content.Context;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,8 +31,13 @@ public class MovieLoader extends android.support.v4.content.AsyncTaskLoader<List
     public MovieLoader(Context context, ArrayList<MovieCode> codes) {
         super(context);
         mUrls = new ArrayList<>();
-        for (int i = 0; i < codes.size(); i++) {
-            mUrls.add(codes.get(i).getCode());
+        try {
+            for (int i = 0; i < codes.size(); i++) {
+                mUrls.add(codes.get(i).getCode());
+            }
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+            Toast.makeText(getContext(), "Internet connection not working", Toast.LENGTH_SHORT).show();
         }
         mCodes = codes;
     }

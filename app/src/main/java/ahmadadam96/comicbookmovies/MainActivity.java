@@ -6,8 +6,10 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.util.SparseArrayCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.ViewGroup;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -38,6 +40,13 @@ public class MainActivity extends AppCompatActivity {
 
     //Adapter for the view pager in use
     private class MyPagerAdapter extends FragmentPagerAdapter {
+        SparseArrayCompat<Fragment> registeredFragments = new SparseArrayCompat<>();
+
+        String page1 = "All";
+        String page2 = "MCU";
+        String page3 = "DC";
+        String page4 = "Fox";
+
         public MyPagerAdapter(FragmentManager fm) {
             super(fm);
         }
@@ -47,15 +56,18 @@ public class MainActivity extends AppCompatActivity {
             //Setting the ViewPager tab names
             //For all movies
             if (position == 0) {
-                return "All";
+                return page1;
             }
             //For MCU movies
             if (position == 1) {
-                return "MCU";
+                return page2;
             }
             //For DC movies
             if (position == 2) {
-                return "DC";
+                return page3;
+            }
+            if (position == 3){
+                return page4;
             }
             //if it is an unknown page (should not happen) then set the title to unknown
             else return "Unknown";
@@ -67,22 +79,41 @@ public class MainActivity extends AppCompatActivity {
             switch (position) {
                 //All movies
                 case 0:
-                    return MainFragment.newInstance("All");
+                    return MainFragment.newInstance(page1);
                 //MCU movies
                 case 1:
-                    return MainFragment.newInstance("MCU");
+                    return MainFragment.newInstance(page2);
                 //DC movies
                 case 2:
-                    return MainFragment.newInstance("DC");
+                    return MainFragment.newInstance(page3);
+                case 3:
+                    return MainFragment.newInstance(page4);
                 default:
                     return null;
             }
         }
 
         @Override
+        public Object instantiateItem(ViewGroup container, int position) {
+            Fragment fragment = (Fragment) super.instantiateItem(container, position);
+            registeredFragments.put(position, fragment);
+            return fragment;
+        }
+
+        @Override
+        public void destroyItem(ViewGroup container, int position, Object object) {
+            registeredFragments.remove(position);
+            super.destroyItem(container, position, object);
+        }
+
+        public Fragment getRegisteredFragment(int position) {
+            return registeredFragments.get(position);
+        }
+
+        @Override
         //Method to correspond to the number of tabs used
         public int getCount() {
-            return 3;
+            return 4;
         }
     }
 }

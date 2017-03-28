@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import static android.view.View.GONE;
@@ -173,10 +174,11 @@ public class MainFragment extends Fragment
         NetworkInfo activeNetwork = connMGR.getActiveNetworkInfo();
 
         try {
-            for (int i = 0; i < movies.size(); i++) {
-                if (!(movies.get(i).getUniverse().equals(mUniverse) ||
-                        mUniverse.equals("All"))) {
-                    movies.remove(i);
+            Iterator<Movie> movieIterator = movies.iterator();
+            while (movieIterator.hasNext()) {
+                Movie next = movieIterator.next();
+                if (!(next.getUniverse().equals(mUniverse) || mUniverse.equals("All"))) {
+                    movieIterator.remove();
                 }
             }
         } catch (NullPointerException e) {
