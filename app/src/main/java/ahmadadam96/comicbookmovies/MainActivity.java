@@ -35,7 +35,9 @@ public class MainActivity extends AppCompatActivity {
         //Set the color of the tabLayout
         tabLayout.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
         //Removes the border under the action bar
-        getSupportActionBar().setElevation(0);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setElevation(0);
+        }
     }
 
     //Adapter for the view pager in use
@@ -66,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
             if (position == 2) {
                 return page3;
             }
-            if (position == 3){
+            if (position == 3) {
                 return page4;
             }
             //if it is an unknown page (should not happen) then set the title to unknown
