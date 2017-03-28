@@ -58,56 +58,60 @@ public class MovieHolder extends RecyclerView.ViewHolder {
 
     public void bindMovie(final Movie movie) {
         this.movie = movie;
-        //Set the text of the TextView to be of the title
-        this.titleView.setText(this.movie.getTitle());
+        try {
+            //Set the text of the TextView to be of the title
+            this.titleView.setText(this.movie.getTitle());
 
-        //Format the date from object type Date to a String
-        SimpleDateFormat myFormat = new SimpleDateFormat("dd MMMM yyyy", Locale.getDefault());
+            //Format the date from object type Date to a String
+            SimpleDateFormat myFormat = new SimpleDateFormat("dd MMMM yyyy", Locale.getDefault());
 
-        String formattedDate = myFormat.format(this.movie.getReleaseDate());
+            String formattedDate = myFormat.format(this.movie.getReleaseDate());
 
-        //Set the text of the TextView to be of the date
-        this.dateView.setText(formattedDate);
+            //Set the text of the TextView to be of the date
+            this.dateView.setText(formattedDate);
 
-        //Calculate the difference between release date and now
-        Date currentDate = new Date(System.currentTimeMillis());
-        Long duration = this.movie.getReleaseDate().getTime() - currentDate.getTime();
-        Long diffInDays = abs(TimeUnit.MILLISECONDS.toDays(duration));
+            //Calculate the difference between release date and now
+            Date currentDate = new Date(System.currentTimeMillis());
+            Long duration = this.movie.getReleaseDate().getTime() - currentDate.getTime();
+            Long diffInDays = abs(TimeUnit.MILLISECONDS.toDays(duration));
 
-        //Set the text of the TextView to be of the daysleft
-        this.daysView.setText(diffInDays.toString());
+            //Set the text of the TextView to be of the daysleft
+            this.daysView.setText(diffInDays.toString());
 
-        //Check if there is a universe
-        if (this.movie.getUniverse() != null) {
-            //Set the text of the universe view
-            this.universeView.setText(this.movie.getUniverse());
-        }
-        //Make the universe view disappear
-        else this.universeView.setVisibility(GONE);
-        Glide
-                .with(context)
-                .load("https://image.tmdb.org/t/p/w500/" + this.movie.getPosterUrl())
-                .centerCrop()
-                .crossFade()
-                .into(this.posterView);
-
-        // new DownloadImageTask(viewHolder.posterView)
-        //       .execute("https://image.tmdb.org/t/p/w500/" + currentMovie.getPosterUrl());
-
-        this.overview.setText(this.movie.getOverview());
-
-        listItem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Convert the String URL into a URI object (to pass into the Intent constructor)
-                Uri movieUri = Uri.parse("http://www.imdb.com/title/" + movie.getIMDBId());
-
-                // Create a new intent to view the IMDB page for the movie
-                Intent websiteIntent = new Intent(Intent.ACTION_VIEW, movieUri);
-
-                // Send the intent to launch a new activity
-                context.startActivity(websiteIntent);
+            //Check if there is a universe
+            if (this.movie.getUniverse() != null) {
+                //Set the text of the universe view
+                this.universeView.setText(this.movie.getUniverse());
             }
-        }  );
+            //Make the universe view disappear
+            else this.universeView.setVisibility(GONE);
+            Glide
+                    .with(context)
+                    .load("https://image.tmdb.org/t/p/w500/" + this.movie.getPosterUrl())
+                    .centerCrop()
+                    .crossFade()
+                    .into(this.posterView);
+
+            // new DownloadImageTask(viewHolder.posterView)
+            //       .execute("https://image.tmdb.org/t/p/w500/" + currentMovie.getPosterUrl());
+
+            this.overview.setText(this.movie.getOverview());
+
+            listItem.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Convert the String URL into a URI object (to pass into the Intent constructor)
+                    Uri movieUri = Uri.parse("http://www.imdb.com/title/" + movie.getIMDBId());
+
+                    // Create a new intent to view the IMDB page for the movie
+                    Intent websiteIntent = new Intent(Intent.ACTION_VIEW, movieUri);
+
+                    // Send the intent to launch a new activity
+                    context.startActivity(websiteIntent);
+                }
+            }  );
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
     }
 }

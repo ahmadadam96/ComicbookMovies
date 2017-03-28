@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -165,15 +166,22 @@ public class MainFragment extends Fragment
 
         progressBar.setVisibility(GONE);
 
+        movieListView.setVisibility(VISIBLE);
+
         ConnectivityManager connMGR = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
 
         NetworkInfo activeNetwork = connMGR.getActiveNetworkInfo();
 
-        for (int i = 0; i < movies.size(); i++) {
+        try {
+            for (int i = 0; i < movies.size(); i++) {
                 if (!(movies.get(i).getUniverse().equals(mUniverse) ||
                         mUniverse.equals("All"))) {
                     movies.remove(i);
+                }
             }
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+            Toast.makeText(getContext(), "Error code 429", Toast.LENGTH_SHORT).show();
         }
 
         // If there is a valid list of {@link Movie}s, then add them to the adapter's
@@ -189,6 +197,7 @@ public class MainFragment extends Fragment
         if (activeNetwork == null) {
             mEmptyStateTextView.setText(R.string.no_internet_connection);
             mEmptyStateTextView.setVisibility(VISIBLE);
+            movieListView.setVisibility(View.INVISIBLE);
         }
     }
 

@@ -52,7 +52,7 @@ public class Movie {
         mPosterUrl = posterUrl;
         mUrl = url;
         mIMDBId = IMDBId;
-        mUniverse = null;
+        mUniverse = "Unknown";
     }
 
     //A function to convert the date from a string to a dateObject
@@ -70,36 +70,36 @@ public class Movie {
     public String getTitle() {
         if (mTitle != null) {
             return mTitle;
-        } else return "Title";
+        } else return "Unknown";
     }
 
     public String getOverview() {
         if (mOverview != null) {
             return mOverview;
-        } else return "Overview";
+        } else return "Unknown";
     }
 
     public String getPosterUrl() {
         if (mPosterUrl != null) {
             return mPosterUrl;
-        } else return "Poster";
+        } else return "Unknown";
     }
 
     public String getUrl() {
         if (mUrl != null) {
             return mUrl;
-        } else return "URL";
+        } else return "Unknown";
     }
 
     public String getIMDBId() {
         if (mIMDBId != null) {
             return mIMDBId;
-        } else return "IMDB";
+        } else return "Unknown";
     }
 
     public String getUniverse() {
         if (mUniverse != null) {
             return mUniverse;
-        } else return "Universe";
+        } else return "Unknown";
     }
 }
