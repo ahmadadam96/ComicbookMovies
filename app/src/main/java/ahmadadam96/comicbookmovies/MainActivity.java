@@ -1,5 +1,6 @@
 package ahmadadam96.comicbookmovies;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -27,6 +28,12 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
         //Maximise the tabs to fill the tabLayout
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+        //Set the colors of the text in the tabLayout
+        tabLayout.setTabTextColors(Color.LTGRAY, Color.WHITE);
+        //Set the color of the tabLayout
+        tabLayout.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+        //Removes the border under the action bar
+        getSupportActionBar().setElevation(0);
     }
 
     //Adapter for the view pager in use
