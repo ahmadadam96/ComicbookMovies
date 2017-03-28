@@ -9,8 +9,8 @@
 
     <ImageView
         android:id="@+id/poster"
-        android:layout_width="162sp"
-        android:layout_height="240sp"
+        android:layout_width="162dp"
+        android:layout_height="240dp"
         android:adjustViewBounds="false"
         android:contentDescription="@string/poster_description"
         android:scaleType="fitCenter" />
@@ -30,8 +30,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:orientation="vertical"
-                android:paddingLeft="8sp"
-                android:paddingRight="8sp">
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp">
 
                 <TextView
                     android:id="@+id/titleOfMovie"
