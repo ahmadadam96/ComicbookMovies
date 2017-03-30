@@ -58,16 +58,6 @@ public class Movie implements Parcelable {
         mUniverse = "Unknown";
     }
 
-    public Movie(Parcel in) {
-        mTitle = in.readString();
-        mOverview = in.readString();
-        mPosterUrl = in.readString();
-        mUrl = in.readString();
-        mIMDBId = in.readString();
-        mUniverse = in.readString();
-        mReleaseDate = (Date) in.readSerializable();
-    }
-
     //A function to convert the date from a string to a dateObject
     // with the correct format
     private Date convertDate(String releaseDate) {
@@ -123,17 +113,27 @@ public class Movie implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(mTitle);
-        dest.writeString(mOverview);
-        dest.writeString(mPosterUrl);
-        dest.writeString(mUrl);
-        dest.writeString(mIMDBId);
-        dest.writeString(mUniverse);
-        dest.writeSerializable(mReleaseDate);
+        dest.writeLong(this.mReleaseDate != null ? this.mReleaseDate.getTime() : -1);
+        dest.writeString(this.mTitle);
+        dest.writeString(this.mOverview);
+        dest.writeString(this.mPosterUrl);
+        dest.writeString(this.mUrl);
+        dest.writeString(this.mIMDBId);
+        dest.writeString(this.mUniverse);
     }
 
-    //Creator
-    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
+    protected Movie(Parcel in) {
+        long tmpMReleaseDate = in.readLong();
+        this.mReleaseDate = tmpMReleaseDate == -1 ? null : new Date(tmpMReleaseDate);
+        this.mTitle = in.readString();
+        this.mOverview = in.readString();
+        this.mPosterUrl = in.readString();
+        this.mUrl = in.readString();
+        this.mIMDBId = in.readString();
+        this.mUniverse = in.readString();
+    }
+
+    public static final Parcelable.Creator<Movie> CREATOR = new Parcelable.Creator<Movie>() {
         @Override
         public Movie createFromParcel(Parcel source) {
             return new Movie(source);

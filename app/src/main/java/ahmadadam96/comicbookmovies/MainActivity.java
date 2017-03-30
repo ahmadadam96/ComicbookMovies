@@ -50,9 +50,9 @@ public class MainActivity extends AppCompatActivity
     private static final int MOVIE_LOADER_ID = 1;
 
     //ArrayList to save all the movie codes
-    ArrayList<MovieCode> codes = new ArrayList<>();
+    private ArrayList<MovieCode> codes = new ArrayList<>();
 
-    ArrayList<Movie> movies = new ArrayList<>();
+    private ArrayList<Movie> movieList = new ArrayList<>();
 
     //If the configuration is changed then the data must be reloaded
     @Override
@@ -65,6 +65,7 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mEmptyStateTextView = (TextView) findViewById(R.id.emptyView);
         startLoading();
 
         /*
@@ -115,8 +116,7 @@ public class MainActivity extends AppCompatActivity
 
         NetworkInfo activeNetwork = connMGR.getActiveNetworkInfo();
 
-        movies = data;
-
+        movieList = data;
 
         //Got the reference to the view pager
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
@@ -147,10 +147,10 @@ public class MainActivity extends AppCompatActivity
 
         // If there is a valid list of {@link Movie}s, then add them to the adapter's
         // data set. This will trigger the ListView to update.
-        if (!movies.isEmpty()) {
+        if (!movieList.isEmpty()) {
             mEmptyStateTextView.setVisibility(GONE);
         }
-        if (movies.isEmpty()) {
+        else{
             mEmptyStateTextView.setText(R.string.no_movies);
             mEmptyStateTextView.setVisibility(VISIBLE);
         }
@@ -223,15 +223,16 @@ public class MainActivity extends AppCompatActivity
             switch (position) {
                 //All movies
                 case 0:
-                    return MainFragment.newInstance(page1, movies);
+                    return MainFragment.newInstance(page1, movieList);
                 //MCU movies
                 case 1:
-                    return MainFragment.newInstance(page2, movies);
+                    return MainFragment.newInstance(page2, movieList);
                 //DC movies
                 case 2:
-                    return MainFragment.newInstance(page3, movies);
+                    return MainFragment.newInstance(page3, movieList);
+                //Fox movies
                 case 3:
-                    return MainFragment.newInstance(page4, movies);
+                    return MainFragment.newInstance(page4, movieList);
                 default:
                     return null;
             }

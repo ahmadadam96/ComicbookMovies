@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by ahmad on 2017-03-14.
@@ -15,7 +14,7 @@ import java.util.List;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieHolder> {
     private Context context;
-    private List<Movie> movies;
+    private ArrayList<Movie> movies;
     private int itemResource;
 
     public MovieAdapter(Context context, int itemResource, ArrayList<Movie> movies) {

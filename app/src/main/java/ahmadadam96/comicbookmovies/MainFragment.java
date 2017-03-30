@@ -28,10 +28,8 @@ public class MainFragment extends Fragment {
 
     private static final String TAG = "MainFragment";
 
-
     //String to show which universe the movie belongs to which allows for filtering
     private String mUniverse;
-
 
     /**
      * Adapter for the list of movies
@@ -41,7 +39,7 @@ public class MainFragment extends Fragment {
     //A swipe to refresh widget
     private SwipeRefreshLayout mSwipeRefreshLayout;
 
-    ArrayList<Movie> movies = new ArrayList<>();
+    ArrayList<Movie> movies;
 
     private OnFragmentInteractionListener mListener;
 
@@ -58,6 +56,8 @@ public class MainFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.first_fragment, container, false);
+
+        movies = new ArrayList<>();
 
         //Gets the arguments from the MainActivity
         Bundle args = getArguments();
@@ -80,8 +80,10 @@ public class MainFragment extends Fragment {
 
         movieListView.setLayoutManager(layoutManager);
 
+        ArrayList<Movie> tempMovieList = (ArrayList<Movie>) movies.clone();
+
         try {
-            Iterator<Movie> movieIterator = movies.iterator();
+            Iterator<Movie> movieIterator = tempMovieList.iterator();
             while (movieIterator.hasNext()) {
                 Movie next = movieIterator.next();
                 if (!(next.getUniverse().equals(mUniverse) || mUniverse.equals("All"))) {
@@ -92,9 +94,8 @@ public class MainFragment extends Fragment {
             e.printStackTrace();
             Toast.makeText(getContext(), "Error code 429", Toast.LENGTH_SHORT).show();
         }
-
         // Create a new adapter that takes a list of movies as input
-        mAdapter = new MovieAdapter(getContext(), R.layout.movie_adapter, movies);
+        mAdapter = new MovieAdapter(getContext(), R.layout.movie_adapter, tempMovieList);
 
         movieListView.setAdapter(mAdapter);
 
