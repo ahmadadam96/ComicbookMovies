@@ -117,6 +117,7 @@ public class MainActivity extends AppCompatActivity
 
         movies = data;
 
+
         //Got the reference to the view pager
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
         //Set the adapter for the view pager
@@ -162,7 +163,6 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onLoaderReset(Loader<ArrayList<Movie>> loader) {
-        movies.clear();
     }
 
     private class getCodesTask extends AsyncTask<Void, Void, Void> {

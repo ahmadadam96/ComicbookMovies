@@ -41,8 +41,6 @@ public class MainFragment extends Fragment {
     //A swipe to refresh widget
     private SwipeRefreshLayout mSwipeRefreshLayout;
 
-    //ArrayList to save all the movie codes
-    ArrayList<MovieCode> codes = new ArrayList<>();
     ArrayList<Movie> movies = new ArrayList<>();
 
     private OnFragmentInteractionListener mListener;
@@ -106,8 +104,8 @@ public class MainFragment extends Fragment {
     public static MainFragment newInstance(String universe, ArrayList<Movie> movies) {
         MainFragment f = new MainFragment();
         Bundle b = new Bundle();
-        b.putParcelableArrayList("Movies", movies);
         b.putString("Universe", universe);
+        b.putParcelableArrayList("Movies", movies);
         f.setArguments(b);
         return f;
     }
