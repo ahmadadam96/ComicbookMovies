@@ -18,10 +18,10 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieHolder> {
     private List<Movie> movies;
     private int itemResource;
 
-    public MovieAdapter(Context context, int itemResource) {
+    public MovieAdapter(Context context, int itemResource, ArrayList<Movie> movies) {
         this.context = context;
         this.itemResource = itemResource;
-        movies = new ArrayList<>();
+        this.movies = movies;
     }
 
     @Override
@@ -50,7 +50,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieHolder> {
         }
     }
 
-    public void update(List<Movie> movieList) {
+    public void update(ArrayList<Movie> movieList) {
         movies = movieList;
         notifyDataSetChanged();
     }

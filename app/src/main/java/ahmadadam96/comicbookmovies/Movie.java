@@ -1,6 +1,9 @@
 package ahmadadam96.comicbookmovies;
 
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -9,7 +12,7 @@ import java.util.Date;
  * Created by ahmad on 2017-03-14.
  */
 
-public class Movie {
+public class Movie implements Parcelable {
     //The release date of the movie
     private Date mReleaseDate;
 
@@ -53,6 +56,16 @@ public class Movie {
         mUrl = url;
         mIMDBId = IMDBId;
         mUniverse = "Unknown";
+    }
+
+    public Movie(Parcel in) {
+        mTitle = in.readString();
+        mOverview = in.readString();
+        mPosterUrl = in.readString();
+        mUrl = in.readString();
+        mIMDBId = in.readString();
+        mUniverse = in.readString();
+        mReleaseDate = (Date) in.readSerializable();
     }
 
     //A function to convert the date from a string to a dateObject
@@ -102,4 +115,33 @@ public class Movie {
             return mUniverse;
         } else return "Unknown";
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(mTitle);
+        dest.writeString(mOverview);
+        dest.writeString(mPosterUrl);
+        dest.writeString(mUrl);
+        dest.writeString(mIMDBId);
+        dest.writeString(mUniverse);
+        dest.writeSerializable(mReleaseDate);
+    }
+
+    //Creator
+    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
+        @Override
+        public Movie createFromParcel(Parcel source) {
+            return new Movie(source);
+        }
+
+        @Override
+        public Movie[] newArray(int size) {
+            return new Movie[size];
+        }
+    };
 }

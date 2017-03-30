@@ -4,13 +4,12 @@ import android.content.Context;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by ahmad on 2017-03-14.
  */
 
-public class MovieLoader extends android.support.v4.content.AsyncTaskLoader<List<Movie>> {
+public class MovieLoader extends android.support.v4.content.AsyncTaskLoader<ArrayList<Movie>> {
     /**
      * Tag for log messages
      */
