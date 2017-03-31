@@ -14,8 +14,10 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.Loader;
 import android.support.v4.util.SparseArrayCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
@@ -33,6 +35,9 @@ public class MainActivity extends AppCompatActivity
 
     //TextView for the empty state
     private TextView mEmptyStateTextView;
+
+    //A swipe to refresh widget
+    private SwipeRefreshLayout mSwipeRefreshLayout;
 
     private RecyclerView movieListView;
 
@@ -66,13 +71,14 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mEmptyStateTextView = (TextView) findViewById(R.id.emptyView);
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.refreshMain);
         startLoading();
 
-        /*
- * Sets up a SwipeRefreshLayout.OnRefreshListener that is invoked when the user
+
+ /* Sets up a SwipeRefreshLayout.OnRefreshListener that is invoked when the user
  * performs a swipe-to-refresh gesture.
  */
-     /*  mSwipeRefreshLayout.setOnRefreshListener(
+        mSwipeRefreshLayout.setOnRefreshListener(
                 new SwipeRefreshLayout.OnRefreshListener() {
                     @Override
                     public void onRefresh() {
@@ -82,7 +88,7 @@ public class MainActivity extends AppCompatActivity
                         startLoading();
                     }
                 }
-        );*/
+        );
     }
 
     private void startLoading() {
@@ -108,7 +114,7 @@ public class MainActivity extends AppCompatActivity
     public void onLoadFinished(Loader<ArrayList<Movie>> loader, ArrayList<Movie> data) {
         ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
-        //   mSwipeRefreshLayout.setRefreshing(false);
+        mSwipeRefreshLayout.setRefreshing(false);
 
         progressBar.setVisibility(GONE);
 
@@ -149,8 +155,7 @@ public class MainActivity extends AppCompatActivity
         // data set. This will trigger the ListView to update.
         if (!movieList.isEmpty()) {
             mEmptyStateTextView.setVisibility(GONE);
-        }
-        else{
+        } else {
             mEmptyStateTextView.setText(R.string.no_movies);
             mEmptyStateTextView.setVisibility(VISIBLE);
         }

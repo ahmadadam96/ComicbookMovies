@@ -3,7 +3,6 @@ package ahmadadam96.comicbookmovies;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -35,9 +34,6 @@ public class MainFragment extends Fragment {
      * Adapter for the list of movies
      */
     private MovieAdapter mAdapter;
-
-    //A swipe to refresh widget
-    private SwipeRefreshLayout mSwipeRefreshLayout;
 
     ArrayList<Movie> movies;
 
