@@ -128,6 +128,20 @@ public class MainActivity extends AppCompatActivity
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
         //Set the adapter for the view pager
         viewPager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float v, int i1) {
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                enableDisableSwipeRefresh(state == ViewPager.SCROLL_STATE_IDLE);
+            }
+        });
         //Got the reference for the tabLayout
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabLayout);
         //Set the tabLayout to belong to the view pager
@@ -163,6 +177,12 @@ public class MainActivity extends AppCompatActivity
             mEmptyStateTextView.setText(R.string.no_internet_connection);
             mEmptyStateTextView.setVisibility(VISIBLE);
             movieListView.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    private void enableDisableSwipeRefresh(boolean enable) {
+        if (mSwipeRefreshLayout != null) {
+            mSwipeRefreshLayout.setEnabled(enable);
         }
     }
 
