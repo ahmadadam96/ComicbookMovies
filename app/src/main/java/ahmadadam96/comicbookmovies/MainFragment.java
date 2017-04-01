@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 
 
@@ -76,6 +78,15 @@ public class MainFragment extends Fragment {
 
         movieListView.setLayoutManager(layoutManager);
 
+        // Create a new adapter that takes a list of movies as input
+        mAdapter = new MovieAdapter(getContext(), R.layout.movie_adapter, organizeMovies());
+
+        movieListView.setAdapter(mAdapter);
+
+        return view;
+    }
+
+    private ArrayList<Movie> organizeMovies() {
         ArrayList<Movie> tempMovieList = (ArrayList<Movie>) movies.clone();
 
         try {
@@ -90,12 +101,14 @@ public class MainFragment extends Fragment {
             e.printStackTrace();
             Toast.makeText(getContext(), "Error code 429", Toast.LENGTH_SHORT).show();
         }
-        // Create a new adapter that takes a list of movies as input
-        mAdapter = new MovieAdapter(getContext(), R.layout.movie_adapter, tempMovieList);
 
-        movieListView.setAdapter(mAdapter);
-
-        return view;
+        Collections.sort(tempMovieList, new Comparator<Movie>() {
+            @Override
+            public int compare(Movie movie1, Movie movie2) {
+                return movie1.getReleaseDate().compareTo(movie2.getReleaseDate());
+            }
+        });
+        return tempMovieList;
     }
 
     public static MainFragment newInstance(String universe, ArrayList<Movie> movies) {
