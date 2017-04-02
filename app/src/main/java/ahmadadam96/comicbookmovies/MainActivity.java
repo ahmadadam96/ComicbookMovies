@@ -15,6 +15,7 @@ import android.support.v4.content.Loader;
 import android.support.v4.util.SparseArrayCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -40,6 +41,8 @@ public class MainActivity extends AppCompatActivity
     private SwipeRefreshLayout mSwipeRefreshLayout;
 
     private RecyclerView movieListView;
+
+    private ActionBar actionBar;
 
     //A swipe to refresh widget
     // private SwipeRefreshLayout mSwipeRefreshLayout;
@@ -70,6 +73,7 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        actionBar = getSupportActionBar();
         mEmptyStateTextView = (TextView) findViewById(R.id.emptyView);
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.refreshMain);
         startLoading();
@@ -153,8 +157,8 @@ public class MainActivity extends AppCompatActivity
         //Set the color of the tabLayout
         tabLayout.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
         //Removes the border under the action bar
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setElevation(0);
+        if (actionBar != null) {
+            actionBar.setElevation(0);
         }
         //Set the reference for the swipe to refresh widget
         //   mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.refreshMain);
