@@ -44,9 +44,6 @@ public class MainActivity extends AppCompatActivity
 
     private ActionBar actionBar;
 
-    //A swipe to refresh widget
-    // private SwipeRefreshLayout mSwipeRefreshLayout;
-
     //The URL for the JSON string
     private static final String CODE_URL =
             "https://raw.githubusercontent.com/ahmadadam96/ComicbookMovies/master/app/src/main/res/host_codes";
@@ -160,8 +157,6 @@ public class MainActivity extends AppCompatActivity
         if (actionBar != null) {
             actionBar.setElevation(0);
         }
-        //Set the reference for the swipe to refresh widget
-        //   mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.refreshMain);
 
         //Find the reference to the empty view
         mEmptyStateTextView = (TextView) findViewById(R.id.emptyView);

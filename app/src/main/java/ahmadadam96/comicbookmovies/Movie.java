@@ -106,6 +106,7 @@ public class Movie implements Parcelable {
         } else return "Unknown";
     }
 
+    //Methods to implement parcelable for a Movie object
     @Override
     public int describeContents() {
         return 0;

@@ -72,6 +72,7 @@ public class MovieHolder extends RecyclerView.ViewHolder {
             //Format the date from object type Date to a String
             SimpleDateFormat myFormat = new SimpleDateFormat("dd MMMM yyyy", Locale.getDefault());
 
+            //Turn the date object into a string formatted properly
             String formattedDate = myFormat.format(this.movie.getReleaseDate());
 
             //Set the text of the TextView to be of the date
@@ -93,11 +94,16 @@ public class MovieHolder extends RecyclerView.ViewHolder {
             //Make the universe view disappear
             else this.universeView.setVisibility(GONE);
 
+            //Getting the poster image by getting the image using the provided URL
             Glide
                     .with(context)
+                    //Entering the URL
                     .load("https://image.tmdb.org/t/p/w500/" + this.movie.getPosterUrl())
+                    //Setting the display mode
                     .centerCrop()
+                    //Adding fading to improve visuals
                     .crossFade()
+                    //Once the image loads, set the progress bar for each image to GONE
                     .listener(new RequestListener<String, GlideDrawable>() {
                         @Override
                         public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
@@ -111,13 +117,13 @@ public class MovieHolder extends RecyclerView.ViewHolder {
                             return false;
                         }
                     })
+                    //Place the image into the posterView
                     .into(this.posterView);
 
-            // new DownloadImageTask(viewHolder.posterView)
-            //       .execute("https://image.tmdb.org/t/p/w500/" + currentMovie.getPosterUrl());
-
+            //Displaying the overview of the movie in the overview view
             this.overview.setText(this.movie.getOverview());
 
+            //An onClickListener so that tapping an item opens the IMDB page
             listItem.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
