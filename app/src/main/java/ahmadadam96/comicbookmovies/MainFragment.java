@@ -1,7 +1,9 @@
 package ahmadadam96.comicbookmovies;
 
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.Random;
 
 
 /**
@@ -25,7 +28,7 @@ import java.util.Iterator;
  * Use the {@link MainFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MainFragment extends Fragment {
+public class MainFragment extends Fragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     private static final String TAG = "MainFragment";
 
@@ -42,6 +45,10 @@ public class MainFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
 
     private RecyclerView movieListView;
+
+    private SharedPreferences sharedPref;
+
+    private String orderPreference;
 
     View view;
 
@@ -78,6 +85,10 @@ public class MainFragment extends Fragment {
 
         movieListView.setLayoutManager(layoutManager);
 
+        sharedPref = PreferenceManager.getDefaultSharedPreferences(getContext());
+
+        orderPreference = sharedPref.getString(Settings.ORDER_KEY, "");
+
         // Create a new adapter that takes a list of movies as input
         mAdapter = new MovieAdapter(getContext(), R.layout.movie_adapter, organizeMovies());
 
@@ -85,6 +96,20 @@ public class MainFragment extends Fragment {
 
         return view;
     }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if(key.equals(Settings.ORDER_KEY)){
+            orderPreference = sharedPreferences.getString(Settings.ORDER_KEY, "");
+            updateAdapter();
+        }
+    }
+
+    private void updateAdapter() {
+        mAdapter.update(organizeMovies());
+        movieListView.setAdapter(mAdapter);
+    }
+
 
     private ArrayList<Movie> organizeMovies() {
         ArrayList<Movie> tempMovieList = (ArrayList<Movie>) movies.clone();
@@ -97,15 +122,26 @@ public class MainFragment extends Fragment {
                     movieIterator.remove();
                 }
             }
-        } catch (NullPointerException e) {
+        } catch (
+                NullPointerException e)
+
+        {
             e.printStackTrace();
             Toast.makeText(getContext(), "Error code 429", Toast.LENGTH_SHORT).show();
         }
-
-        Collections.sort(tempMovieList, new Comparator<Movie>() {
+        if (orderPreference.equals("-1")) {
+            Long seed = System.nanoTime();
+            Collections.shuffle(tempMovieList, new Random(seed));
+        } else Collections.sort(tempMovieList, new Comparator<Movie>() {
             @Override
             public int compare(Movie movie1, Movie movie2) {
-                return movie1.getReleaseDate().compareTo(movie2.getReleaseDate());
+                switch (orderPreference) {
+                    case "1":
+                    default:
+                        return movie1.getReleaseDate().compareTo(movie2.getReleaseDate());
+                    case "0":
+                        return movie1.getTitle().compareTo(movie2.getTitle());
+                }
             }
         });
         return tempMovieList;

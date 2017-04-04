@@ -10,8 +10,9 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
-public class Settings extends AppCompatActivity {
+public class Settings extends AppCompatActivity  {
     private android.support.v7.app.ActionBar actionBar;
+    public static final String ORDER_KEY = "order";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,8 +85,7 @@ public class Settings extends AppCompatActivity {
             // to their values. When their values change, their summaries are
             // updated to reflect the new value, per the Android Design
             // guidelines.
-            bindPreferenceSummaryToValue(findPreference("example_text"));
-            bindPreferenceSummaryToValue(findPreference("example_list"));
+            bindPreferenceSummaryToValue(findPreference(ORDER_KEY));
         }
 
         @Override
