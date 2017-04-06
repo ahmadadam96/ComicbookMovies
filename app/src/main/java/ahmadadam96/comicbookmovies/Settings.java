@@ -11,13 +11,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 public class Settings extends AppCompatActivity  {
-    private android.support.v7.app.ActionBar actionBar;
     public static final String ORDER_KEY = "order";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        actionBar = getSupportActionBar();
 
         // Display the fragment as the main content.
         getFragmentManager().beginTransaction().replace(android.R.id.content,

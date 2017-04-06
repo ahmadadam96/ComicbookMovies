@@ -107,7 +107,8 @@ public class MainFragment extends Fragment implements
 
     @Override
     public void onLoadFinished(Loader<SharedPreferences> loader, SharedPreferences data) {
-        orderPreference = data.getString(Settings.ORDER_KEY, "");
+        sharedPref = data;
+        orderPreference = sharedPref.getString(Settings.ORDER_KEY, "");
         updateAdapter();
         movieListView.setVisibility(View.VISIBLE);
     }
