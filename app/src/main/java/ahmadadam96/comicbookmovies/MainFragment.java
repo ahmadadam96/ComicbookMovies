@@ -21,6 +21,9 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Random;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -47,7 +50,8 @@ public class MainFragment extends Fragment implements
 
     private OnFragmentInteractionListener mListener;
 
-    private RecyclerView movieListView;
+    @BindView(R.id.list)
+    RecyclerView movieListView;
 
     private SharedPreferences sharedPref;
 
@@ -74,8 +78,7 @@ public class MainFragment extends Fragment implements
 
         movies = args.getParcelableArrayList("Movies");
 
-        // Find a reference to the {@link ListView} in the layout
-        movieListView = (RecyclerView) view.findViewById(R.id.list);
+        ButterKnife.bind(this, view);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
 
