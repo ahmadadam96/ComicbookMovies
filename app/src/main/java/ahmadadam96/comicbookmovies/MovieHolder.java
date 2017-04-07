@@ -20,6 +20,9 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 import static android.view.View.GONE;
 import static java.lang.Math.abs;
 
@@ -28,14 +31,22 @@ import static java.lang.Math.abs;
  */
 
 public class MovieHolder extends RecyclerView.ViewHolder {
-    private TextView titleView;
-    private TextView dateView;
-    private TextView daysView;
-    private TextView overview;
-    private TextView universeView;
-    private ImageView posterView;
-    private LinearLayout listItem;
-    private ProgressBar progressBarPoster;
+    @BindView(R.id.titleOfMovie)
+    TextView titleView;
+    @BindView(R.id.releaseDate)
+    TextView dateView;
+    @BindView(R.id.daysLeft)
+    TextView daysView;
+    @BindView(R.id.overview)
+    TextView overview;
+    @BindView(R.id.universe)
+    TextView universeView;
+    @BindView(R.id.poster)
+    ImageView posterView;
+    @BindView(R.id.list_item)
+    LinearLayout listItem;
+    @BindView(R.id.progressBarPoster)
+    ProgressBar progressBarPoster;
 
     private Context context;
     private Movie movie;
@@ -45,22 +56,7 @@ public class MovieHolder extends RecyclerView.ViewHolder {
 
         this.context = context;
 
-        //Find the TextView with view ID title
-        this.titleView = (TextView) itemView.findViewById(R.id.titleOfMovie);
-        //Find the TextView with view ID releaseDate
-        this.dateView = (TextView) itemView.findViewById(R.id.releaseDate);
-        //Find the TextView with view ID daysLeft
-        this.daysView = (TextView) itemView.findViewById(R.id.daysLeft);
-        //Find the TextView with the view ID overview
-        this.overview = (TextView) itemView.findViewById(R.id.overview);
-        //Find the TextView with the view ID universe
-        this.universeView = (TextView) itemView.findViewById(R.id.universe);
-        //Find the ImageView with the view ID poster
-        this.posterView = (ImageView) itemView.findViewById(R.id.poster);
-        //Find the listItem with the view ID listItem
-        this.listItem = (LinearLayout) itemView.findViewById(R.id.list_item);
-        //Find the progressbar with the view ID progressBarPoster
-        this.progressBarPoster = (ProgressBar) itemView.findViewById(R.id.progressBarPoster);
+        ButterKnife.bind(this, itemView);
     }
 
     public void bindMovie(final Movie movie) {
