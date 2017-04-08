@@ -5,8 +5,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.Loader;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -33,8 +31,7 @@ import butterknife.ButterKnife;
  * Use the {@link MainFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MainFragment extends Fragment implements
-        LoaderManager.LoaderCallbacks<SharedPreferences> {
+public class MainFragment extends Fragment {
 
     private static final String TAG = "MainFragment";
 
@@ -104,20 +101,10 @@ public class MainFragment extends Fragment implements
     }
 
     @Override
-    public Loader<SharedPreferences> onCreateLoader(int id, Bundle args) {
-        return (new SharedPreferencesLoader(getContext()));
-    }
-
-    @Override
-    public void onLoadFinished(Loader<SharedPreferences> loader, SharedPreferences data) {
-        sharedPref = data;
+    public void onResume() {
+        super.onResume();
         orderPreference = sharedPref.getString(Settings.ORDER_KEY, "");
         updateAdapter();
-        movieListView.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void onLoaderReset(Loader<SharedPreferences> loader) {
     }
 
     private void updateAdapter() {

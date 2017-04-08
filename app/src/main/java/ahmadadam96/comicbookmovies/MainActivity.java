@@ -2,12 +2,14 @@ package ahmadadam96.comicbookmovies;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -50,8 +52,11 @@ public class MainActivity extends AppCompatActivity
     private ActionBar actionBar;
 
     //The URL for the JSON string
-    private static final String CODE_URL =
-            "https://raw.githubusercontent.com/ahmadadam96/ComicbookMovies/master/app/src/main/res/host_codes";
+    private static final String UNRELEASED_URL =
+            "https://raw.githubusercontent.com/ahmadadam96/ComicbookMovies/master/app/src/main/res/codes_unreleased";
+
+    private static final String RELEASED_URL =
+            "https://raw.githubusercontent.com/ahmadadam96/ComicbookMovies/master/app/src/main/res/codes_released";
 
     /**
      * Constant value for the movie loader ID. We can choose any integer.
@@ -63,6 +68,10 @@ public class MainActivity extends AppCompatActivity
     private ArrayList<MovieCode> codes = new ArrayList<>();
 
     private ArrayList<Movie> movieList = new ArrayList<>();
+
+    private SharedPreferences sharedPref;
+
+    private String releasePreference;
 
     //If the configuration is changed then the data must be reloaded
     @Override
@@ -97,7 +106,18 @@ public class MainActivity extends AppCompatActivity
         );
     }
 
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        ProgressBar progress = (ProgressBar) findViewById(R.id.progressBar);
+        progress.setVisibility(VISIBLE);
+        startLoading();
+    }
+
     private void startLoading() {
+        sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        releasePreference = sharedPref.getString(Settings.RELEASE_KEY, "");
+
         ConnectivityManager connMGR = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = connMGR.getActiveNetworkInfo();
         if (activeNetwork == null || !activeNetwork.isConnectedOrConnecting()) {
@@ -216,7 +236,23 @@ public class MainActivity extends AppCompatActivity
     private class getCodesTask extends AsyncTask<Void, Void, Void> {
         @Override
         protected Void doInBackground(Void... params) {
-            codes = QueryUtils.fetchCodes(CODE_URL);
+            ArrayList<MovieCode> tempCodes;
+            if (releasePreference.equals("1")) {
+                codes = QueryUtils.fetchCodes(UNRELEASED_URL);
+            }
+            if (releasePreference.equals("0")) {
+                codes = QueryUtils.fetchCodes(RELEASED_URL);
+            }
+            if (releasePreference.equals("-1")) {
+                tempCodes = QueryUtils.fetchCodes(UNRELEASED_URL);
+                if (tempCodes != null) {
+                    codes.addAll(tempCodes);
+                }
+                tempCodes = QueryUtils.fetchCodes(RELEASED_URL);
+                if (tempCodes != null) {
+                    codes.addAll(tempCodes);
+                }
+            }
             return null;
         }
 

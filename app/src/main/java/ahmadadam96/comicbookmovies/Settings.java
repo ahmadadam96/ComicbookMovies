@@ -12,6 +12,7 @@ import android.view.MenuItem;
 
 public class Settings extends AppCompatActivity  {
     public static final String ORDER_KEY = "order";
+    public static final String RELEASE_KEY = "release";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +84,7 @@ public class Settings extends AppCompatActivity  {
             // to their values. When their values change, their summaries are
             // updated to reflect the new value, per the Android Design
             // guidelines.
+            bindPreferenceSummaryToValue(findPreference(RELEASE_KEY));
             bindPreferenceSummaryToValue(findPreference(ORDER_KEY));
         }
 
