@@ -24,7 +24,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static android.view.View.GONE;
-import static java.lang.Math.abs;
 
 /**
  * Created by ahmad on 2017-03-27.
@@ -77,10 +76,13 @@ public class MovieHolder extends RecyclerView.ViewHolder {
             //Calculate the difference between release date and now
             Date currentDate = new Date(System.currentTimeMillis());
             Long duration = this.movie.getReleaseDate().getTime() - currentDate.getTime();
-            Long diffInDays = abs(TimeUnit.MILLISECONDS.toDays(duration));
-
-            //Set the text of the TextView to be of the daysleft
-            this.daysView.setText(diffInDays.toString());
+            Long diffInDays = (TimeUnit.MILLISECONDS.toDays(duration));
+            if (diffInDays < 0) {
+                daysView.setVisibility(GONE);
+            } else {
+                //Set the text of the TextView to be of the daysleft
+                this.daysView.setText(diffInDays.toString());
+            }
 
             //Check if there is a universe
             if (this.movie.getUniverse() != null) {

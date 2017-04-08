@@ -87,6 +87,9 @@ public class MainActivity extends AppCompatActivity
         actionBar = getSupportActionBar();
         mEmptyStateTextView = (TextView) findViewById(R.id.emptyView);
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.refreshMain);
+        sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        releasePreference = sharedPref.getString(Settings.RELEASE_KEY, "");
+
         startLoading();
 
 
@@ -115,7 +118,6 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void startLoading() {
-        sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         releasePreference = sharedPref.getString(Settings.RELEASE_KEY, "");
 
         ConnectivityManager connMGR = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
