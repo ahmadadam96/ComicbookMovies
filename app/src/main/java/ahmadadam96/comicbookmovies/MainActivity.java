@@ -51,10 +51,11 @@ public class MainActivity extends AppCompatActivity
 
     private ActionBar actionBar;
 
-    //The URL for the JSON string
+    //The URL for the JSON string for unreleased movie codes
     private static final String UNRELEASED_URL =
             "https://raw.githubusercontent.com/ahmadadam96/ComicbookMovies/master/app/src/main/res/codes_unreleased";
 
+    //The URL for the JSON string for released movie codes
     private static final String RELEASED_URL =
             "https://raw.githubusercontent.com/ahmadadam96/ComicbookMovies/master/app/src/main/res/codes_released";
 
@@ -73,11 +74,12 @@ public class MainActivity extends AppCompatActivity
 
     private String releasePreference;
 
+    private android.support.v4.app.LoaderManager loaderManager = getSupportLoaderManager();
+
     //If the configuration is changed then the data must be reloaded
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        startLoading();
     }
 
     @Override
@@ -88,10 +90,8 @@ public class MainActivity extends AppCompatActivity
         mEmptyStateTextView = (TextView) findViewById(R.id.emptyView);
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.refreshMain);
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        releasePreference = sharedPref.getString(Settings.RELEASE_KEY, "");
 
         startLoading();
-
 
  /* Sets up a SwipeRefreshLayout.OnRefreshListener that is invoked when the user
  * performs a swipe-to-refresh gesture.
@@ -207,6 +207,10 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
+    public void onLoaderReset(Loader<ArrayList<Movie>> loader) {
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.settings:
@@ -231,11 +235,13 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    @Override
-    public void onLoaderReset(Loader<ArrayList<Movie>> loader) {
-    }
-
     private class getCodesTask extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            codes.clear();
+        }
+
         @Override
         protected Void doInBackground(Void... params) {
             ArrayList<MovieCode> tempCodes;
@@ -260,11 +266,11 @@ public class MainActivity extends AppCompatActivity
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            android.support.v4.app.LoaderManager loaderManager = getSupportLoaderManager();
             // Initialize the loader. Pass in the int ID constant defined above and pass in null for
             // the bundle. Pass in this activity for the LoaderCallbacks parameter (which is valid
             // because this activity implements the LoaderCallbacks interface).
-            loaderManager.initLoader(MOVIE_LOADER_ID, null, MainActivity.this);
+            //loaderManager.initLoader(MOVIE_LOADER_ID, null, MainActivity.this);
+            loaderManager.restartLoader(MOVIE_LOADER_ID, null, MainActivity.this);
         }
     }
 
