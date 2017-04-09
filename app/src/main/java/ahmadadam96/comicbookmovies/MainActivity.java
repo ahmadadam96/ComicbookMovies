@@ -170,6 +170,7 @@ public class MainActivity extends AppCompatActivity
                 enableDisableSwipeRefresh(state == ViewPager.SCROLL_STATE_IDLE);
             }
         });
+        viewPager.getAdapter().notifyDataSetChanged();
         //Got the reference for the tabLayout
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabLayout);
         //Set the tabLayout to belong to the view pager
@@ -239,7 +240,9 @@ public class MainActivity extends AppCompatActivity
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            codes.clear();
+            if(!codes.isEmpty()){
+                codes.clear();
+            }
         }
 
         @Override
@@ -328,6 +331,11 @@ public class MainActivity extends AppCompatActivity
                 default:
                     return null;
             }
+        }
+
+        @Override
+        public int getItemPosition(Object object) {
+            return POSITION_NONE;
         }
 
         @Override
