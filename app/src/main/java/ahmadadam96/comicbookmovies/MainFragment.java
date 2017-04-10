@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -85,7 +86,7 @@ public class MainFragment extends Fragment {
 
         ButterKnife.bind(this, view);
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
 
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
@@ -104,6 +105,24 @@ public class MainFragment extends Fragment {
         mAdapter = new MovieAdapter(getContext(), R.layout.movie_adapter, organizeMovies());
 
         movieListView.setAdapter(mAdapter);
+
+        TabLayout tabLayout = (TabLayout) getActivity().findViewById(R.id.tabLayout);
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+                layoutManager.scrollToPositionWithOffset(0, 0);
+            }
+        });
 
         if (savedInstanceState != null) {
             listState = savedInstanceState.getParcelable(LIST_STATE_KEY);
