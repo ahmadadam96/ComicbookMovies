@@ -21,12 +21,10 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -49,8 +47,6 @@ public class MainActivity extends AppCompatActivity
 
     //A swipe to refresh widget
     private SwipeRefreshLayout mSwipeRefreshLayout;
-
-    private RecyclerView movieListView;
 
     private ActionBar actionBar;
 
@@ -85,6 +81,8 @@ public class MainActivity extends AppCompatActivity
 
     private String releasePreference;
 
+    private SharedPreferences.OnSharedPreferenceChangeListener prefListener;
+
     private android.support.v4.app.LoaderManager loaderManager = getSupportLoaderManager();
 
     //If the configuration is changed then the data must be reloaded
@@ -105,16 +103,18 @@ public class MainActivity extends AppCompatActivity
 
         startLoading();
 
-        SharedPreferences.OnSharedPreferenceChangeListener prefListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
+        prefListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
             @Override
             public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
                 if (key.equals(Settings.RELEASE_KEY)) {
                     ProgressBar progress = (ProgressBar) findViewById(R.id.progressBar);
                     progress.setVisibility(VISIBLE);
+                    viewPager.setVisibility(GONE);
                     startLoading();
                 }
             }
         };
+
         sharedPref.registerOnSharedPreferenceChangeListener(prefListener);
 
  /* Sets up a SwipeRefreshLayout.OnRefreshListener that is invoked when the user
@@ -185,6 +185,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
         viewPager.getAdapter().notifyDataSetChanged();
+        viewPager.setVisibility(VISIBLE);
         //Set the tabLayout to belong to the view pager
         tabLayout.setupWithViewPager(viewPager);
         //Maximise the tabs to fill the tabLayout
@@ -215,7 +216,6 @@ public class MainActivity extends AppCompatActivity
         if (activeNetwork == null) {
             mEmptyStateTextView.setText(R.string.no_internet_connection);
             mEmptyStateTextView.setVisibility(VISIBLE);
-            movieListView.setVisibility(View.INVISIBLE);
         }
     }
 

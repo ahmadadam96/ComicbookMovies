@@ -1,12 +1,92 @@
 {
   "Object": [
     {
-      "Code": "263115",
+      "Code": "284052",
+      "Universe": "MCU"
+    },
+    {
+      "Code": "1726",
+      "Universe": "MCU"
+    },
+    {
+      "Code": "10138",
+      "Universe": "MCU"
+    },
+    {
+      "Code": "68721",
+      "Universe": "MCU"
+    },
+    {
+      "Code": "10195",
+      "Universe": "MCU"
+    },
+    {
+      "Code": "76338",
+      "Universe": "MCU"
+    },
+    {
+      "Code": "24428",
+      "Universe": "MCU"
+    },
+    {
+      "Code": "99861",
+      "Universe": "MCU"
+    },
+    {
+      "Code": "1771",
+      "Universe": "MCU"
+    },
+    {
+      "Code": "100402",
+      "Universe": "MCU"
+    },
+    {
+      "Code": "102899",
+      "Universe": "MCU"
+    },
+    {
+      "Code": "118340",
+      "Universe": "MCU"
+    },
+    {
+      "Code": "271110",
+      "Universe": "MCU"
+    },
+    {
+      "Code": "49521",
+      "Universe": "DC"
+    },
+    {
+      "Code": "209112",
+      "Universe": "DC"
+    },
+    {
+      "Code": "297761",
+      "Universe": "DC"
+    },
+    {
+      "Code": "166424",
       "Universe": "Fox"
     },
     {
-      "Code": "284052",
-      "Universe": "MCU"
+      "Code": "49538",
+      "Universe": "Fox"
+    },
+    {
+      "Code": "127585",
+      "Universe": "Fox"
+    },
+    {
+      "Code": "246655",
+      "Universe": "Fox"
+    },
+    {
+      "Code": "293660",
+      "Universe": "Fox"
+    },
+    {
+      "Code": "263115",
+      "Universe": "Fox"
     }
   ]
 }
