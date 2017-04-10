@@ -3,7 +3,9 @@ package ahmadadam96.comicbookmovies;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -35,6 +37,8 @@ public class MainFragment extends Fragment {
 
     private static final String TAG = "MainFragment";
 
+    public static final String LIST_STATE_KEY = "FragmentListStateKey";
+
     //String to show which universe the movie belongs to which allows for filtering
     private String mUniverse;
 
@@ -50,9 +54,13 @@ public class MainFragment extends Fragment {
     @BindView(R.id.list)
     RecyclerView movieListView;
 
+    private SharedPreferences.OnSharedPreferenceChangeListener prefListener;
+
     private SharedPreferences sharedPref;
 
     private String orderPreference;
+
+    private Parcelable listState;
 
     View view;
 
@@ -97,14 +105,42 @@ public class MainFragment extends Fragment {
 
         movieListView.setAdapter(mAdapter);
 
+        if (savedInstanceState != null) {
+            listState = savedInstanceState.getParcelable(LIST_STATE_KEY);
+        }
+
+        prefListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
+            @Override
+            public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+                if (key.equals(Settings.ORDER_KEY)) {
+                    orderPreference = sharedPref.getString(Settings.ORDER_KEY, "");
+                    updateAdapter();
+                }
+            }
+        };
+
+        sharedPref.registerOnSharedPreferenceChangeListener(prefListener);
+
         return view;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(LIST_STATE_KEY, movieListView.getLayoutManager().onSaveInstanceState());
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        orderPreference = sharedPref.getString(Settings.ORDER_KEY, "");
-        updateAdapter();
+        if (listState != null) {
+            movieListView.getLayoutManager().onRestoreInstanceState(listState);
+        }
     }
 
     private void updateAdapter() {
