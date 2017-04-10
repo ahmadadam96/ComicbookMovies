@@ -13,7 +13,7 @@ import android.preference.PreferenceManager;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.Loader;
 import android.support.v4.util.SparseArrayCompat;
@@ -33,6 +33,9 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
@@ -50,6 +53,14 @@ public class MainActivity extends AppCompatActivity
     private RecyclerView movieListView;
 
     private ActionBar actionBar;
+
+    //Got the reference for the tabLayout
+    @BindView(R.id.tabLayout)
+    TabLayout tabLayout;
+
+    //Got the reference to the view pager
+    @BindView(R.id.viewPager)
+    ViewPager viewPager;
 
     //The URL for the JSON string for unreleased movie codes
     private static final String UNRELEASED_URL =
@@ -90,8 +101,21 @@ public class MainActivity extends AppCompatActivity
         mEmptyStateTextView = (TextView) findViewById(R.id.emptyView);
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.refreshMain);
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        ButterKnife.bind(this);
 
         startLoading();
+
+        SharedPreferences.OnSharedPreferenceChangeListener prefListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
+            @Override
+            public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+                if (key.equals(Settings.RELEASE_KEY)) {
+                    ProgressBar progress = (ProgressBar) findViewById(R.id.progressBar);
+                    progress.setVisibility(VISIBLE);
+                    startLoading();
+                }
+            }
+        };
+        sharedPref.registerOnSharedPreferenceChangeListener(prefListener);
 
  /* Sets up a SwipeRefreshLayout.OnRefreshListener that is invoked when the user
  * performs a swipe-to-refresh gesture.
@@ -107,14 +131,6 @@ public class MainActivity extends AppCompatActivity
                     }
                 }
         );
-    }
-
-    @Override
-    protected void onPostResume() {
-        super.onPostResume();
-        ProgressBar progress = (ProgressBar) findViewById(R.id.progressBar);
-        progress.setVisibility(VISIBLE);
-        startLoading();
     }
 
     private void startLoading() {
@@ -152,8 +168,6 @@ public class MainActivity extends AppCompatActivity
 
         movieList = data;
 
-        //Got the reference to the view pager
-        ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
         //Set the adapter for the view pager
         viewPager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -171,8 +185,6 @@ public class MainActivity extends AppCompatActivity
             }
         });
         viewPager.getAdapter().notifyDataSetChanged();
-        //Got the reference for the tabLayout
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabLayout);
         //Set the tabLayout to belong to the view pager
         tabLayout.setupWithViewPager(viewPager);
         //Maximise the tabs to fill the tabLayout
@@ -240,7 +252,7 @@ public class MainActivity extends AppCompatActivity
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            if(!codes.isEmpty()){
+            if (codes != null) {
                 codes.clear();
             }
         }
@@ -278,7 +290,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     //Adapter for the view pager in use
-    private class MyPagerAdapter extends FragmentPagerAdapter {
+    private class MyPagerAdapter extends FragmentStatePagerAdapter {
         SparseArrayCompat<Fragment> registeredFragments = new SparseArrayCompat<>();
 
         String page1 = "All";
