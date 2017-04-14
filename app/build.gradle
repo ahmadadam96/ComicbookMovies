@@ -7,7 +7,7 @@ android {
         applicationId "ahmadadam96.comicbookmovies"
         minSdkVersion 16
         targetSdkVersion 25
-        versionCode 13
+        versionCode 14
         versionName "0.3"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
@@ -25,15 +25,20 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'com.jakewharton:butterknife:8.5.1'
     compile 'com.android.support:support-v4:25.3.1'
-    compile "io.reactivex.rxjava2:rxjava:2.0.8"
+    compile 'io.reactivex.rxjava2:rxjava:2.0.8'
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:design:25.3.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'junit:junit:4.12'
     compile 'com.android.support:support-vector-drawable:25.3.1'
+    compile 'com.google.android.gms:play-services-ads:10.2.1'
+    compile 'com.google.firebase:firebase-ads:10.0.1'
     testCompile 'junit:junit:4.12'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
 }
+
+
+apply plugin: 'com.google.gms.google-services'

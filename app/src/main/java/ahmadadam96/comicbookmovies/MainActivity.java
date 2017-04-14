@@ -29,6 +29,9 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -57,6 +60,9 @@ public class MainActivity extends AppCompatActivity
     //Got the reference to the view pager
     @BindView(R.id.viewPager)
     ViewPager viewPager;
+
+    @BindView(R.id.adViewMain)
+    AdView adViewMain;
 
     //The URL for the JSON string for unreleased movie codes
     private static final String UNRELEASED_URL =
@@ -100,6 +106,9 @@ public class MainActivity extends AppCompatActivity
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.refreshMain);
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         ButterKnife.bind(this);
+
+        AdRequest adRequest = new AdRequest.Builder().build();
+        adViewMain.loadAd(adRequest);
 
         startLoading();
 
