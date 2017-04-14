@@ -193,7 +193,6 @@ public class MainActivity extends AppCompatActivity
                 enableDisableSwipeRefresh(state == ViewPager.SCROLL_STATE_IDLE);
             }
         });
-        viewPager.getAdapter().notifyDataSetChanged();
         viewPager.setVisibility(VISIBLE);
         //Set the tabLayout to belong to the view pager
         tabLayout.setupWithViewPager(viewPager);

@@ -170,7 +170,6 @@ public class MainFragment extends Fragment {
 
     private ArrayList<Movie> organizeMovies() {
         ArrayList<Movie> tempMovieList = (ArrayList<Movie>) movies.clone();
-
         try {
             Iterator<Movie> movieIterator = tempMovieList.iterator();
             while (movieIterator.hasNext()) {
@@ -179,28 +178,27 @@ public class MainFragment extends Fragment {
                     movieIterator.remove();
                 }
             }
-        } catch (
-                NullPointerException e)
 
-        {
+            if (orderPreference.equals("-1")) {
+                Long seed = System.nanoTime();
+                Collections.shuffle(tempMovieList, new Random(seed));
+            } else Collections.sort(tempMovieList, new Comparator<Movie>() {
+                @Override
+                public int compare(Movie movie1, Movie movie2) {
+                    switch (orderPreference) {
+                        case "1":
+                        default:
+                            return movie1.getReleaseDate().compareTo(movie2.getReleaseDate());
+                        case "0":
+                            return movie1.getTitle().compareTo(movie2.getTitle());
+                    }
+                }
+            });
+        } catch (
+                NullPointerException e) {
             e.printStackTrace();
             Toast.makeText(getContext(), "Error code 429", Toast.LENGTH_SHORT).show();
         }
-        if (orderPreference.equals("-1")) {
-            Long seed = System.nanoTime();
-            Collections.shuffle(tempMovieList, new Random(seed));
-        } else Collections.sort(tempMovieList, new Comparator<Movie>() {
-            @Override
-            public int compare(Movie movie1, Movie movie2) {
-                switch (orderPreference) {
-                    case "1":
-                    default:
-                        return movie1.getReleaseDate().compareTo(movie2.getReleaseDate());
-                    case "0":
-                        return movie1.getTitle().compareTo(movie2.getTitle());
-                }
-            }
-        });
         return tempMovieList;
     }
 

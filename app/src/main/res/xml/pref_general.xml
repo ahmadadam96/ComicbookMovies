@@ -20,5 +20,10 @@
         android:negativeButtonText="@null"
         android:positiveButtonText="@null"
         android:title="@string/pref_title_order" />
+    <SwitchPreference
+        android:defaultValue="0"
+        android:key="adSwitch"
+        android:title="@string/pref_title_ad_switch"
+        />
 
 </PreferenceScreen>
