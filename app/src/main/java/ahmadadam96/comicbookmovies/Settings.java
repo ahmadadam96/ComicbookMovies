@@ -7,11 +7,10 @@ import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
-import android.preference.SwitchPreference;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
-public class Settings extends AppCompatActivity  {
+public class Settings extends AppCompatActivity {
     public static final String ORDER_KEY = "order";
     public static final String RELEASE_KEY = "release";
     public static final String AD_SWITCH_KEY = "adSwitch";
@@ -42,12 +41,11 @@ public class Settings extends AppCompatActivity  {
                                 ? listPreference.getEntries()[index]
                                 : null);
 
-            } else if(preference instanceof SwitchPreference){
+            }/* else if(preference instanceof SwitchPreference){
                 SwitchPreference switchPreference = (SwitchPreference) preference;
                 boolean state = switchPreference.isEnabled();
-                
-            }
-            else {
+
+            }*/ else {
                 // For all other preferences, set the summary to the value's
                 // simple string representation.
                 preference.setSummary(stringValue);
@@ -93,7 +91,6 @@ public class Settings extends AppCompatActivity  {
             // guidelines.
             bindPreferenceSummaryToValue(findPreference(RELEASE_KEY));
             bindPreferenceSummaryToValue(findPreference(ORDER_KEY));
-            bindPreferenceSummaryToValue(findPreference(AD_SWITCH_KEY));
         }
 
         @Override

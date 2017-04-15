@@ -110,6 +110,10 @@ public class MainActivity extends AppCompatActivity
         AdRequest adRequest = new AdRequest.Builder().build();
         adViewMain.loadAd(adRequest);
 
+        if (sharedPref.getBoolean(Settings.AD_SWITCH_KEY, true)) {
+            adViewMain.setVisibility(VISIBLE);
+        } else adViewMain.setVisibility(GONE);
+
         startLoading();
 
         prefListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
@@ -121,6 +125,12 @@ public class MainActivity extends AppCompatActivity
                     viewPager.setVisibility(GONE);
                     startLoading();
                 }
+                if (key.equals(Settings.AD_SWITCH_KEY)) {
+                    if (sharedPreferences.getBoolean(Settings.AD_SWITCH_KEY, true)) {
+                        adViewMain.setVisibility(VISIBLE);
+                    } else adViewMain.setVisibility(GONE);
+                }
+
             }
         };
 
