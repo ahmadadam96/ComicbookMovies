@@ -7,7 +7,7 @@ android {
         applicationId "ahmadadam96.comicbookmovies"
         minSdkVersion 16
         targetSdkVersion 25
-        versionCode 15
+        versionCode 16
         versionName "0.31"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true

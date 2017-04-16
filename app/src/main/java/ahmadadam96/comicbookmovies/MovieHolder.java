@@ -2,7 +2,9 @@ package ahmadadam96.comicbookmovies;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
@@ -82,6 +84,7 @@ public class MovieHolder extends RecyclerView.ViewHolder {
             } else {
                 //Set the text of the TextView to be of the daysleft
                 this.daysView.setText(diffInDays.toString());
+                setDaysBackground(diffInDays);
             }
 
             //Check if there is a universe
@@ -137,6 +140,28 @@ public class MovieHolder extends RecyclerView.ViewHolder {
             });
         } catch (NullPointerException e) {
             e.printStackTrace();
+        }
+    }
+
+    void setDaysBackground(Long diffInDays) {
+        GradientDrawable daysCircle = (GradientDrawable) daysView.getBackground();
+        if (diffInDays >= 0 && diffInDays < 30) {
+            daysCircle.setColor(ContextCompat.getColor(context, R.color.days10));
+        }
+        if (diffInDays >= 30 && diffInDays < 60) {
+            daysCircle.setColor(ContextCompat.getColor(context, R.color.days8));
+        }
+        if (diffInDays >= 60 && diffInDays < 90) {
+            daysCircle.setColor(ContextCompat.getColor(context, R.color.days6));
+        }
+        if (diffInDays >= 90 && diffInDays < 180) {
+            daysCircle.setColor(ContextCompat.getColor(context, R.color.days4));
+        }
+        if (diffInDays >= 180 && diffInDays < 360) {
+            daysCircle.setColor(ContextCompat.getColor(context, R.color.days2));
+        }
+        if (diffInDays >= 360) {
+            daysCircle.setColor(ContextCompat.getColor(context, R.color.days1));
         }
     }
 }
