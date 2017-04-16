@@ -16,7 +16,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.Loader;
-import android.support.v4.util.SparseArrayCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
@@ -25,7 +24,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -107,14 +105,14 @@ public class MainActivity extends AppCompatActivity
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         ButterKnife.bind(this);
 
+        startLoading();
+
         AdRequest adRequest = new AdRequest.Builder().build();
         adViewMain.loadAd(adRequest);
 
         if (sharedPref.getBoolean(Settings.AD_SWITCH_KEY, true)) {
             adViewMain.setVisibility(VISIBLE);
         } else adViewMain.setVisibility(GONE);
-
-        startLoading();
 
         prefListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
             @Override
@@ -309,7 +307,6 @@ public class MainActivity extends AppCompatActivity
 
     //Adapter for the view pager in use
     private class MyPagerAdapter extends FragmentStatePagerAdapter {
-        SparseArrayCompat<Fragment> registeredFragments = new SparseArrayCompat<>();
 
         String page1 = "All";
         String page2 = "MCU";
@@ -366,23 +363,6 @@ public class MainActivity extends AppCompatActivity
         @Override
         public int getItemPosition(Object object) {
             return POSITION_NONE;
-        }
-
-        @Override
-        public Object instantiateItem(ViewGroup container, int position) {
-            Fragment fragment = (Fragment) super.instantiateItem(container, position);
-            registeredFragments.put(position, fragment);
-            return fragment;
-        }
-
-        @Override
-        public void destroyItem(ViewGroup container, int position, Object object) {
-            registeredFragments.remove(position);
-            super.destroyItem(container, position, object);
-        }
-
-        public Fragment getRegisteredFragment(int position) {
-            return registeredFragments.get(position);
         }
 
         @Override
