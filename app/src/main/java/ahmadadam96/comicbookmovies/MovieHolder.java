@@ -100,6 +100,7 @@ public class MovieHolder extends RecyclerView.ViewHolder {
                     .with(context)
                     //Entering the URL
                     .load("https://image.tmdb.org/t/p/w500/" + this.movie.getPosterUrl())
+                    //.load("https://d32qys9a6wm9no.cloudfront.net/images/movies/poster/500x735.png")
                     //Setting the display mode
                     .centerCrop()
                     //Adding fading to improve visuals
