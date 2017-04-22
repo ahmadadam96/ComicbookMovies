@@ -15,6 +15,7 @@
  */
 package ahmadadam96.comicbookmovies;
 
+import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -31,6 +32,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Locale;
 
 /**
  * Helper methods related to requesting and receiving movie data
@@ -53,8 +55,8 @@ public final class QueryUtils {
     /**
      * Query and return a list of {@link Movie} objects.
      */
-    public static Movie fetchMovieData(String requestUrl, String universe) {
-        // Create URL object
+    public static Movie fetchMovieData(String requestUrl, String universe, Context context) {
+        // Create URL object"
         URL url = createUrl(requestUrl);
 
         // Perform HTTP request to the URL and receive a JSON response back
@@ -66,7 +68,7 @@ public final class QueryUtils {
         }
 
         // Extract relevant fields from the JSON response and return a list of {@link Movie}s
-        return extractFeatureFromJson(jsonResponse, universe);
+        return extractFeatureFromJson(jsonResponse, universe, context);
     }
 
     //Query to fetch the codes for the movies
@@ -200,7 +202,7 @@ public final class QueryUtils {
      * Return a list of {@link Movie} objects that has been built up from
      * parsing the given JSON response.
      */
-    private static Movie extractFeatureFromJson(String movieJSON, String universe) {
+    private static Movie extractFeatureFromJson(String movieJSON, String universe, Context context) {
         // If the JSON string is empty or null, then return early.
         if (TextUtils.isEmpty(movieJSON)) {
             return null;
@@ -222,8 +224,23 @@ public final class QueryUtils {
             // Extract the value for the key called "title"
             String title = baseJsonResponse.getString("title");
 
+            //Get the date in the country the user is from
+            JSONObject dates = baseJsonResponse.getJSONObject("release_dates");
             // Extract the value for the key called "url"
-            String date = baseJsonResponse.getString("release_date");
+            JSONArray datesArray = dates.getJSONArray("results");
+
+            Locale locale = Locale.getDefault();
+
+            String country = locale.getCountry();
+
+            int indexCountry = 0;
+
+            String countryCode = datesArray.getJSONObject(0).getString("iso_3166_1");
+            for (int i = 0; !countryCode.equals(country) && i < datesArray.length(); i++) {
+                countryCode = datesArray.getJSONObject(i).getString("iso_3166_1");
+                indexCountry = i;
+            }
+            String date = datesArray.getJSONObject(indexCountry).getJSONArray("release_dates").getJSONObject(0).getString("release_date");
 
             // Extract the value for the key called "overview"
             String overview = baseJsonResponse.getString("overview");
@@ -243,52 +260,4 @@ public final class QueryUtils {
         }
         return movie;
     }
-
-    // Return a list of {@link Movie} objects that has been built up from
-    // parsing the given JSON response.
-    //
-    private static Movie extractFeatureFromJson(String movieJSON) {
-        // If the JSON string is empty or null, then return early.
-        if (TextUtils.isEmpty(movieJSON)) {
-            return null;
-        }
-        Movie movie;
-        // Try to parse the JSON response string. If there's a problem with the way the JSON
-        // is formatted, a JSONException exception object will be thrown.
-        // Catch the exception so the app doesn't crash, and print the error message to the logs.
-        try {
-            // Create a JSONObject from the JSON response string
-            JSONObject baseJsonResponse = new JSONObject(movieJSON);
-
-            // Extract the value for the key called "homepage"
-            String url = baseJsonResponse.getString("homepage");
-
-            // Extract the value for the key called "imdb_id"
-            String IMDBId = baseJsonResponse.getString("imdb_id");
-
-            // Extract the value for the key called "title"
-            String title = baseJsonResponse.getString("title");
-
-            // Extract the value for the key called "url"
-            String date = baseJsonResponse.getString("release_date");
-
-            // Extract the value for the key called "overview"
-            String overview = baseJsonResponse.getString("overview");
-
-            // Extract the value for the key called "poster_path"
-            String posterURL = baseJsonResponse.getString("poster_path");
-
-            // Create a new {@link Movie} object with the magnitude, location, time,
-            // and url from the JSON response.
-            movie = new Movie(date, title, overview, posterURL, url, IMDBId);
-        } catch (JSONException e) {
-            // If an error is thrown when executing any of the above statements in the "try" block,
-            // catch the exception here, so the app doesn't crash. Print a log message
-            // with the message from the exception.
-            Log.e("QueryUtils", "Problem parsing the movie JSON results", e);
-            return null;
-        }
-        return movie;
-    }
-
 }

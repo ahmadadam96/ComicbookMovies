@@ -59,8 +59,15 @@ public class MovieLoader extends android.support.v4.content.AsyncTaskLoader<Arra
         // Perform the network request, parse the response, and extract a list of movies.
         for (int i = 0; i < mUrls.size(); i++) {
             movies.add(QueryUtils.fetchMovieData("https://api.themoviedb.org/3/movie/"
-                            + mUrls.get(i) + "?api_key=46ca07ce571803077698160e0a3efde5",
-                    mCodes.get(i).getUniverse()));
+                            + mUrls.get(i) + "?api_key=46ca07ce571803077698160e0a3efde5" + "&append_to_response=release_dates",
+                    mCodes.get(i).getUniverse(), getContext()));
+            if (i == 39) {
+                try {
+                    wait(10000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
         }
         return movies;
     }

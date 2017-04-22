@@ -7,6 +7,7 @@ import android.os.Parcelable;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by ahmad on 2017-03-14.
@@ -61,7 +62,7 @@ public class Movie implements Parcelable {
     //A function to convert the date from a string to a dateObject
     // with the correct format
     private Date convertDate(String releaseDate) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault());
         return dateFormat.parse(releaseDate, new ParsePosition(0));
     }
 
@@ -106,7 +107,6 @@ public class Movie implements Parcelable {
         } else return "Unknown";
     }
 
-    //Methods to implement parcelable for a Movie object
     @Override
     public int describeContents() {
         return 0;
@@ -134,7 +134,7 @@ public class Movie implements Parcelable {
         this.mUniverse = in.readString();
     }
 
-    public static final Parcelable.Creator<Movie> CREATOR = new Parcelable.Creator<Movie>() {
+    public static final Creator<Movie> CREATOR = new Creator<Movie>() {
         @Override
         public Movie createFromParcel(Parcel source) {
             return new Movie(source);

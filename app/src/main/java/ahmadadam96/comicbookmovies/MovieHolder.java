@@ -26,6 +26,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 
 /**
  * Created by ahmad on 2017-03-27.
@@ -82,6 +83,7 @@ public class MovieHolder extends RecyclerView.ViewHolder {
             if (diffInDays < 0) {
                 daysView.setVisibility(GONE);
             } else {
+                daysView.setVisibility(VISIBLE);
                 //Set the text of the TextView to be of the daysleft
                 this.daysView.setText(diffInDays.toString());
                 setDaysBackground(diffInDays);
