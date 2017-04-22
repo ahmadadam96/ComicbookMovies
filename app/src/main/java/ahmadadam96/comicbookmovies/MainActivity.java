@@ -278,11 +278,9 @@ public class MainActivity extends AppCompatActivity
             ArrayList<MovieCode> tempCodes;
             if (releasePreference.equals("1")) {
                 codes = QueryUtils.fetchCodes(UNRELEASED_URL);
-            }
-            if (releasePreference.equals("0")) {
+            } else if (releasePreference.equals("0")) {
                 codes = QueryUtils.fetchCodes(RELEASED_URL);
-            }
-            if (releasePreference.equals("-1")) {
+            } else if (releasePreference.equals("-1")) {
                 tempCodes = QueryUtils.fetchCodes(UNRELEASED_URL);
                 if (tempCodes != null) {
                     codes.addAll(tempCodes);
@@ -291,7 +289,7 @@ public class MainActivity extends AppCompatActivity
                 if (tempCodes != null) {
                     codes.addAll(tempCodes);
                 }
-            }
+            } else codes = QueryUtils.fetchCodes(UNRELEASED_URL);
             return null;
         }
 
