@@ -8,8 +8,8 @@ android {
         applicationId "ahmadadam96.comicbookmovies"
         minSdkVersion 16
         targetSdkVersion 26
-        versionCode 18
-        versionName "0.41"
+        versionCode 19
+        versionName "0.42"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }

@@ -102,6 +102,7 @@ public class MainActivity extends AppCompatActivity
         actionBar = getSupportActionBar();
         mEmptyStateTextView = (TextView) findViewById(R.id.emptyView);
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.refreshMain);
+        PreferenceManager.setDefaultValues(this, R.xml.pref_general, false); //gets default settings and preferences
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         ButterKnife.bind(this);
 
