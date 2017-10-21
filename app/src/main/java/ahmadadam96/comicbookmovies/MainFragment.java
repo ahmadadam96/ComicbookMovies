@@ -97,6 +97,8 @@ public class MainFragment extends Fragment {
 
         movieListView.setLayoutManager(layoutManager);
 
+        PreferenceManager.setDefaultValues(getContext(), R.xml.pref_general, false); //gets default settings and preferences
+
         sharedPref = PreferenceManager.getDefaultSharedPreferences(getContext());
 
         orderPreference = sharedPref.getString(Settings.ORDER_KEY, "");
@@ -197,7 +199,7 @@ public class MainFragment extends Fragment {
         } catch (
                 NullPointerException e) {
             e.printStackTrace();
-            Toast.makeText(getContext(), "Error code 429", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Error code 429, please refresh in a few seconds", Toast.LENGTH_SHORT).show();
         }
         return tempMovieList;
     }
