@@ -2,8 +2,10 @@ package ahmadadam96.comicbookmovies;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
+import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -12,8 +14,9 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 
@@ -98,7 +101,7 @@ public class MovieHolder extends RecyclerView.ViewHolder {
             else this.universeView.setVisibility(GONE);
 
             //Getting the poster image by getting the image using the provided URL
-            Glide
+            GlideApp
                     .with(context)
                     //Entering the URL
                     .load("https://image.tmdb.org/t/p/w500/" + this.movie.getPosterUrl())
@@ -106,18 +109,18 @@ public class MovieHolder extends RecyclerView.ViewHolder {
                     //Setting the display mode
                     .centerCrop()
                     //Adding fading to improve visuals
-                    .crossFade()
+                    .transition(DrawableTransitionOptions.withCrossFade())
                     //Once the image loads, set the progress bar for each image to GONE
-                    .listener(new RequestListener<String, GlideDrawable>() {
+                    .listener(new RequestListener<Drawable>() {
                         @Override
-                        public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
-                            progressBarPoster.setVisibility(View.GONE);
+                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                            progressBarPoster.setVisibility(GONE);
                             return false;
                         }
 
                         @Override
-                        public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-                            progressBarPoster.setVisibility(View.GONE);
+                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                            progressBarPoster.setVisibility(GONE);
                             return false;
                         }
                     })
