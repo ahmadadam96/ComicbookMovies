@@ -17,11 +17,7 @@ import android.widget.Toast
 
 import java.util.ArrayList
 import java.util.Collections
-import java.util.Comparator
 import java.util.Random
-
-import butterknife.BindView
-import butterknife.ButterKnife
 
 import kotlinx.android.synthetic.main.first_fragment.*
 import kotlinx.android.synthetic.main.movie_adapter.*
@@ -44,9 +40,7 @@ class MainFragment : Fragment() {
      */
     private var mAdapter: MovieAdapter? = null
 
-    internal var movies: ArrayList<Movie>? = null
-
-    private val mListener: OnFragmentInteractionListener? = null
+    private var movies: ArrayList<Movie>? = null
 
     //@BindView(R.id.list)
     private var movieListView: RecyclerView? = null
@@ -59,21 +53,17 @@ class MainFragment : Fragment() {
 
     private var listState: Parcelable? = null
 
-    internal var view: View? = null
+    private var args: Bundle? = null
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         movies = ArrayList()
 
-        //Gets the arguments from the MainActivity
-        val args = arguments
         //Sets the universe to the universe defined in the MainActivity to allow filtering
-        mUniverse = args.getString("Universe")
+        mUniverse = args!!.getString("Universe")
 
-        movies = args.getParcelableArrayList("Movies")
-
-        //ButterKnife.bind(this, view)
+        movies = args!!.getParcelableArrayList("Movies")
 
         movieListView = activity.list
 
@@ -113,10 +103,6 @@ class MainFragment : Fragment() {
             }
         })
 
-        if (savedInstanceState != null) {
-            listState = savedInstanceState.getParcelable(LIST_STATE_KEY)
-        }
-
         prefListener = SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
             if (key == Settings.ORDER_KEY) {
                 orderPreference = sharedPref!!.getString(Settings.ORDER_KEY, "")
@@ -129,10 +115,15 @@ class MainFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
-        val view = inflater!!.inflate(R.layout.first_fragment, container, false)
+        //Gets the arguments from the MainActivity
+        args = this.arguments
 
-        return view
+        if (savedInstanceState != null) {
+            listState = savedInstanceState.getParcelable(LIST_STATE_KEY)
+        }
+
+        // Inflate the layout for this fragment
+        return inflater?.inflate(R.layout.first_fragment, container, false)
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {
@@ -201,7 +192,6 @@ class MainFragment : Fragment() {
     }
 
     companion object {
-
         private val TAG = "MainFragment"
 
         val LIST_STATE_KEY = "FragmentListStateKey"

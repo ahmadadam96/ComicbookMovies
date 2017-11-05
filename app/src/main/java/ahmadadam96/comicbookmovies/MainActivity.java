@@ -155,14 +155,16 @@ public class MainActivity extends AppCompatActivity
         releasePreference = sharedPref.getString(Settings.RELEASE_KEY, "");
 
         ConnectivityManager connMGR = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetwork = connMGR.getActiveNetworkInfo();
-        if (activeNetwork == null || !activeNetwork.isConnectedOrConnecting()) {
-            mEmptyStateTextView.setText(R.string.no_internet_connection);
-            mEmptyStateTextView.setVisibility(VISIBLE);
-            ProgressBar progress = (ProgressBar) findViewById(R.id.progressBar);
-            progress.setVisibility(GONE);
-        } else {
-            new getCodesTask().execute();
+        if (connMGR != null) {
+            NetworkInfo activeNetwork = connMGR.getActiveNetworkInfo();
+            if (activeNetwork == null || !activeNetwork.isConnectedOrConnecting()) {
+                mEmptyStateTextView.setText(R.string.no_internet_connection);
+                mEmptyStateTextView.setVisibility(VISIBLE);
+                ProgressBar progress = (ProgressBar) findViewById(R.id.progressBar);
+                progress.setVisibility(GONE);
+            } else {
+                new getCodesTask().execute();
+            }
         }
     }
 
@@ -312,7 +314,7 @@ public class MainActivity extends AppCompatActivity
         String page3 = "DC";
         String page4 = "Fox";
 
-        public MyPagerAdapter(FragmentManager fm) {
+        private MyPagerAdapter(FragmentManager fm) {
             super(fm);
         }
 
