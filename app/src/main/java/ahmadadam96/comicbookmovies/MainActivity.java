@@ -344,16 +344,16 @@ public class MainActivity extends AppCompatActivity
             switch (position) {
                 //All movies
                 case 0:
-                    return MainFragment.newInstance(page1, movieList);
+                    return MainFragment.Companion.newInstance(page1, movieList);
                 //MCU movies
                 case 1:
-                    return MainFragment.newInstance(page2, movieList);
+                    return MainFragment.Companion.newInstance(page2, movieList);
                 //DC movies
                 case 2:
-                    return MainFragment.newInstance(page3, movieList);
+                    return MainFragment.Companion.newInstance(page3, movieList);
                 //Fox movies
                 case 3:
-                    return MainFragment.newInstance(page4, movieList);
+                    return MainFragment.Companion.newInstance(page4, movieList);
                 default:
                     return null;
             }
