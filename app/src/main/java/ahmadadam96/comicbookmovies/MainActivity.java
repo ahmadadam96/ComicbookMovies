@@ -24,6 +24,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -100,8 +101,8 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         actionBar = getSupportActionBar();
-        mEmptyStateTextView = (TextView) findViewById(R.id.emptyView);
-        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.refreshMain);
+        mEmptyStateTextView = findViewById(R.id.emptyView);
+        mSwipeRefreshLayout = findViewById(R.id.refreshMain);
         PreferenceManager.setDefaultValues(this, R.xml.pref_general, false); //gets default settings and preferences
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         ButterKnife.bind(this);
@@ -119,7 +120,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
                 if (key.equals(Settings.RELEASE_KEY)) {
-                    ProgressBar progress = (ProgressBar) findViewById(R.id.progressBar);
+                    ProgressBar progress = findViewById(R.id.progressBar);
                     progress.setVisibility(VISIBLE);
                     viewPager.setVisibility(GONE);
                     startLoading();
@@ -160,7 +161,7 @@ public class MainActivity extends AppCompatActivity
             if (activeNetwork == null || !activeNetwork.isConnectedOrConnecting()) {
                 mEmptyStateTextView.setText(R.string.no_internet_connection);
                 mEmptyStateTextView.setVisibility(VISIBLE);
-                ProgressBar progress = (ProgressBar) findViewById(R.id.progressBar);
+                ProgressBar progress = findViewById(R.id.progressBar);
                 progress.setVisibility(GONE);
             } else {
                 new getCodesTask().execute();
@@ -176,7 +177,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onLoadFinished(Loader<ArrayList<Movie>> loader, ArrayList<Movie> data) {
-        ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        ProgressBar progressBar = findViewById(R.id.progressBar);
 
         mSwipeRefreshLayout.setRefreshing(false);
 

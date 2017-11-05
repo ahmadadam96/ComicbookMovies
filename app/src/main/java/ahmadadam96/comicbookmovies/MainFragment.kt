@@ -65,6 +65,10 @@ class MainFragment : Fragment() {
 
         movies = args!!.getParcelableArrayList("Movies")
 
+        if (savedInstanceState != null) {
+            listState = savedInstanceState.getParcelable(LIST_STATE_KEY)
+        }
+
         movieListView = activity.list
 
         val layoutManager = LinearLayoutManager(context)
@@ -117,10 +121,6 @@ class MainFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
         //Gets the arguments from the MainActivity
         args = this.arguments
-
-        if (savedInstanceState != null) {
-            listState = savedInstanceState.getParcelable(LIST_STATE_KEY)
-        }
 
         // Inflate the layout for this fragment
         return inflater?.inflate(R.layout.first_fragment, container, false)
