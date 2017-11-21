@@ -58,8 +58,6 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        movies = ArrayList()
-
         //Sets the universe to the universe defined in the MainActivity to allow filtering
         mUniverse = args!!.getString("Universe")
 
@@ -89,9 +87,7 @@ class MainFragment : Fragment() {
         orderPreference = sharedPref!!.getString(Settings.ORDER_KEY, "")
 
         // Create a new adapter that takes a list of movies as input
-        mAdapter = MovieAdapter(context, R.layout.movie_adapter, organizeMovies())
-
-        movieListView!!.adapter = mAdapter
+        updateAdapter()
 
         val tabLayout = activity.findViewById<View>(R.id.tabLayout) as TabLayout
 
@@ -99,9 +95,11 @@ class MainFragment : Fragment() {
             override fun onTabSelected(tab: TabLayout.Tab) {
 
             }
+
             override fun onTabUnselected(tab: TabLayout.Tab) {
 
             }
+
             override fun onTabReselected(tab: TabLayout.Tab) {
                 layoutManager.scrollToPositionWithOffset(0, 0)
             }
@@ -117,10 +115,18 @@ class MainFragment : Fragment() {
         sharedPref!!.registerOnSharedPreferenceChangeListener(prefListener)
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreate(savedInstanceState: Bundle?) {
         //Gets the arguments from the MainActivity
         args = this.arguments
+
+        mAdapter = MovieAdapter(context, R.layout.movie_adapter, null)
+
+        super.onCreate(savedInstanceState)
+
+    }
+
+    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
 
         // Inflate the layout for this fragment
         return inflater?.inflate(R.layout.first_fragment, container, false)
@@ -129,10 +135,6 @@ class MainFragment : Fragment() {
     override fun onSaveInstanceState(outState: Bundle?) {
         super.onSaveInstanceState(outState)
         outState!!.putParcelable(LIST_STATE_KEY, movieListView!!.layoutManager.onSaveInstanceState())
-    }
-
-    override fun onViewStateRestored(savedInstanceState: Bundle?) {
-        super.onViewStateRestored(savedInstanceState)
     }
 
     override fun onResume() {
