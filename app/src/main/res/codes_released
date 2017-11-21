@@ -1,6 +1,14 @@
 {
   "Object": [
     {
+      Code": "284053",
+      "Universe": "MCU"
+    },
+    {
+      "Code": "141052",
+      "Universe": "DC"
+    },
+    {
       "Code": "315635",
       "Universe": "MCU"
     },
