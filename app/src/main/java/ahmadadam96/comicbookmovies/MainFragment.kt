@@ -55,7 +55,7 @@ class MainFragment : Fragment() {
 
     private var args: Bundle? = null
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         //Sets the universe to the universe defined in the MainActivity to allow filtering
@@ -67,7 +67,7 @@ class MainFragment : Fragment() {
             listState = savedInstanceState.getParcelable(LIST_STATE_KEY)
         }
 
-        movieListView = activity.list
+        movieListView = activity!!.list
 
         val layoutManager = LinearLayoutManager(context)
 
@@ -89,7 +89,7 @@ class MainFragment : Fragment() {
         // Create a new adapter that takes a list of movies as input
         updateAdapter()
 
-        val tabLayout = activity.findViewById<View>(R.id.tabLayout) as TabLayout
+        val tabLayout = activity!!.findViewById<View>(R.id.tabLayout) as TabLayout
 
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
@@ -125,16 +125,14 @@ class MainFragment : Fragment() {
 
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        return inflater?.inflate(R.layout.first_fragment, container, false)
+        return inflater.inflate(R.layout.first_fragment, container, false)
     }
 
-    override fun onSaveInstanceState(outState: Bundle?) {
+    override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState!!.putParcelable(LIST_STATE_KEY, movieListView!!.layoutManager.onSaveInstanceState())
+        outState.putParcelable(LIST_STATE_KEY, movieListView!!.layoutManager.onSaveInstanceState())
     }
 
     override fun onResume() {

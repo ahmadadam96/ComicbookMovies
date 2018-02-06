@@ -12,7 +12,7 @@ import java.util.ArrayList
  * Created by ahmad on 2017-03-14.
  */
 
-class MovieAdapter(private val context: Context, private val itemResource: Int, private var movies: ArrayList<Movie>?) : RecyclerView.Adapter<MovieHolder>() {
+class MovieAdapter(private val context: Context?, private val itemResource: Int, private var movies: ArrayList<Movie>?) : RecyclerView.Adapter<MovieHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieHolder {
         val view = LayoutInflater.from(parent.context)
