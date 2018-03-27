@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -116,13 +117,11 @@ class MainFragment : Fragment() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         //Gets the arguments from the MainActivity
         args = this.arguments
 
-        mAdapter = MovieAdapter(context, R.layout.movie_adapter, null)
-
-        super.onCreate(savedInstanceState)
-
+        mAdapter = MovieAdapter(context, R.layout.movie_adapter)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -170,7 +169,7 @@ class MainFragment : Fragment() {
                         else -> movie1.releaseDate.compareTo(movie2.releaseDate)
                     }
                 }
-        } catch (e: NullPointerException) {
+        } catch (e: Exception) {
             e.printStackTrace()
             Toast.makeText(context, "Error code 429, please refresh in a few seconds", Toast.LENGTH_SHORT).show()
         }
@@ -197,10 +196,11 @@ class MainFragment : Fragment() {
         val LIST_STATE_KEY = "FragmentListStateKey"
 
         fun newInstance(universe: String, movies: ArrayList<Movie>): MainFragment {
-            val f = MainFragment()
             val b = Bundle()
             b.putString("Universe", universe)
             b.putParcelableArrayList("Movies", movies)
+            val f = MainFragment()
+            Log.e("ok", universe)
             f.arguments = b
             return f
         }

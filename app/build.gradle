@@ -4,7 +4,8 @@ apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 27
-    buildToolsVersion '27.0.3'
+    buildToolsVersion
+    dataBinding.enabled true
     defaultConfig {
         applicationId "ahmadadam96.comicbookmovies"
         minSdkVersion 16
@@ -23,30 +24,32 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:support-v4:27.0.2'
-    compile 'com.android.support:appcompat-v7:27.0.2'
-    compile 'com.android.support:design:27.0.2'
-    compile 'com.android.support:support-vector-drawable:27.0.2'
-    compile 'com.github.bumptech.glide:glide:4.2.0'
+    kapt 'com.android.databinding:compiler:3.1.0' // this line only for Kotlin projects
+    implementation 'com.android.support:support-v4:27.1.0'
+    implementation 'com.android.support:appcompat-v7:27.1.0'
+    implementation 'com.android.support:design:27.1.0'
+    implementation 'com.android.support:support-vector-drawable:27.1.0'
+    implementation 'com.github.bumptech.glide:glide:4.2.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.2.0'
-    compile 'com.google.code.gson:gson:2.8.2'
-    compile 'com.jakewharton:butterknife:8.8.1'
-    compile 'io.reactivex.rxjava2:rxjava:2.1.5'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'junit:junit:4.12'
-    compile 'com.google.android.gms:play-services-ads:11.8.0'
-    compile 'com.google.firebase:firebase-ads:11.8.0'
-    testCompile 'junit:junit:4.12'
+    implementation 'com.google.code.gson:gson:2.8.2'
+    implementation 'com.jakewharton:butterknife:8.8.1'
+    implementation 'io.reactivex.rxjava2:rxjava:2.1.5'
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation 'junit:junit:4.12'
+    implementation 'com.google.android.gms:play-services-ads:12.0.0'
+    implementation 'com.google.firebase:firebase-ads:12.0.0'
+    testImplementation 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.0'
-    compile 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.2.21'
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.2.31'
 }
 
 
 apply plugin: 'com.google.gms.google-services'
+apply plugin: 'kotlin-kapt'
 repositories {
     mavenCentral()
 }
