@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity
 
     private SharedPreferences.OnSharedPreferenceChangeListener prefListener;
 
-    private android.support.v4.app.LoaderManager loaderManager = getSupportLoaderManager();
+    private android.support.v4.app.LoaderManager loaderManager;
 
     //If the configuration is changed then the data must be reloaded
     @Override
@@ -105,6 +105,8 @@ public class MainActivity extends AppCompatActivity
         PreferenceManager.setDefaultValues(this, R.xml.pref_general, false); //gets default settings and preferences
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         ButterKnife.bind(this);
+
+        loaderManager = getSupportLoaderManager();
 
         startLoading();
 
