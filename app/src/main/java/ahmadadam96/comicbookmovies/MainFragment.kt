@@ -200,7 +200,6 @@ class MainFragment : Fragment() {
             b.putString("Universe", universe)
             b.putParcelableArrayList("Movies", movies)
             val f = MainFragment()
-            Log.e("ok", universe)
             f.arguments = b
             return f
         }
