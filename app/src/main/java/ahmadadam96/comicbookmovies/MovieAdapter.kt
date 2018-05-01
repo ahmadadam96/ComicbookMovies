@@ -12,7 +12,7 @@ import java.util.ArrayList
  * Created by ahmad on 2017-03-14.
  */
 
-class MovieAdapter(private val context: Context?, private var itemResource: Int) : RecyclerView.Adapter<MovieHolder>() {
+class MovieAdapter(private val context: Context, private var itemResource: Int) : RecyclerView.Adapter<MovieHolder>() {
 
     private var movies: ArrayList<Movie> = ArrayList()
 
@@ -26,6 +26,7 @@ class MovieAdapter(private val context: Context?, private var itemResource: Int)
         var movie = this.movies[position]
         holder.bindMovie(movie)
     }
+
 
     override fun getItemCount(): Int {
         return this.movies.size

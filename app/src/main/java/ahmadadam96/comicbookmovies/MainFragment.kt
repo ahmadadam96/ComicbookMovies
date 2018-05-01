@@ -57,8 +57,7 @@ class MainFragment : Fragment() {
     private var args: Bundle? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
+        super.onActivityCreated(savedInstanceState)
         //Sets the universe to the universe defined in the MainActivity to allow filtering
         mUniverse = args!!.getString("Universe")
 
@@ -94,7 +93,6 @@ class MainFragment : Fragment() {
 
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
-
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab) {
@@ -116,16 +114,11 @@ class MainFragment : Fragment() {
         sharedPref!!.registerOnSharedPreferenceChangeListener(prefListener)
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        //Gets the arguments from the MainActivity
-        args = this.arguments
-
-        mAdapter = MovieAdapter(context, R.layout.movie_adapter)
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
+        //Gets the arguments from the MainActivity
+        args = this.arguments
+        mAdapter = MovieAdapter(context!!, R.layout.movie_adapter)
         return inflater.inflate(R.layout.first_fragment, container, false)
     }
 

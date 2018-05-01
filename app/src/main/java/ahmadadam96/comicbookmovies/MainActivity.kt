@@ -289,7 +289,7 @@ class MainActivity : AppCompatActivity(), android.support.v4.app.LoaderManager.L
     }
 
     //Adapter for the view pager in use
-    private inner class MyPagerAdapter public constructor(fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
+    private inner class MyPagerAdapter constructor(fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
 
         private val Pages = ArrayList<String>()
 
