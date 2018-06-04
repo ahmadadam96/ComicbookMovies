@@ -1,10 +1,6 @@
 {
   "Object": [
     {
-      "Code": "299536",
-      "Universe": "MCU"
-    },
-    {
       "Code": "363088",
       "Universe": "MCU"
     },
@@ -19,10 +15,6 @@
     {
       "Code": "299537",
       "Universe": "MCU"
-    },
-    {
-      "Code": "383498",
-      "Universe": "Fox"
     },
     {
       "Code": "320288",
