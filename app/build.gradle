@@ -1,6 +1,8 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
+def buildTools = '27.1.1' //or with double quotes "..."
+
 android {
     compileSdkVersion 27
     buildToolsVersion '27.0.3'
@@ -26,10 +28,10 @@ dependencies {
     androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    implementation 'com.android.support:support-v4:27.1.1'
-    implementation 'com.android.support:appcompat-v7:27.1.1'
-    implementation 'com.android.support:design:27.1.1'
-    implementation 'com.android.support:support-vector-drawable:27.1.1'
+    implementation "com.android.support:support-v4:${buildTools}"
+    implementation "com.android.support:appcompat-v7:${buildTools}"
+    implementation "com.android.support:design:${buildTools}"
+    implementation "com.android.support:support-vector-drawable:${buildTools}"
     implementation 'com.github.bumptech.glide:glide:4.7.1'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.7.1'
     implementation 'com.google.code.gson:gson:2.8.2'
