@@ -4,12 +4,13 @@ apply plugin: 'kotlin-android'
 def buildTools = '27.1.1' //or with double quotes "..."
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion 28
     buildToolsVersion '27.0.3'
     defaultConfig {
         applicationId "ahmadadam96.comicbookmovies"
         minSdkVersion 16
-        targetSdkVersion 27
+        multiDexEnabled true
+        targetSdkVersion 28
         versionCode 21
         versionName "0.43"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -28,6 +29,7 @@ dependencies {
     androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+    implementation 'com.android.support:multidex:1.0.3'
     implementation "com.android.support:support-v4:${buildTools}"
     implementation "com.android.support:appcompat-v7:${buildTools}"
     implementation "com.android.support:design:${buildTools}"
