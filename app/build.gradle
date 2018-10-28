@@ -1,11 +1,11 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
-def buildTools = '27.1.1' //or with double quotes "..."
+def buildTools = '28.0.0' //or with double quotes "..."
 
 android {
     compileSdkVersion 28
-    buildToolsVersion '28.0.2'
+    buildToolsVersion '28.0.3'
     defaultConfig {
         applicationId "ahmadadam96.comicbookmovies"
         minSdkVersion 16
