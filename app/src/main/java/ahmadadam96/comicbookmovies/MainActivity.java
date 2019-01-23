@@ -29,6 +29,7 @@ import android.widget.TextView;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 
 import java.util.ArrayList;
 
@@ -99,6 +100,9 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        MobileAds.initialize(this, "ca-app-pub-3287332363465121~8366143296");
+
         actionBar = getSupportActionBar();
         mEmptyStateTextView = (TextView) findViewById(R.id.emptyView);
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.refreshMain);
