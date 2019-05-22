@@ -5,9 +5,11 @@ import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.net.Uri
+import android.view.LayoutInflater
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import android.view.View
+import android.view.View.*
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ProgressBar
@@ -27,14 +29,11 @@ import java.util.concurrent.TimeUnit
 import butterknife.BindView
 import butterknife.ButterKnife
 
-import android.view.View.GONE
-import android.view.View.VISIBLE
-
 /**
  * Created by ahmad on 2017-03-27.
  */
 
-class MovieHolder(private val context: Context, itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
+class MovieHolder(inflater: LayoutInflater, itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
     var titleView: TextView? = null
     var dateView: TextView? = null
     var daysView: TextView? = null
@@ -44,6 +43,7 @@ class MovieHolder(private val context: Context, itemView: View) : androidx.recyc
     var listItem: LinearLayout? = null
     var progressBarPoster: ProgressBar? = null
     var movie: Movie? = null
+    var context: Context? = null
 
     init {
         titleView = itemView.findViewById(R.id.titleOfMovie)
@@ -54,6 +54,7 @@ class MovieHolder(private val context: Context, itemView: View) : androidx.recyc
         posterView = itemView.findViewById(R.id.poster)
         listItem = itemView.findViewById(R.id.list_item)
         progressBarPoster = itemView.findViewById(R.id.progressBarPoster)
+        context = posterView!!.context
 
         ButterKnife.bind(this, itemView)
     }
@@ -95,7 +96,7 @@ class MovieHolder(private val context: Context, itemView: View) : androidx.recyc
 
             //Getting the poster image by getting the image using the provided URL
             GlideApp
-                    .with(context)
+                    .with(context!!)
                     //Entering the URL
                     .load("https://image.tmdb.org/t/p/w500/" + this.movie!!.posterUrl)
                     //.load("https://d32qys9a6wm9no.cloudfront.net/images/movies/poster/500x735.png")
@@ -130,7 +131,7 @@ class MovieHolder(private val context: Context, itemView: View) : androidx.recyc
                 val websiteIntent = Intent(Intent.ACTION_VIEW, movieUri)
 
                 // Send the intent to launch a new activity
-                context.startActivity(websiteIntent)
+                context!!.startActivity(websiteIntent)
             }
         } catch (e: NullPointerException) {
             e.printStackTrace()
@@ -138,25 +139,25 @@ class MovieHolder(private val context: Context, itemView: View) : androidx.recyc
 
     }
 
-     fun setDaysBackground(diffInDays: Long) {
+    fun setDaysBackground(diffInDays: Long) {
         val daysCircle = daysView!!.background as GradientDrawable
         if (diffInDays >= 0 && diffInDays < 30) {
-            daysCircle.setColor(ContextCompat.getColor(context, R.color.days10))
+            daysCircle.setColor(ContextCompat.getColor(context!!, R.color.days10))
         }
         if (diffInDays >= 30 && diffInDays < 60) {
-            daysCircle.setColor(ContextCompat.getColor(context, R.color.days8))
+            daysCircle.setColor(ContextCompat.getColor(context!!, R.color.days8))
         }
         if (diffInDays >= 60 && diffInDays < 90) {
-            daysCircle.setColor(ContextCompat.getColor(context, R.color.days6))
+            daysCircle.setColor(ContextCompat.getColor(context!!, R.color.days6))
         }
         if (diffInDays >= 90 && diffInDays < 180) {
-            daysCircle.setColor(ContextCompat.getColor(context, R.color.days4))
+            daysCircle.setColor(ContextCompat.getColor(context!!, R.color.days4))
         }
         if (diffInDays >= 180 && diffInDays < 360) {
-            daysCircle.setColor(ContextCompat.getColor(context, R.color.days2))
+            daysCircle.setColor(ContextCompat.getColor(context!!, R.color.days2))
         }
         if (diffInDays >= 360) {
-            daysCircle.setColor(ContextCompat.getColor(context, R.color.days1))
+            daysCircle.setColor(ContextCompat.getColor(context!!, R.color.days1))
         }
     }
 }

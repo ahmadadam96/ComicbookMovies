@@ -12,29 +12,29 @@ import java.util.ArrayList
  * Created by ahmad on 2017-03-14.
  */
 
-class MovieAdapter(private val context: Context, private var itemResource: Int) : androidx.recyclerview.widget.RecyclerView.Adapter<MovieHolder>() {
+class MovieAdapter(private var itemResource: Int, private var movies: ArrayList<Movie>?) : androidx.recyclerview.widget.RecyclerView.Adapter<MovieHolder>() {
 
-    private var movies: ArrayList<Movie> = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieHolder {
-        var view = LayoutInflater.from(parent.context)
+        val view = LayoutInflater.from(parent.context)
                 .inflate(this.itemResource, parent, false)
-        return MovieHolder(this.context, view)
+        val inflater = LayoutInflater.from(parent.context)
+        return MovieHolder(inflater, view)
     }
 
     override fun onBindViewHolder(holder: MovieHolder, position: Int) {
-        var movie = this.movies[position]
+        val movie = movies!![position]
         holder.bindMovie(movie)
     }
 
 
     override fun getItemCount(): Int {
-        return this.movies.size
+        return movies!!.size
     }
 
     fun clear() {
-        if (movies.size > 0) {
-            movies.clear()
+        if (movies!!.size > 0) {
+            movies!!.clear()
             notifyDataSetChanged()
         }
     }

@@ -21,6 +21,7 @@ import java.util.Collections
 import java.util.Random
 
 import kotlinx.android.synthetic.main.first_fragment.*
+import kotlinx.android.synthetic.main.first_fragment.view.*
 import kotlinx.android.synthetic.main.movie_adapter.*
 
 /**
@@ -43,8 +44,7 @@ class MainFragment : androidx.fragment.app.Fragment() {
 
     private var movies: ArrayList<Movie>? = null
 
-    //@BindView(R.id.list)
-    private var movieListView: androidx.recyclerview.widget.RecyclerView? = null
+    private var movieListView: RecyclerView? = null
 
     private var prefListener: SharedPreferences.OnSharedPreferenceChangeListener? = null
 
@@ -56,8 +56,21 @@ class MainFragment : androidx.fragment.app.Fragment() {
 
     private var args: Bundle? = null
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        super.onCreateView(inflater, container, savedInstanceState)
+        // Inflate the layout for this fragment
+        val view = inflater.inflate(R.layout.first_fragment, container, false)
+        movieListView = view!!.list
+
+
+        return view
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        //Gets the arguments from the MainActivity
+        args = arguments
+
         //Sets the universe to the universe defined in the MainActivity to allow filtering
         mUniverse = args!!.getString("Universe")
 
@@ -67,13 +80,12 @@ class MainFragment : androidx.fragment.app.Fragment() {
             listState = savedInstanceState.getParcelable(LIST_STATE_KEY)
         }
 
-        movieListView = activity!!.list
 
-        val layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
+        val layoutManager = LinearLayoutManager(context)
 
-        layoutManager.orientation = androidx.recyclerview.widget.LinearLayoutManager.VERTICAL
+        layoutManager.orientation = RecyclerView.VERTICAL
 
-        val dividerItemDecoration = androidx.recyclerview.widget.DividerItemDecoration(movieListView!!.context,
+        val dividerItemDecoration = DividerItemDecoration(movieListView!!.context,
                 layoutManager.orientation)
 
         movieListView!!.addItemDecoration(dividerItemDecoration)
@@ -86,8 +98,9 @@ class MainFragment : androidx.fragment.app.Fragment() {
 
         orderPreference = sharedPref!!.getString(Settings.ORDER_KEY, "")
 
-        // Create a new adapter that takes a list of movies as input
-        updateAdapter()
+        mAdapter = MovieAdapter(R.layout.movie_adapter, organizeMovies())
+
+        movieListView!!.adapter = mAdapter
 
         val tabLayout = activity!!.findViewById<View>(R.id.tabLayout) as TabLayout
 
@@ -114,14 +127,6 @@ class MainFragment : androidx.fragment.app.Fragment() {
         sharedPref!!.registerOnSharedPreferenceChangeListener(prefListener)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
-        //Gets the arguments from the MainActivity
-        args = this.arguments
-        mAdapter = MovieAdapter(context!!, R.layout.movie_adapter)
-        return inflater.inflate(R.layout.first_fragment, container, false)
-    }
-
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putParcelable(LIST_STATE_KEY, movieListView!!.layoutManager?.onSaveInstanceState())
@@ -136,7 +141,7 @@ class MainFragment : androidx.fragment.app.Fragment() {
 
     private fun updateAdapter() {
         mAdapter!!.update(organizeMovies())
-        movieListView!!.adapter = mAdapter
+        movieListView!!.adapter = this.mAdapter
     }
 
 
