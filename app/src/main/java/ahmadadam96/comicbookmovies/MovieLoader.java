@@ -3,13 +3,15 @@ package ahmadadam96.comicbookmovies;
 import android.content.Context;
 import android.widget.Toast;
 
+import androidx.loader.content.AsyncTaskLoader;
+
 import java.util.ArrayList;
 
 /**
  * Created by ahmad on 2017-03-14.
  */
 
-public class MovieLoader extends android.support.v4.content.AsyncTaskLoader<ArrayList<Movie>> {
+public class MovieLoader extends AsyncTaskLoader<ArrayList<Movie>> {
     /**
      * Tag for log messages
      */

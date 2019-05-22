@@ -5,11 +5,11 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Parcelable
 import android.preference.PreferenceManager
-import android.support.design.widget.TabLayout
-import android.support.v4.app.Fragment
-import android.support.v7.widget.DividerItemDecoration
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import com.google.android.material.tabs.TabLayout
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -31,7 +31,7 @@ import kotlinx.android.synthetic.main.movie_adapter.*
  * Use the [MainFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class MainFragment : Fragment() {
+class MainFragment : androidx.fragment.app.Fragment() {
 
     //String to show which universe the movie belongs to which allows for filtering
     private var mUniverse: String? = null
@@ -44,7 +44,7 @@ class MainFragment : Fragment() {
     private var movies: ArrayList<Movie>? = null
 
     //@BindView(R.id.list)
-    private var movieListView: RecyclerView? = null
+    private var movieListView: androidx.recyclerview.widget.RecyclerView? = null
 
     private var prefListener: SharedPreferences.OnSharedPreferenceChangeListener? = null
 
@@ -69,11 +69,11 @@ class MainFragment : Fragment() {
 
         movieListView = activity!!.list
 
-        val layoutManager = LinearLayoutManager(context)
+        val layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
 
-        layoutManager.orientation = LinearLayoutManager.VERTICAL
+        layoutManager.orientation = androidx.recyclerview.widget.LinearLayoutManager.VERTICAL
 
-        val dividerItemDecoration = DividerItemDecoration(movieListView!!.context,
+        val dividerItemDecoration = androidx.recyclerview.widget.DividerItemDecoration(movieListView!!.context,
                 layoutManager.orientation)
 
         movieListView!!.addItemDecoration(dividerItemDecoration)
@@ -124,13 +124,13 @@ class MainFragment : Fragment() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putParcelable(LIST_STATE_KEY, movieListView!!.layoutManager.onSaveInstanceState())
+        outState.putParcelable(LIST_STATE_KEY, movieListView!!.layoutManager?.onSaveInstanceState())
     }
 
     override fun onResume() {
         super.onResume()
         if (listState != null) {
-            movieListView!!.layoutManager.onRestoreInstanceState(listState)
+            movieListView!!.layoutManager?.onRestoreInstanceState(listState)
         }
     }
 

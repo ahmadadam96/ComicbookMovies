@@ -5,8 +5,8 @@ import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.net.Uri
-import android.support.v4.content.ContextCompat
-import android.support.v7.widget.RecyclerView
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -34,7 +34,7 @@ import android.view.View.VISIBLE
  * Created by ahmad on 2017-03-27.
  */
 
-class MovieHolder(private val context: Context, itemView: View) : RecyclerView.ViewHolder(itemView) {
+class MovieHolder(private val context: Context, itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
     var titleView: TextView? = null
     var dateView: TextView? = null
     var daysView: TextView? = null

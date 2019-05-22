@@ -11,16 +11,16 @@ import android.os.AsyncTask
 import android.os.Bundle
 import android.os.Parcelable
 import android.preference.PreferenceManager
-import android.support.design.widget.TabLayout
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentStatePagerAdapter
-import android.support.v4.content.ContextCompat
-import android.support.v4.content.Loader
-import android.support.v4.view.ViewPager
-import android.support.v4.widget.SwipeRefreshLayout
-import android.support.v7.app.ActionBar
-import android.support.v7.app.AppCompatActivity
+import com.google.android.material.tabs.TabLayout
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentStatePagerAdapter
+import androidx.core.content.ContextCompat
+import androidx.loader.content.Loader
+import androidx.viewpager.widget.ViewPager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import androidx.appcompat.app.ActionBar
+import androidx.appcompat.app.AppCompatActivity
 import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
@@ -42,13 +42,13 @@ import android.view.View.GONE
 import android.view.View.SCROLLBAR_POSITION_DEFAULT
 import android.view.View.VISIBLE
 
-class MainActivity : AppCompatActivity(), android.support.v4.app.LoaderManager.LoaderCallbacks<ArrayList<Movie>> {
+class MainActivity : AppCompatActivity(), androidx.loader.app.LoaderManager.LoaderCallbacks<ArrayList<Movie>> {
 
     //TextView for the empty state
     private var mEmptyStateTextView: TextView? = null
 
     //A swipe to refresh widget
-    private var mSwipeRefreshLayout: SwipeRefreshLayout? = null
+    private var mSwipeRefreshLayout: androidx.swiperefreshlayout.widget.SwipeRefreshLayout? = null
 
     private var actionBar: ActionBar? = null
 
@@ -60,7 +60,7 @@ class MainActivity : AppCompatActivity(), android.support.v4.app.LoaderManager.L
 
     //Got the reference to the view pager
     //@BindView(R.id.viewPager)
-    internal var viewPager: ViewPager?= null
+    internal var viewPager: androidx.viewpager.widget.ViewPager?= null
 
     //@BindView(R.id.adViewMain)
     internal var adViewMain: AdView?= null
@@ -76,7 +76,7 @@ class MainActivity : AppCompatActivity(), android.support.v4.app.LoaderManager.L
 
     private var prefListener: SharedPreferences.OnSharedPreferenceChangeListener? = null
 
-    private var loaderManager: android.support.v4.app.LoaderManager? = null
+    private var loaderManager: androidx.loader.app.LoaderManager? = null
 
     private var viewPagerAdapter: MyPagerAdapter? = null
 
@@ -157,12 +157,12 @@ class MainActivity : AppCompatActivity(), android.support.v4.app.LoaderManager.L
         }
     }
 
-    override fun onCreateLoader(id: Int, args: Bundle?): Loader<ArrayList<Movie>> {
+    override fun onCreateLoader(id: Int, args: Bundle?): androidx.loader.content.Loader<ArrayList<Movie>> {
         // Create a new loader for the given URL
         return MovieLoader(this, codes)
     }
 
-    override fun onLoadFinished(loader: Loader<ArrayList<Movie>>, data: ArrayList<Movie>) {
+    override fun onLoadFinished(loader: androidx.loader.content.Loader<ArrayList<Movie>>, data: ArrayList<Movie>) {
         val progressBar = findViewById<ProgressBar>(R.id.progressBar)
 
         mSwipeRefreshLayout!!.isRefreshing = false
@@ -180,7 +180,7 @@ class MainActivity : AppCompatActivity(), android.support.v4.app.LoaderManager.L
         //Set the adapter for the view pager
         viewPager!!.adapter = viewPagerAdapter
 
-        viewPager!!.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+        viewPager!!.addOnPageChangeListener(object : androidx.viewpager.widget.ViewPager.OnPageChangeListener {
             override fun onPageScrolled(position: Int, v: Float, i1: Int) {}
 
             override fun onPageSelected(position: Int) {
@@ -188,7 +188,7 @@ class MainActivity : AppCompatActivity(), android.support.v4.app.LoaderManager.L
             }
 
             override fun onPageScrollStateChanged(state: Int) {
-                enableDisableSwipeRefresh(state == ViewPager.SCROLL_STATE_IDLE)
+                enableDisableSwipeRefresh(state == androidx.viewpager.widget.ViewPager.SCROLL_STATE_IDLE)
             }
         })
         viewPager!!.visibility = VISIBLE
@@ -225,7 +225,7 @@ class MainActivity : AppCompatActivity(), android.support.v4.app.LoaderManager.L
         }
     }
 
-    override fun onLoaderReset(loader: Loader<ArrayList<Movie>>) {}
+    override fun onLoaderReset(loader: androidx.loader.content.Loader<ArrayList<Movie>>) {}
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
@@ -289,7 +289,7 @@ class MainActivity : AppCompatActivity(), android.support.v4.app.LoaderManager.L
     }
 
     //Adapter for the view pager in use
-    private inner class MyPagerAdapter constructor(fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
+    private inner class MyPagerAdapter constructor(fm: androidx.fragment.app.FragmentManager) : androidx.fragment.app.FragmentStatePagerAdapter(fm) {
 
         private val Pages = ArrayList<String>()
 
@@ -306,7 +306,7 @@ class MainActivity : AppCompatActivity(), android.support.v4.app.LoaderManager.L
             return Pages[position]
         }
 
-        override fun getItem(position: Int): Fragment {
+        override fun getItem(position: Int): androidx.fragment.app.Fragment {
             //Passes the input of each fragment in order to filter the movies
             return MainFragment.newInstance(Pages[position], movieList)
         }

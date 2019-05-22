@@ -1,7 +1,7 @@
 package ahmadadam96.comicbookmovies
 
 import android.content.Context
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +12,7 @@ import java.util.ArrayList
  * Created by ahmad on 2017-03-14.
  */
 
-class MovieAdapter(private val context: Context, private var itemResource: Int) : RecyclerView.Adapter<MovieHolder>() {
+class MovieAdapter(private val context: Context, private var itemResource: Int) : androidx.recyclerview.widget.RecyclerView.Adapter<MovieHolder>() {
 
     private var movies: ArrayList<Movie> = ArrayList()
 
