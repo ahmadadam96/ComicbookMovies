@@ -10,7 +10,7 @@ import java.util.Date;
 import java.util.Locale;
 
 /**
- * Created by ahmad on 2017-03-14.
+ * Created by Ahmed El Yaacoub on 2017-03-14.
  */
 
 public class Movie implements Parcelable {
