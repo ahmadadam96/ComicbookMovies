@@ -3,7 +3,7 @@ package ahmadadam96.comicbookmovies;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.support.v4.content.AsyncTaskLoader;
+import androidx.loader.content.AsyncTaskLoader;
 
 /**
  * Created by ahmad on 2017-04-04.
