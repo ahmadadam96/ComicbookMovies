@@ -9,16 +9,16 @@
       "Universe": "Fox"
     },
     {
-      "Code": "299534",
-      "Universe": "MCU"
-    },
-    {
       "Code": "429617",
       "Universe": "MCU"
     },
     {
       "Code": "497698",
       "Universe": "MCU"
+    },
+    {
+      "Code": "475557",
+      "Universe": "DC"
     }
   ]
 }
