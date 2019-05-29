@@ -3,21 +3,17 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
-def buildTools = '28.0.0' //or with double quotes "..."
-
 android {
     compileSdkVersion 28
     buildToolsVersion
     dataBinding.enabled true
     defaultConfig {
         applicationId "ahmadadam96.comicbookmovies"
-        minSdkVersion 16
-        targetSdkVersion 28
         multiDexEnabled true
-        versionCode 22
-        versionName "0.44"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
+        minSdkVersion 16
+        targetSdkVersion 28
     }
     buildTypes {
         release {

@@ -65,7 +65,7 @@ public class MovieLoader extends AsyncTaskLoader<ArrayList<Movie>> {
                     mCodes.get(i).getUniverse(), getContext()));
             if (i == 39) {
                 try {
-                    wait(10000);
+                    Thread.sleep(10000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
