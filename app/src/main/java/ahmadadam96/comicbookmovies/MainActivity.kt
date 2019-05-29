@@ -80,11 +80,6 @@ class MainActivity : AppCompatActivity(), androidx.loader.app.LoaderManager.Load
 
     private var viewPagerAdapter: MyPagerAdapter? = null
 
-    //If the configuration is changed then the data must be reloaded
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)

@@ -28,6 +28,7 @@ import java.util.concurrent.TimeUnit
 
 import butterknife.BindView
 import butterknife.ButterKnife
+import com.bumptech.glide.Glide
 
 /**
  * Created by ahmad on 2017-03-27.
@@ -95,7 +96,7 @@ class MovieHolder(inflater: LayoutInflater, itemView: View) : androidx.recyclerv
                 this.universeView!!.visibility = GONE//Make the universe view disappear
 
             //Getting the poster image by getting the image using the provided URL
-            GlideApp
+            Glide
                     .with(context!!)
                     //Entering the URL
                     .load("https://image.tmdb.org/t/p/w500/" + this.movie!!.posterUrl)
