@@ -98,9 +98,9 @@ class MainFragment : androidx.fragment.app.Fragment() {
 
         orderPreference = sharedPref!!.getString(Settings.ORDER_KEY, "")
 
-        mAdapter = MovieAdapter(R.layout.movie_adapter, organizeMovies())
+        mAdapter = MovieAdapter(context!!, R.layout.movie_adapter)
 
-        movieListView!!.adapter = mAdapter
+        updateAdapter()
 
         val tabLayout = activity!!.findViewById<View>(R.id.tabLayout) as TabLayout
 
