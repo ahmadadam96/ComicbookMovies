@@ -41,6 +41,7 @@ import butterknife.ButterKnife
 import android.view.View.GONE
 import android.view.View.SCROLLBAR_POSITION_DEFAULT
 import android.view.View.VISIBLE
+import androidx.loader.app.LoaderManager
 
 class MainActivity : AppCompatActivity(), androidx.loader.app.LoaderManager.LoaderCallbacks<ArrayList<Movie>> {
 
@@ -88,7 +89,7 @@ class MainActivity : AppCompatActivity(), androidx.loader.app.LoaderManager.Load
         viewPager = findViewById(R.id.viewPager)
         adViewMain = findViewById(R.id.adViewMain)
 
-        loaderManager = supportLoaderManager
+        loaderManager = LoaderManager.getInstance(this)
         actionBar = supportActionBar
         mEmptyStateTextView = findViewById(R.id.emptyView)
         mSwipeRefreshLayout = findViewById(R.id.refreshMain)
@@ -141,7 +142,7 @@ class MainActivity : AppCompatActivity(), androidx.loader.app.LoaderManager.Load
         val connMGR = this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         if (connMGR != null) {
             val activeNetwork = connMGR.activeNetworkInfo
-            if (activeNetwork == null || !activeNetwork.isConnectedOrConnecting) {
+            if (activeNetwork == null || !activeNetwork.isConnected) {
                 mEmptyStateTextView!!.setText(R.string.no_internet_connection)
                 mEmptyStateTextView!!.visibility = VISIBLE
                 val progress = findViewById<ProgressBar>(R.id.progressBar)
