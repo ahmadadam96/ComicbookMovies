@@ -5,19 +5,35 @@
       "Universe": "Fox"
     },
     {
-      "Code": "320288",
-      "Universe": "Fox"
-    },
-    {
-      "Code": "429617",
-      "Universe": "MCU"
-    },
-    {
       "Code": "497698",
       "Universe": "MCU"
     },
     {
+      "Code": "524434",
+      "Universe": "MCU"
+    },
+    {
+      "Code": "566525",
+      "Universe": "MCU"
+    },
+    {
+      "Code": "453395",
+      "Universe": "MCU"
+    },
+    {
+      "Code": "616037",
+      "Universe": "MCU"
+    },
+    {
+      "Code": "464052",
+      "Universe": "DC"
+    },
+    {
       "Code": "475557",
+      "Universe": "DC"
+    },
+    {
+      "Code": "495764",
       "Universe": "DC"
     }
   ]
