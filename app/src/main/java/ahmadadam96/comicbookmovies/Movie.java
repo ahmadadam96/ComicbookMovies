@@ -6,6 +6,7 @@ import android.os.Parcelable;
 
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -57,6 +58,17 @@ public class Movie implements Parcelable {
         mUrl = url;
         mIMDBId = IMDBId;
         mUniverse = "Unknown";
+    }
+
+    //The constructor for the Movie class without a universe
+    public Movie() {
+        mReleaseDate = Calendar.getInstance().getTime();
+        mTitle = "Error";
+        mOverview = "";
+        mPosterUrl = "";
+        mUrl = "";
+        mIMDBId = "";
+        mUniverse = "Error";
     }
 
     //A function to convert the date from a string to a dateObject

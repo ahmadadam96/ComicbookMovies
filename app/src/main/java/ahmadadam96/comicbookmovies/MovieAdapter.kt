@@ -23,7 +23,12 @@ class MovieAdapter(private val context: Context, private var itemResource: Int) 
     }
 
     override fun onBindViewHolder(holder: MovieHolder, position: Int) {
-        var movie = movies[position]
+        var movie: Movie
+        try {
+            movie = movies[position]
+        } catch (e: IllegalStateException) {
+            movie = Movie()
+        }
         holder.bindMovie(movie)
     }
 
