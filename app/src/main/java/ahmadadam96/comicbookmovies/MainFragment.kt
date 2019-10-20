@@ -150,28 +150,32 @@ class MainFragment : androidx.fragment.app.Fragment() {
                     movieIterator.remove()
                 }
             }
-
             if (orderPreference == "-1") {
                 val seed = System.nanoTime()
-                Collections.shuffle(tempMovieList, Random(seed))
+                tempMovieList.shuffle(Random(seed))
             } else
-                Collections.sort(tempMovieList) { movie1, movie2 ->
+                tempMovieList.sortWith(Comparator { movie1, movie2 ->
                     when (orderPreference) {
                         "1" -> movie1.releaseDate.compareTo(movie2.releaseDate)
                         "0" -> movie1.title.compareTo(movie2.title)
                         else -> movie1.releaseDate.compareTo(movie2.releaseDate)
                     }
-                }
+                })
         } catch (e: Exception) {
             e.printStackTrace()
             Toast.makeText(context, "Error code 429, please refresh in a few seconds", Toast.LENGTH_SHORT).show()
         }
 
-        if (tempMovieList.isNotEmpty()) {
-            emptyViewFragment.visibility = GONE
-        } else {
-            emptyViewFragment.setText(R.string.no_movies)
-            emptyViewFragment.visibility = VISIBLE
+
+
+        try {
+            if (tempMovieList.isNotEmpty()) {
+                emptyViewFragment.visibility = GONE
+            } else {
+                emptyViewFragment.setText(R.string.no_movies)
+                emptyViewFragment.visibility = VISIBLE
+            }
+        } catch (e: Exception) {
         }
 
         return tempMovieList
