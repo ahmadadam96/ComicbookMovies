@@ -7,6 +7,8 @@ import android.os.Parcelable
 import android.preference.PreferenceManager
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -14,6 +16,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.tabs.TabLayout
+import kotlinx.android.synthetic.main.first_fragment.*
 import kotlinx.android.synthetic.main.first_fragment.view.*
 import java.util.*
 
@@ -53,14 +56,13 @@ class MainFragment : androidx.fragment.app.Fragment() {
         super.onCreateView(inflater, container, savedInstanceState)
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.first_fragment, container, false)
-        movieListView = view!!.list
-
+        movieListView = view.list
 
         return view
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         //Gets the arguments from the MainActivity
         args = arguments
 
@@ -163,6 +165,13 @@ class MainFragment : androidx.fragment.app.Fragment() {
         } catch (e: Exception) {
             e.printStackTrace()
             Toast.makeText(context, "Error code 429, please refresh in a few seconds", Toast.LENGTH_SHORT).show()
+        }
+
+        if (tempMovieList.isNotEmpty()) {
+            emptyViewFragment.visibility = GONE
+        } else {
+            emptyViewFragment.setText(R.string.no_movies)
+            emptyViewFragment.visibility = VISIBLE
         }
 
         return tempMovieList

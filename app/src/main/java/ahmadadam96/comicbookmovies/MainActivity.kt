@@ -13,41 +13,21 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View.GONE
 import android.view.View.VISIBLE
-import android.widget.ProgressBar
-import android.widget.TextView
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.loader.app.LoaderManager
-import androidx.viewpager.widget.ViewPager
 import butterknife.ButterKnife
 import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.AdView
 import com.google.android.material.tabs.TabLayout
+import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 
 class MainActivity : AppCompatActivity(), androidx.loader.app.LoaderManager.LoaderCallbacks<ArrayList<Movie>> {
 
-    //TextView for the empty state
-    private var mEmptyStateTextView: TextView? = null
-
-    //A swipe to refresh widget
-    private var mSwipeRefreshLayout: androidx.swiperefreshlayout.widget.SwipeRefreshLayout? = null
-
     private var actionBar: ActionBar? = null
 
     private var pagePosition: Int = 0
-
-    //Got the reference for the tabLayout
-    //@BindView(R.id.tabLayout)
-    internal var tabLayout: TabLayout? = null
-
-    //Got the reference to the view pager
-    //@BindView(R.id.viewPager)
-    internal var viewPager: androidx.viewpager.widget.ViewPager?= null
-
-    //@BindView(R.id.adViewMain)
-    internal var adViewMain: AdView?= null
 
     //ArrayList to save all the movie codes
     private var codes: ArrayList<MovieCode> = ArrayList()
@@ -68,14 +48,8 @@ class MainActivity : AppCompatActivity(), androidx.loader.app.LoaderManager.Load
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        tabLayout = findViewById(R.id.tabLayout)
-        viewPager = findViewById(R.id.viewPager)
-        adViewMain = findViewById(R.id.adViewMain)
-
         loaderManager = LoaderManager.getInstance(this)
         actionBar = supportActionBar
-        mEmptyStateTextView = findViewById(R.id.emptyView)
-        mSwipeRefreshLayout = findViewById(R.id.refreshMain)
         PreferenceManager.setDefaultValues(this, R.xml.pref_general, false) //gets default settings and preferences
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this)
         ButterKnife.bind(this)
@@ -93,8 +67,7 @@ class MainActivity : AppCompatActivity(), androidx.loader.app.LoaderManager.Load
 
         prefListener = SharedPreferences.OnSharedPreferenceChangeListener { sharedPreferences, key ->
             if (key == Settings.RELEASE_KEY) {
-                val progress = findViewById<ProgressBar>(R.id.progressBar)
-                progress.visibility = VISIBLE
+                progressBar.visibility = VISIBLE
                 viewPager!!.visibility = GONE
                 startLoading()
             }
@@ -111,13 +84,15 @@ class MainActivity : AppCompatActivity(), androidx.loader.app.LoaderManager.Load
         /* Sets up a SwipeRefreshLayout.OnRefreshListener that is invoked when the user
          * performs a swipe-to-refresh gesture.
          */
-        mSwipeRefreshLayout!!.setOnRefreshListener {
+        refreshMain!!.setOnRefreshListener {
             Log.i(TAG, "startLoading called from swipeRefreshLayout")
             // This method performs the actual data-refresh operation.
             // The method calls setRefreshing(false) when it's finished.
             startLoading()
         }
     }
+
+
 
     private fun startLoading() {
         releasePreference = sharedPref!!.getString(Settings.RELEASE_KEY, "")
@@ -126,10 +101,9 @@ class MainActivity : AppCompatActivity(), androidx.loader.app.LoaderManager.Load
         if (connMGR != null) {
             val activeNetwork = connMGR.activeNetworkInfo
             if (activeNetwork == null || !activeNetwork.isConnected) {
-                mEmptyStateTextView!!.setText(R.string.no_internet_connection)
-                mEmptyStateTextView!!.visibility = VISIBLE
-                val progress = findViewById<ProgressBar>(R.id.progressBar)
-                progress.visibility = GONE
+                emptyViewActivity.setText(R.string.no_internet_connection)
+                emptyViewActivity.visibility = VISIBLE
+                progressBar.visibility = GONE
             } else {
                 getCodesTask().execute()
             }
@@ -142,9 +116,7 @@ class MainActivity : AppCompatActivity(), androidx.loader.app.LoaderManager.Load
     }
 
     override fun onLoadFinished(loader: androidx.loader.content.Loader<ArrayList<Movie>>, data: ArrayList<Movie>) {
-        val progressBar = findViewById<ProgressBar>(R.id.progressBar)
-
-        mSwipeRefreshLayout!!.isRefreshing = false
+        refreshMain.isRefreshing = false
 
         progressBar.visibility = GONE
 
@@ -184,23 +156,9 @@ class MainActivity : AppCompatActivity(), androidx.loader.app.LoaderManager.Load
             actionBar!!.elevation = 0f
         }
 
-        //Find the reference to the empty view
-        mEmptyStateTextView = findViewById(R.id.emptyView)
-
-        //Set the empty view to GONE
-        mEmptyStateTextView!!.visibility = GONE
-
-        // If there is a valid list of {@link Movie}s, then add them to the adapter's
-        // data set. This will trigger the ListView to update.
-        if (!movieList.isEmpty()) {
-            mEmptyStateTextView!!.visibility = GONE
-        } else {
-            mEmptyStateTextView!!.setText(R.string.no_movies)
-            mEmptyStateTextView!!.visibility = VISIBLE
-        }
         if (activeNetwork == null) {
-            mEmptyStateTextView!!.setText(R.string.no_internet_connection)
-            mEmptyStateTextView!!.visibility = VISIBLE
+            emptyViewActivity!!.setText(R.string.no_internet_connection)
+            emptyViewActivity!!.visibility = VISIBLE
         }
     }
 
@@ -224,8 +182,8 @@ class MainActivity : AppCompatActivity(), androidx.loader.app.LoaderManager.Load
     }
 
     private fun enableDisableSwipeRefresh(enable: Boolean) {
-        if (mSwipeRefreshLayout != null) {
-            mSwipeRefreshLayout!!.isEnabled = enable
+        if (refreshMain != null) {
+            refreshMain!!.isEnabled = enable
         }
     }
 
@@ -276,7 +234,7 @@ class MainActivity : AppCompatActivity(), androidx.loader.app.LoaderManager.Load
             Pages.add(0, "All")
             Pages.add(1, "MCU")
             Pages.add(2, "DC")
-            Pages.add(3, "Fox")
+            Pages.add(3, "Sony")
         }
 
         override fun getPageTitle(position: Int): CharSequence? {
