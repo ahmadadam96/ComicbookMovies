@@ -2,10 +2,8 @@ package ahmadadam96.comicbookmovies
 
 import android.content.Context
 import android.widget.Toast
-
 import androidx.loader.content.AsyncTaskLoader
-
-import java.util.ArrayList
+import java.util.*
 
 /**
  * Created by ahmad on 2017-03-14.

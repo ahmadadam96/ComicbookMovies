@@ -8,6 +8,9 @@ android {
     compileSdkVersion 29
     buildToolsVersion
     dataBinding.enabled true
+    androidExtensions {
+        experimental = true
+    }
     defaultConfig {
         applicationId "ahmadadam96.comicbookmovies"
         minSdkVersion 16

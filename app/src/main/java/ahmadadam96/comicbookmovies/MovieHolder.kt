@@ -5,30 +5,25 @@ import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.net.Uri
-import android.view.LayoutInflater
-import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.RecyclerView
 import android.view.View
-import android.view.View.*
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
-
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.RecyclerView
+import butterknife.ButterKnife
+import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
-
 import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
+import java.util.*
 import java.util.concurrent.TimeUnit
-
-import butterknife.BindView
-import butterknife.ButterKnife
-import com.bumptech.glide.Glide
 
 /**
  * Created by ahmad on 2017-03-27.
@@ -124,7 +119,7 @@ class MovieHolder(private val context: Context, itemView: View) : RecyclerView.V
             //An onClickListener so that tapping an item opens the IMDB page
             listItem!!.setOnClickListener {
                 // Convert the String URL into a URI object (to pass into the Intent constructor)
-                val movieUri = Uri.parse("http://www.imdb.com/title/" + movie.imdbId)
+                val movieUri = Uri.parse("http://www.imdb.com/title/" + movie.IMDBId)
 
                 // Create a new intent to view the IMDB page for the movie
                 val websiteIntent = Intent(Intent.ACTION_VIEW, movieUri)

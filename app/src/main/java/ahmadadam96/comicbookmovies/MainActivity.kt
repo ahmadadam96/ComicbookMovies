@@ -3,45 +3,28 @@ package ahmadadam96.comicbookmovies
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.content.res.Configuration
 import android.graphics.Color
 import android.net.ConnectivityManager
-import android.net.NetworkInfo
 import android.os.AsyncTask
 import android.os.Bundle
-import android.os.Parcelable
 import android.preference.PreferenceManager
-import com.google.android.material.tabs.TabLayout
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentStatePagerAdapter
-import androidx.core.content.ContextCompat
-import androidx.loader.content.Loader
-import androidx.viewpager.widget.ViewPager
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import androidx.appcompat.app.ActionBar
-import androidx.appcompat.app.AppCompatActivity
 import android.util.Log
 import android.view.Menu
-import android.view.MenuInflater
 import android.view.MenuItem
-import android.view.ViewGroup
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.widget.ProgressBar
 import android.widget.TextView
-
+import androidx.appcompat.app.ActionBar
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.loader.app.LoaderManager
+import androidx.viewpager.widget.ViewPager
+import butterknife.ButterKnife
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
-
-import java.lang.reflect.Array
-import java.util.ArrayList
-
-import butterknife.BindView
-import butterknife.ButterKnife
-
-import android.view.View.GONE
-import android.view.View.SCROLLBAR_POSITION_DEFAULT
-import android.view.View.VISIBLE
-import androidx.loader.app.LoaderManager
+import com.google.android.material.tabs.TabLayout
+import java.util.*
 
 class MainActivity : AppCompatActivity(), androidx.loader.app.LoaderManager.LoaderCallbacks<ArrayList<Movie>> {
 

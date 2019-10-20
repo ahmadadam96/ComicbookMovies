@@ -5,24 +5,17 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Parcelable
 import android.preference.PreferenceManager
-import com.google.android.material.tabs.TabLayout
-import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-
-import java.util.ArrayList
-import java.util.Collections
-import java.util.Random
-
-import kotlinx.android.synthetic.main.first_fragment.*
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.first_fragment.view.*
-import kotlinx.android.synthetic.main.movie_adapter.*
+import java.util.*
 
 /**
  * A simple [Fragment] subclass.

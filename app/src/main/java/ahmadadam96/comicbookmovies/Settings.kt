@@ -7,8 +7,8 @@ import android.preference.ListPreference
 import android.preference.Preference
 import android.preference.PreferenceFragment
 import android.preference.PreferenceManager
-import androidx.appcompat.app.AppCompatActivity
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
 
 class Settings : AppCompatActivity() {
 
