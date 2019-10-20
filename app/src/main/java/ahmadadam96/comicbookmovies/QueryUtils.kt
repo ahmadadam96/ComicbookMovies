@@ -18,12 +18,14 @@ package ahmadadam96.comicbookmovies
 import android.content.Context
 import android.text.TextUtils
 import android.util.Log
+import android.widget.Toast
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.BufferedReader
 import java.io.IOException
 import java.io.InputStream
 import java.io.InputStreamReader
+import java.lang.IllegalStateException
 import java.net.HttpURLConnection
 import java.net.MalformedURLException
 import java.net.URL
@@ -141,6 +143,7 @@ object QueryUtils {
 
         var urlConnection: HttpURLConnection? = null
         var inputStream: InputStream? = null
+        var limit: String = ""
         try {
             urlConnection = url.openConnection() as HttpURLConnection
             urlConnection.readTimeout = 10000
@@ -148,6 +151,10 @@ object QueryUtils {
             urlConnection.requestMethod = "GET"
             urlConnection.connect()
 
+            try {
+                limit = urlConnection.getHeaderField("x-ratelimit-remaining")
+            } catch (e: IllegalStateException) {
+            }
             // If the request was successful (response code 200),
             // then read the input stream and parse the response.
             if (urlConnection.responseCode == 200) {
@@ -161,7 +168,15 @@ object QueryUtils {
         } finally {
             urlConnection?.disconnect()
             inputStream?.close()
+            if (limit == "0") {
+                try {
+                    Thread.sleep(10000)
+                } catch (e: InterruptedException) {
+                    e.printStackTrace()
+                }
+            }
         }
+
         return jsonResponse
     }
 

@@ -56,14 +56,6 @@ class MovieLoader
             movies.add(QueryUtils.fetchMovieData("https://api.themoviedb.org/3/movie/"
                     + mUrls[i] + "?api_key=46ca07ce571803077698160e0a3efde5" + "&append_to_response=release_dates",
                     mCodes[i].universe, context))
-            if (i == 39) {
-                try {
-                    Thread.sleep(10000)
-                } catch (e: InterruptedException) {
-                    e.printStackTrace()
-                }
-
-            }
         }
         return movies
     }
