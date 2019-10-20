@@ -67,7 +67,7 @@ class MainActivity : AppCompatActivity(), androidx.loader.app.LoaderManager.Load
     internal var adViewMain: AdView?= null
 
     //ArrayList to save all the movie codes
-    private var codes: ArrayList<MovieCode>? = ArrayList()
+    private var codes: ArrayList<MovieCode> = ArrayList()
 
     private var movieList = ArrayList<Movie>()
 
@@ -250,12 +250,12 @@ class MainActivity : AppCompatActivity(), androidx.loader.app.LoaderManager.Load
         override fun onPreExecute() {
             super.onPreExecute()
             if (codes != null) {
-                codes!!.clear()
+                codes.clear()
             }
         }
 
         override fun doInBackground(vararg params: Void?): String? {
-            var tempCodes: ArrayList<MovieCode>?
+            var tempCodes: ArrayList<MovieCode>
             if (releasePreference == "1") {
                 codes = QueryUtils.fetchCodes(UNRELEASED_URL)
             } else if (releasePreference == "0") {
@@ -263,11 +263,11 @@ class MainActivity : AppCompatActivity(), androidx.loader.app.LoaderManager.Load
             } else if (releasePreference == "-1") {
                 tempCodes = QueryUtils.fetchCodes(UNRELEASED_URL)
                 if (tempCodes != null) {
-                    codes!!.addAll(tempCodes)
+                    codes.addAll(tempCodes)
                 }
                 tempCodes = QueryUtils.fetchCodes(RELEASED_URL)
                 if (tempCodes != null) {
-                    codes!!.addAll(tempCodes)
+                    codes.addAll(tempCodes)
                 }
             } else
                 codes = QueryUtils.fetchCodes(UNRELEASED_URL)
