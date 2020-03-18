@@ -29,10 +29,6 @@
       "Universe": "DC"
     },
     {
-      "Code": "495764",
-      "Universe": "DC"
-    },
-    {
       "Code": "414906",
       "Universe": "DC"
     },
@@ -43,6 +39,10 @@
     {
       "Code": "572802",
       "Universe": "DC"
+    },
+    {
+      "Code": "580489",
+      "Universe": "Sony"
     }
   ]
 }
