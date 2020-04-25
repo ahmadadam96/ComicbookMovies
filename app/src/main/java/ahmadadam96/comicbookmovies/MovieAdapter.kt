@@ -15,7 +15,7 @@ class MovieAdapter(private val context: Context, private var itemResource: Int) 
     private var movies: ArrayList<Movie> = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieHolder {
-        var view = LayoutInflater.from(parent.context)
+        val view = LayoutInflater.from(parent.context)
                 .inflate(this.itemResource, parent, false)
         return MovieHolder(this.context, view)
     }

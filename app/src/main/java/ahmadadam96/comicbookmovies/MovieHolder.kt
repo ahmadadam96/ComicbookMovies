@@ -82,11 +82,7 @@ class MovieHolder(private val context: Context, itemView: View) : RecyclerView.V
             }
 
             //Check if there is a universe
-            if (this.movie!!.universe != null) {
-                //Set the text of the universe view
-                this.universeView!!.text = this.movie!!.universe
-            } else
-                this.universeView!!.visibility = GONE//Make the universe view disappear
+            this.universeView!!.text = this.movie!!.universe//Make the universe view disappear
 
             //Getting the poster image by getting the image using the provided URL
             Glide
@@ -135,19 +131,19 @@ class MovieHolder(private val context: Context, itemView: View) : RecyclerView.V
 
     fun setDaysBackground(diffInDays: Long) {
         val daysCircle = daysView!!.background as GradientDrawable
-        if (diffInDays >= 0 && diffInDays < 30) {
+        if (diffInDays in 0..29) {
             daysCircle.setColor(ContextCompat.getColor(context, R.color.days10))
         }
-        if (diffInDays >= 30 && diffInDays < 60) {
+        if (diffInDays in 30..59) {
             daysCircle.setColor(ContextCompat.getColor(context, R.color.days8))
         }
-        if (diffInDays >= 60 && diffInDays < 90) {
+        if (diffInDays in 60..89) {
             daysCircle.setColor(ContextCompat.getColor(context, R.color.days6))
         }
-        if (diffInDays >= 90 && diffInDays < 180) {
+        if (diffInDays in 90..179) {
             daysCircle.setColor(ContextCompat.getColor(context, R.color.days4))
         }
-        if (diffInDays >= 180 && diffInDays < 360) {
+        if (diffInDays in 180..359) {
             daysCircle.setColor(ContextCompat.getColor(context, R.color.days2))
         }
         if (diffInDays >= 360) {

@@ -48,9 +48,9 @@ class Settings : AppCompatActivity() {
     }
 
     companion object {
-        val ORDER_KEY = "order"
-        val RELEASE_KEY = "release"
-        val AD_SWITCH_KEY = "adSwitch"
+        const val ORDER_KEY = "order"
+        const val RELEASE_KEY = "release"
+        const val AD_SWITCH_KEY = "adSwitch"
 
         private val sBindPreferenceSummaryToValueListener = Preference.OnPreferenceChangeListener { preference, value ->
             val stringValue = value.toString()

@@ -16,6 +16,8 @@ import android.view.View.VISIBLE
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentStatePagerAdapter
 import androidx.loader.app.LoaderManager
 import butterknife.ButterKnife
 import com.google.android.gms.ads.AdRequest
@@ -98,15 +100,13 @@ class MainActivity : AppCompatActivity(), androidx.loader.app.LoaderManager.Load
         releasePreference = sharedPref!!.getString(Settings.RELEASE_KEY, "")
 
         val connMGR = this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        if (connMGR != null) {
-            val activeNetwork = connMGR.activeNetworkInfo
-            if (activeNetwork == null || !activeNetwork.isConnected) {
-                emptyViewActivity.setText(R.string.no_internet_connection)
-                emptyViewActivity.visibility = VISIBLE
-                progressBar.visibility = GONE
-            } else {
-                getCodesTask().execute()
-            }
+        val activeNetwork = connMGR.activeNetworkInfo
+        if (activeNetwork == null || !activeNetwork.isConnected) {
+            emptyViewActivity.setText(R.string.no_internet_connection)
+            emptyViewActivity.visibility = VISIBLE
+            progressBar.visibility = GONE
+        } else {
+            getCodesTask().execute()
         }
     }
 
@@ -190,9 +190,7 @@ class MainActivity : AppCompatActivity(), androidx.loader.app.LoaderManager.Load
     private inner class getCodesTask : AsyncTask<Void, Void, String>() {
         override fun onPreExecute() {
             super.onPreExecute()
-            if (codes != null) {
-                codes.clear()
-            }
+            codes.clear()
         }
 
         override fun doInBackground(vararg params: Void?): String? {
@@ -203,13 +201,9 @@ class MainActivity : AppCompatActivity(), androidx.loader.app.LoaderManager.Load
                 codes = QueryUtils.fetchCodes(RELEASED_URL)
             } else if (releasePreference == "-1") {
                 tempCodes = QueryUtils.fetchCodes(UNRELEASED_URL)
-                if (tempCodes != null) {
-                    codes.addAll(tempCodes)
-                }
+                codes.addAll(tempCodes)
                 tempCodes = QueryUtils.fetchCodes(RELEASED_URL)
-                if (tempCodes != null) {
-                    codes.addAll(tempCodes)
-                }
+                codes.addAll(tempCodes)
             } else
                 codes = QueryUtils.fetchCodes(UNRELEASED_URL)
             return null
@@ -226,26 +220,26 @@ class MainActivity : AppCompatActivity(), androidx.loader.app.LoaderManager.Load
     }
 
     //Adapter for the view pager in use
-    private inner class MyPagerAdapter constructor(fm: androidx.fragment.app.FragmentManager) : androidx.fragment.app.FragmentStatePagerAdapter(fm) {
+    private inner class MyPagerAdapter constructor(fm: FragmentManager) : FragmentStatePagerAdapter(fm,BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT ) {
 
-        private val Pages = ArrayList<String>()
+        private val pages = ArrayList<String>()
 
         init {
-            Pages.add(0, "All")
-            Pages.add(1, "MCU")
-            Pages.add(2, "DC")
-            Pages.add(3, "Sony")
+            pages.add(0, "All")
+            pages.add(1, "MCU")
+            pages.add(2, "DC")
+            pages.add(3, "Sony")
         }
 
         override fun getPageTitle(position: Int): CharSequence? {
             //Setting the ViewPager tab names
             //For all movies
-            return Pages[position]
+            return pages[position]
         }
 
         override fun getItem(position: Int): androidx.fragment.app.Fragment {
             //Passes the input of each fragment in order to filter the movies
-            return MainFragment.newInstance(Pages[position], movieList)
+            return MainFragment.newInstance(pages[position], movieList)
         }
 
         override fun getItemPosition(`object`: Any): Int {
@@ -254,24 +248,24 @@ class MainActivity : AppCompatActivity(), androidx.loader.app.LoaderManager.Load
 
         override//Method to correspond to the number of tabs used
         fun getCount(): Int {
-            return Pages.size
+            return pages.size
         }
     }
 
     companion object {
 
-        private val TAG = "MainActivity"
+        private const val TAG = "MainActivity"
 
         //The URL for the JSON string for unreleased movie codes
-        private val UNRELEASED_URL = "https://raw.githubusercontent.com/ahmadadam96/ComicbookMovies/master/app/src/main/res/codes_unreleased"
+        private const val UNRELEASED_URL = "https://raw.githubusercontent.com/ahmadadam96/ComicbookMovies/master/app/src/main/res/codes_unreleased"
 
         //The URL for the JSON string for released movie codes
-        private val RELEASED_URL = "https://raw.githubusercontent.com/ahmadadam96/ComicbookMovies/master/app/src/main/res/codes_released"
+        private const val RELEASED_URL = "https://raw.githubusercontent.com/ahmadadam96/ComicbookMovies/master/app/src/main/res/codes_released"
 
         /**
          * Constant value for the movie loader ID. We can choose any integer.
          * This really only comes into play if you're using multiple loaders.
          */
-        private val MOVIE_LOADER_ID = 1
+        private const val MOVIE_LOADER_ID = 1
     }
 }

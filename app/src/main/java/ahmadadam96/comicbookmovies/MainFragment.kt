@@ -195,9 +195,9 @@ class MainFragment : androidx.fragment.app.Fragment() {
     }
 
     companion object {
-        private val TAG = "MainFragment"
+        private const val TAG = "MainFragment"
 
-        val LIST_STATE_KEY = "FragmentListStateKey"
+        const val LIST_STATE_KEY = "FragmentListStateKey"
 
         fun newInstance(universe: String, movies: ArrayList<Movie>): MainFragment {
             val b = Bundle()
