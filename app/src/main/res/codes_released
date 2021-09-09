@@ -171,6 +171,26 @@
     {
       "Code": "495764",
       "Universe": "DC"
+    },
+    {
+      "Code": "340102",
+      "Universe": "Fox"
+    },
+    {
+      "Code": "464052",
+      "Universe": "DC"
+    },
+    {
+      "Code": "497698",
+      "Universe": "MCU"
+    },
+    {
+      "Code": "436969",
+      "Universe": "DC"
+    },
+    {
+      "Code": "566525",
+      "Universe": "MCU"
     }
   ]
 }

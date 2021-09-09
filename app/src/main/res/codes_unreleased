@@ -1,19 +1,8 @@
 {
   "Object": [
-    {
-      "Code": "340102",
-      "Universe": "Fox"
-    },
-    {
-      "Code": "497698",
-      "Universe": "MCU"
-    },
+
     {
       "Code": "524434",
-      "Universe": "MCU"
-    },
-    {
-      "Code": "566525",
       "Universe": "MCU"
     },
     {
@@ -25,15 +14,7 @@
       "Universe": "MCU"
     },
     {
-      "Code": "464052",
-      "Universe": "DC"
-    },
-    {
       "Code": "414906",
-      "Universe": "DC"
-    },
-    {
-      "Code": "436969",
       "Universe": "DC"
     },
     {
