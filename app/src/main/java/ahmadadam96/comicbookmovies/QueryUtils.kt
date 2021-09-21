@@ -149,10 +149,6 @@ object QueryUtils {
             urlConnection.requestMethod = "GET"
             urlConnection.connect()
 
-            try {
-                limit = urlConnection.getHeaderField("x-ratelimit-remaining")
-            } catch (e: IllegalStateException) {
-            }
             // If the request was successful (response code 200),
             // then read the input stream and parse the response.
             if (urlConnection.responseCode == 200) {
@@ -166,13 +162,6 @@ object QueryUtils {
         } finally {
             urlConnection?.disconnect()
             inputStream?.close()
-            if (limit == "0") {
-                try {
-                    Thread.sleep(10000)
-                } catch (e: InterruptedException) {
-                    e.printStackTrace()
-                }
-            }
         }
 
         return jsonResponse

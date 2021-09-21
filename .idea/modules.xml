@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/ComicbookMovies.iml" filepath="$PROJECT_DIR$/.idea/ComicbookMovies.iml" group="ComicbookMovies" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="ComicbookMovies/app" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ComicbookMovies.iml" filepath="$PROJECT_DIR$/.idea/modules/ComicbookMovies.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/ComicbookMovies.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/ComicbookMovies.app.iml" />
     </modules>
   </component>
 </project>
