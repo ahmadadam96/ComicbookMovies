@@ -191,6 +191,26 @@
     {
       "Code": "566525",
       "Universe": "MCU"
+    },
+    {
+      "Code": "524434",
+      "Universe": "MCU"
+    },
+    {
+      "Code": "453395",
+      "Universe": "MCU"
+    },
+    {
+      "Code": "616037",
+      "Universe": "MCU"
+    },
+    {
+      "Code": "414906",
+      "Universe": "DC"
+    },
+    {
+      "Code": "580489",
+      "Universe": "Sony"
     }
   ]
 }
