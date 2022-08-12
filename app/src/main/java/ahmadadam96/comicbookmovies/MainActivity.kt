@@ -20,7 +20,6 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 import androidx.loader.app.LoaderManager
 import butterknife.ButterKnife
-import com.google.android.gms.ads.AdRequest
 import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
@@ -58,26 +57,12 @@ class MainActivity : AppCompatActivity(), androidx.loader.app.LoaderManager.Load
 
         startLoading()
 
-        val adRequest = AdRequest.Builder().build()
-        adViewMain
-        adViewMain!!.loadAd(adRequest)
-
-        if (sharedPref!!.getBoolean(Settings.AD_SWITCH_KEY, true)) {
-            adViewMain!!.visibility = VISIBLE
-        } else
-            adViewMain!!.visibility = GONE
 
         prefListener = SharedPreferences.OnSharedPreferenceChangeListener { sharedPreferences, key ->
             if (key == Settings.RELEASE_KEY) {
                 progressBar.visibility = VISIBLE
                 viewPager!!.visibility = GONE
                 startLoading()
-            }
-            if (key == Settings.AD_SWITCH_KEY) {
-                if (sharedPreferences.getBoolean(Settings.AD_SWITCH_KEY, true)) {
-                    adViewMain!!.visibility = VISIBLE
-                } else
-                    adViewMain!!.visibility = GONE
             }
         }
 
