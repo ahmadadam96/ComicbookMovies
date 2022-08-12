@@ -15,13 +15,19 @@ class Settings : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        //To have the back button!!
+        supportActionBar?.setDisplayHomeAsUpEnabled(false)
+
         // Display the fragment as the main content.
-        fragmentManager.beginTransaction().replace(android.R.id.content,
-                PrefsFragment()).commit()
+        fragmentManager.beginTransaction().replace(
+            android.R.id.content,
+            PrefsFragment()
+        ).commit()
     }
 
     class PrefsFragment : PreferenceFragment() {
 
+        @Deprecated("Deprecated in Java")
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
 
@@ -37,6 +43,7 @@ class Settings : AppCompatActivity() {
             bindPreferenceSummaryToValue(findPreference(ORDER_KEY))
         }
 
+        @Deprecated("Deprecated in Java")
         override fun onOptionsItemSelected(item: MenuItem): Boolean {
             val id = item.itemId
             if (id == android.R.id.home) {

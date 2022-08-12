@@ -188,11 +188,13 @@ class MainActivity : AppCompatActivity(), androidx.loader.app.LoaderManager.Load
     }
 
     private inner class getCodesTask : AsyncTask<Void, Void, String>() {
+        @Deprecated("Deprecated in Java")
         override fun onPreExecute() {
             super.onPreExecute()
             codes.clear()
         }
 
+        @Deprecated("Deprecated in Java")
         override fun doInBackground(vararg params: Void?): String? {
             var tempCodes: ArrayList<MovieCode>
             if (releasePreference == "1") {
@@ -209,6 +211,7 @@ class MainActivity : AppCompatActivity(), androidx.loader.app.LoaderManager.Load
             return null
         }
 
+        @Deprecated("Deprecated in Java")
         override fun onPostExecute(result: String?) {
             // Initialize the loader. Pass in the int ID constant defined above and pass in null for
             // the bundle. Pass in this activity for the LoaderCallbacks parameter (which is valid
