@@ -24,7 +24,7 @@ import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 
-class MainActivity : AppCompatActivity(), androidx.loader.app.LoaderManager.LoaderCallbacks<ArrayList<Movie>> {
+class MainActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<ArrayList<Movie>> {
 
     private var actionBar: ActionBar? = null
 
@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity(), androidx.loader.app.LoaderManager.Load
 
     private var prefListener: SharedPreferences.OnSharedPreferenceChangeListener? = null
 
-    private var loaderManager: androidx.loader.app.LoaderManager? = null
+    private var loaderManager: LoaderManager? = null
 
     private var viewPagerAdapter: MyPagerAdapter? = null
 
@@ -219,7 +219,7 @@ class MainActivity : AppCompatActivity(), androidx.loader.app.LoaderManager.Load
             pages.add(3, "Sony")
         }
 
-        override fun getPageTitle(position: Int): CharSequence? {
+        override fun getPageTitle(position: Int): CharSequence {
             //Setting the ViewPager tab names
             //For all movies
             return pages[position]

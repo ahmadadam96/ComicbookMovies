@@ -28,7 +28,7 @@ import java.util.*
  * Use the [MainFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class MainFragment : androidx.fragment.app.Fragment() {
+class MainFragment : Fragment() {
 
     //String to show which universe the movie belongs to which allows for filtering
     private var mUniverse: String? = null
@@ -93,11 +93,11 @@ class MainFragment : androidx.fragment.app.Fragment() {
 
         orderPreference = sharedPref!!.getString(Settings.ORDER_KEY, "")
 
-        mAdapter = MovieAdapter(context!!, R.layout.movie_adapter)
+        mAdapter = MovieAdapter(requireContext(), R.layout.movie_adapter)
 
         updateAdapter()
 
-        val tabLayout = activity!!.findViewById<View>(R.id.tabLayout) as TabLayout
+        val tabLayout = requireActivity().findViewById<View>(R.id.tabLayout) as TabLayout
 
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
@@ -154,7 +154,7 @@ class MainFragment : androidx.fragment.app.Fragment() {
                 val seed = System.nanoTime()
                 tempMovieList.shuffle(Random(seed))
             } else
-                tempMovieList.sortWith(Comparator { movie1, movie2 ->
+                tempMovieList.sortWith({ movie1, movie2 ->
                     when (orderPreference) {
                         "1" -> movie1.releaseDate.compareTo(movie2.releaseDate)
                         "0" -> movie1.title.compareTo(movie2.title)
@@ -191,11 +191,9 @@ class MainFragment : androidx.fragment.app.Fragment() {
      * See the Android Training lesson [Communicating with Other Fragments](http://developer.android.com/training/basics/fragments/communicating.html) for more information.
      */
     interface OnFragmentInteractionListener {
-        fun onFragmentInteraction(uri: Uri)
     }
 
     companion object {
-        private const val TAG = "MainFragment"
 
         const val LIST_STATE_KEY = "FragmentListStateKey"
 
