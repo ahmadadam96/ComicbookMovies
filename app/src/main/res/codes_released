@@ -211,6 +211,22 @@
     {
       "Code": "580489",
       "Universe": "Sony"
+    },
+    {
+      "Code": "436270",
+      "Universe": "DC"
+    },
+    {
+      "Code": "505642",
+      "Universe": "MCU"
+    },
+    {
+      "Code": "640146",
+      "Universe": "MCU"
+    },
+    {
+      "Code": "594767",
+      "Universe": "DC"
     }
   ]
 }

@@ -5,24 +5,28 @@
       "Universe": "DC"
     },
     {
-      "Code": "505642",
-      "Universe": "MCU"
-    },
-    {
-      "Code": "436270",
-      "Universe": "DC"
-    },
-    {
-      "Code": "594767",
-      "Universe": "DC"
-    },
-    {
       "Code": "539972",
       "Universe": "Sony"
     },
     {
-      "Code": "640146",
+      "Code": "609681",
       "Universe": "MCU"
+    },
+    {
+      "Code": "447365",
+      "Universe": "MCU"
+    },
+    {
+      "Code": "569094",
+      "Universe": "Sony"
+    },
+    {
+      "Code": "298618",
+      "Universe": "DC"
+    },
+    {
+      "Code": "565770",
+      "Universe": "DC"
     }
   ]
 }
