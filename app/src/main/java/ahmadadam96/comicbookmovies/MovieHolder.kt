@@ -96,7 +96,12 @@ class MovieHolder(private val context: Context, itemView: View) : RecyclerView.V
                     .transition(DrawableTransitionOptions.withCrossFade())
                     //Once the image loads, set the progress bar for each image to GONE
                     .listener(object : RequestListener<Drawable> {
-                        override fun onLoadFailed(e: GlideException?, model: Any, target: Target<Drawable>, isFirstResource: Boolean): Boolean {
+                        override fun onLoadFailed(
+                            e: GlideException?,
+                            model: Any?,
+                            target: Target<Drawable>,
+                            isFirstResource: Boolean
+                        ): Boolean {
                             progressBarPoster!!.visibility = GONE
                             return false
                         }

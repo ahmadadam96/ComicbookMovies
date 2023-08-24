@@ -1,7 +1,7 @@
 package ahmadadam96.comicbookmovies
 
 import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 import java.text.ParsePosition
 import java.text.SimpleDateFormat
 import java.util.*

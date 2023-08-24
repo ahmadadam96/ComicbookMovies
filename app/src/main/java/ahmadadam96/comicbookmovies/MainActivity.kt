@@ -1,5 +1,6 @@
 package ahmadadam96.comicbookmovies
 
+import ahmadadam96.comicbookmovies.databinding.ActivityMainBinding
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -21,7 +22,6 @@ import androidx.fragment.app.FragmentStatePagerAdapter
 import androidx.loader.app.LoaderManager
 import butterknife.ButterKnife
 import com.google.android.material.tabs.TabLayout
-import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 
 class MainActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<ArrayList<Movie>> {
@@ -45,9 +45,13 @@ class MainActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<ArrayLis
 
     private var viewPagerAdapter: MyPagerAdapter? = null
 
+    private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
         loaderManager = LoaderManager.getInstance(this)
         actionBar = supportActionBar
@@ -59,11 +63,10 @@ class MainActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<ArrayLis
 
 
         prefListener = SharedPreferences.OnSharedPreferenceChangeListener { sharedPreferences, key ->
-            if (key == Settings.RELEASE_KEY) {
-                progressBar.visibility = VISIBLE
-                viewPager!!.visibility = GONE
+            if (key == Settings.RELEASE_KEY)
+                binding.progressBar.visibility = VISIBLE
+                binding.viewPager.visibility = GONE
                 startLoading()
-            }
         }
 
         sharedPref!!.registerOnSharedPreferenceChangeListener(prefListener)
@@ -71,7 +74,7 @@ class MainActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<ArrayLis
         /* Sets up a SwipeRefreshLayout.OnRefreshListener that is invoked when the user
          * performs a swipe-to-refresh gesture.
          */
-        refreshMain!!.setOnRefreshListener {
+        binding.refreshMain.setOnRefreshListener {
             Log.i(TAG, "startLoading called from swipeRefreshLayout")
             // This method performs the actual data-refresh operation.
             // The method calls setRefreshing(false) when it's finished.
@@ -87,9 +90,9 @@ class MainActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<ArrayLis
         val connMGR = this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val activeNetwork = connMGR.activeNetworkInfo
         if (activeNetwork == null || !activeNetwork.isConnected) {
-            emptyViewActivity.setText(R.string.no_internet_connection)
-            emptyViewActivity.visibility = VISIBLE
-            progressBar.visibility = GONE
+            binding.emptyViewActivity.setText(R.string.no_internet_connection)
+            binding.emptyViewActivity.visibility = VISIBLE
+            binding.progressBar.visibility = GONE
         } else {
             getCodesTask().execute()
         }
@@ -101,9 +104,9 @@ class MainActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<ArrayLis
     }
 
     override fun onLoadFinished(loader: androidx.loader.content.Loader<ArrayList<Movie>>, data: ArrayList<Movie>) {
-        refreshMain.isRefreshing = false
+        binding.refreshMain.isRefreshing = false
 
-        progressBar.visibility = GONE
+        binding.progressBar.visibility = GONE
 
         val connMGR = this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
@@ -114,9 +117,9 @@ class MainActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<ArrayLis
         viewPagerAdapter = MyPagerAdapter(supportFragmentManager)
 
         //Set the adapter for the view pager
-        viewPager!!.adapter = viewPagerAdapter
+        binding.viewPager.adapter = viewPagerAdapter
 
-        viewPager!!.addOnPageChangeListener(object : androidx.viewpager.widget.ViewPager.OnPageChangeListener {
+        binding.viewPager.addOnPageChangeListener(object : androidx.viewpager.widget.ViewPager.OnPageChangeListener {
             override fun onPageScrolled(position: Int, v: Float, i1: Int) {}
 
             override fun onPageSelected(position: Int) {
@@ -127,23 +130,23 @@ class MainActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<ArrayLis
                 enableDisableSwipeRefresh(state == androidx.viewpager.widget.ViewPager.SCROLL_STATE_IDLE)
             }
         })
-        viewPager!!.visibility = VISIBLE
+        binding.viewPager.visibility = VISIBLE
         //Set the tabLayout to belong to the view pager
-        tabLayout!!.setupWithViewPager(viewPager)
+        binding.tabLayout.setupWithViewPager(binding.viewPager)
         //Maximise the tabs to fill the tabLayout
-        tabLayout!!.tabGravity = TabLayout.GRAVITY_FILL
+        binding.tabLayout.tabGravity = TabLayout.GRAVITY_FILL
         //Set the colors of the text in the tabLayout
-        tabLayout!!.setTabTextColors(Color.LTGRAY, Color.WHITE)
+        binding.tabLayout.setTabTextColors(Color.LTGRAY, Color.WHITE)
         //Set the color of the tabLayout
-        tabLayout!!.setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary))
+        binding.tabLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary))
         //Removes the border under the action bar
         if (actionBar != null) {
             actionBar!!.elevation = 0f
         }
 
         if (activeNetwork == null) {
-            emptyViewActivity!!.setText(R.string.no_internet_connection)
-            emptyViewActivity!!.visibility = VISIBLE
+            binding.emptyViewActivity.setText(R.string.no_internet_connection)
+            binding.emptyViewActivity.visibility = VISIBLE
         }
     }
 
@@ -167,8 +170,8 @@ class MainActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<ArrayLis
     }
 
     private fun enableDisableSwipeRefresh(enable: Boolean) {
-        if (refreshMain != null) {
-            refreshMain!!.isEnabled = enable
+        if (binding.refreshMain != null) {
+            binding.refreshMain.isEnabled = enable
         }
     }
 

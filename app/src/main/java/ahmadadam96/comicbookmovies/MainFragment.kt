@@ -1,5 +1,6 @@
 package ahmadadam96.comicbookmovies
 
+import ahmadadam96.comicbookmovies.databinding.FirstFragmentBinding
 import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
@@ -16,8 +17,6 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.tabs.TabLayout
-import kotlinx.android.synthetic.main.first_fragment.*
-import kotlinx.android.synthetic.main.first_fragment.view.*
 import java.util.*
 
 /**
@@ -40,8 +39,6 @@ class MainFragment : Fragment() {
 
     private var movies: ArrayList<Movie>? = null
 
-    private var movieListView: RecyclerView? = null
-
     private var prefListener: SharedPreferences.OnSharedPreferenceChangeListener? = null
 
     private var sharedPref: SharedPreferences? = null
@@ -52,11 +49,15 @@ class MainFragment : Fragment() {
 
     private var args: Bundle? = null
 
+    private var _binding: FirstFragmentBinding? = null
+
+    private val binding get() = _binding!!
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.first_fragment, container, false)
-        movieListView = view.list
+        _binding = FirstFragmentBinding.inflate(inflater, container, false)
+        val view = binding.root
 
         return view
     }
@@ -80,12 +81,12 @@ class MainFragment : Fragment() {
 
         layoutManager.orientation = RecyclerView.VERTICAL
 
-        val dividerItemDecoration = DividerItemDecoration(movieListView!!.context,
+        val dividerItemDecoration = DividerItemDecoration(binding.list.context,
                 layoutManager.orientation)
 
-        movieListView!!.addItemDecoration(dividerItemDecoration)
+        binding.list.addItemDecoration(dividerItemDecoration)
 
-        movieListView!!.layoutManager = layoutManager
+        binding.list.layoutManager = layoutManager
 
         PreferenceManager.setDefaultValues(context, R.xml.pref_general, false) //gets default settings and preferences
 
@@ -124,19 +125,19 @@ class MainFragment : Fragment() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putParcelable(LIST_STATE_KEY, movieListView!!.layoutManager?.onSaveInstanceState())
+        outState.putParcelable(LIST_STATE_KEY, binding.list.layoutManager?.onSaveInstanceState())
     }
 
     override fun onResume() {
         super.onResume()
         if (listState != null) {
-            movieListView!!.layoutManager?.onRestoreInstanceState(listState)
+            binding.list.layoutManager?.onRestoreInstanceState(listState)
         }
     }
 
     private fun updateAdapter() {
         mAdapter!!.update(organizeMovies())
-        movieListView!!.adapter = this.mAdapter
+        binding.list.adapter = this.mAdapter
     }
 
 
@@ -170,10 +171,10 @@ class MainFragment : Fragment() {
 
         try {
             if (tempMovieList.isNotEmpty()) {
-                emptyViewFragment.visibility = GONE
+                binding.emptyViewFragment.visibility = GONE
             } else {
-                emptyViewFragment.setText(R.string.no_movies)
-                emptyViewFragment.visibility = VISIBLE
+                binding.emptyViewFragment.setText(R.string.no_movies)
+                binding.emptyViewFragment.visibility = VISIBLE
             }
         } catch (e: Exception) {
         }
